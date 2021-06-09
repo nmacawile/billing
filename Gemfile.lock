@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/choilive/mongoid-enum.git
+  revision: 44f1c6bdbedd97a080b2fc487c5c1b6e01fe00a7
+  specs:
+    mongoid-enum (0.4.0)
+      bigdecimal (~> 2.0)
+      mongoid (>= 5.0, < 8.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -62,6 +70,7 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    bigdecimal (2.0.3)
     bindex (0.8.1)
     bootsnap (1.7.5)
       msgpack (~> 1.0)
@@ -251,6 +260,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   listen (~> 3.3)
   mongoid (~> 7.3.0)
+  mongoid-enum!
   mongoid-rspec (~> 4.1.0)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)

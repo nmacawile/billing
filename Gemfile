@@ -21,6 +21,7 @@ gem 'jbuilder', '~> 2.7'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'mongoid', '~> 7.3.0'
 gem 'faker', '~> 2.18.0'
+gem 'mongoid-enum', :git => 'https://github.com/choilive/mongoid-enum.git'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
