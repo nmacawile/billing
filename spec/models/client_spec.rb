@@ -6,4 +6,6 @@ RSpec.describe Client, type: :model do
   it { is_expected.to be_valid }
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.not_to validate_presence_of(:address) }
+
+  it { is_expected.to have_many(:templates) }
 end
