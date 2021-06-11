@@ -4,6 +4,7 @@ class Template
   include Mongoid::Enum
   
   belongs_to :client
+  embeds_many :departments
 
   field :name, type: String
   field :save_name, type: String
