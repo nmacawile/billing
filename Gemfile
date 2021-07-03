@@ -23,6 +23,7 @@ gem 'mongoid', '~> 7.3.0'
 gem 'faker', '~> 2.18.0'
 gem 'mongoid-enum', :git => 'https://github.com/choilive/mongoid-enum.git'
 gem 'responders', '~> 3.0.1'
+gem 'devise', '~> 4.8.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
