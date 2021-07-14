@@ -7,7 +7,7 @@ class Item
   field :price, type: BigDecimal
   field :sunday_price, type: BigDecimal
 
-  enum :type, [:broadsheet, :tabloid], default: :broadsheet
+  enum :item_type, [:broadsheet, :tabloid], default: :broadsheet
 
-  validates_presence_of :name, :price, :type
+  validates_presence_of :name, :price, :item_type
 end
