@@ -56,6 +56,7 @@ group :test do
   gem 'webdrivers'
   gem 'shoulda-matchers', '~> 4.5.1'
   gem 'rexml'
+  gem 'database_cleaner-mongoid'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
