@@ -2,10 +2,14 @@ module ExceptionHandler
   extend ActiveSupport::Concern
 
   class AuthenticationError < StandardError; end
+  class InvalidToken < StandardError; end
+  class MissingToken < StandardError; end
 
   included do
     rescue_from ExceptionHandler::AuthenticationError, with: :unauthorized_response
     rescue_from Mongoid::Errors::Validations, with: :unprocessable_response
+    rescue_from ExceptionHandler::InvalidToken, with: :unauthorized_response
+    rescue_from ExceptionHandler::MissingToken, with: :unauthorized_response
   end
 
   private

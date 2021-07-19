@@ -34,6 +34,7 @@ RSpec.configure do |config|
   config.include Mongoid::Matchers, type: :model
   config.include FactoryBot::Syntax::Methods
   config.include RequestSpecHelper
+  config.include AuthSpecHelper
   # Remove this line to enable support for ActiveRecord
   config.use_active_record = false
   
