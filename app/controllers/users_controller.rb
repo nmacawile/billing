@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_action :authorize_request, only: :create
   respond_to :json
   
   def create

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Templates API', type: :request do
+  let(:user) { create :user }
+  let(:headers) { authorized_request_headers(user.id) }
   let!(:client) { create :client }
   let(:client_id) { client.id.to_s }
   let!(:templates) { create_populated_templates templates_count: 5 }
@@ -10,7 +12,7 @@ RSpec.describe 'Templates API', type: :request do
   let(:first_template_id) { first_template.id.to_s }
 
   describe 'GET /templates' do
-    before { get '/templates' }
+    before { get '/templates', headers: headers }
 
     it 'returns the list of templates' do
       expect(json.size).to eq(templates.size)
@@ -23,7 +25,7 @@ RSpec.describe 'Templates API', type: :request do
   end
 
   describe 'GET /templates/:id' do
-    before { get "/templates/#{first_template_id}" }
+    before { get "/templates/#{first_template_id}", headers: headers }
 
     it 'returns the template' do
       expect(json_id).to eq(first_template_id)
@@ -43,7 +45,8 @@ RSpec.describe 'Templates API', type: :request do
                 save_name: 'EXAMPLE'
               },
               client_id: client_id
-            }
+            }.to_json,
+            headers: headers
     end
 
     it 'increases the templates count by one' do
@@ -58,7 +61,8 @@ RSpec.describe 'Templates API', type: :request do
   describe 'PATCH /templates/:id' do
     before do
       patch "/templates/#{first_template_id}",
-            params: { template: { name: random_template_name } }
+            params: { template: { name: random_template_name } }.to_json,
+            headers: headers
       first_template.reload
     end
 
@@ -72,7 +76,7 @@ RSpec.describe 'Templates API', type: :request do
   end
 
   describe 'DELETE /templates/:id' do
-    before { delete "/templates/#{first_template_id}" }
+    before { delete "/templates/#{first_template_id}", headers: headers }
 
     it 'reduces the templates count by one' do
       expect(Template.count).to eq 4

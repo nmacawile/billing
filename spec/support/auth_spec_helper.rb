@@ -10,7 +10,7 @@ module AuthSpecHelper
   def request_headers
     {
       'Content-Type' => 'application/json',
-      'Accept' => 'json'
+      'Accept' => 'application/json'
     }
   end
   
