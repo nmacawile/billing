@@ -34,4 +34,6 @@ class User
   # field :unlock_token,    type: String # Only if unlock strategy is :email or :both
   # field :locked_at,       type: Time
   include Mongoid::Timestamps
+
+  index({ email: 1 }, { unique: true, name: "email_index" })
 end

@@ -1,5 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-#  pending "add some examples to (or delete) #{__FILE__}"
+  it { is_expected.to validate_uniqueness_of :email }
+  it do
+    is_expected
+      .to have_index_for(email: 1)
+      .with_options(unique: true)
+  end
 end
