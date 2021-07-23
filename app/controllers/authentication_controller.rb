@@ -6,6 +6,6 @@ class AuthenticationController < ApplicationController
       params[:email],
       params[:password]
     ).call
-    json_response auth_token: auth_token
+    json_response({ auth_token: auth_token, email: params[:email] })
   end
 end

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Users API', type: :request do
-  let(:valid_registration) { { email: 'foobar1234@email.com', password: 'password1234' } }
-  let(:invalid_registration) { { email: 'foobar1234@email.com', password: '' } }
+  let(:valid_registration) { { user: { email: 'foobar1234@email.com', password: 'password1234' } } }
+  let(:invalid_registration) { { user: { email: 'foobar1234@email.com', password: '' } } }
 
   describe 'POST /users' do
     context 'when valid request' do
@@ -14,6 +14,10 @@ RSpec.describe 'Users API', type: :request do
 
       it 'returns an authentication token' do
         expect(json['auth_token']).not_to be_nil
+      end
+
+      it 'returns the user email' do
+        expect(json['email']).to eq valid_registration[:email]
       end
 
       it 'returns a \'success\' message' do

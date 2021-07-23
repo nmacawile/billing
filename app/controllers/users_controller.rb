@@ -5,13 +5,13 @@ class UsersController < ApplicationController
   def create
     user = User.create!(user_params)
     auth_token = AuthenticateUser.new(user.email, user.password).call
-    cred = { message: 'Account created successfully', auth_token: auth_token }
+    cred = { message: 'Account created successfully', auth_token: auth_token, email: params[:email] }
     json_response cred, :created
   end
 
   private
 
   def user_params
-    params.permit(:email, :password)
+    params.require(:user).permit(:email, :password)
   end
 end

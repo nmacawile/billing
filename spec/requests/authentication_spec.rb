@@ -18,6 +18,10 @@ RSpec.describe 'Authentication API', type: :request do
       it 'returns an authentication token' do
         expect(json['auth_token']).not_to be_nil
       end
+
+      it 'returns the user email' do
+        expect(json['email']).to eq user.email
+      end
     end
 
     context('when request is invalid') do
