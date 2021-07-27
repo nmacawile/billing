@@ -6,7 +6,9 @@
 
   <mat-sidenav-container class="app-sidenav-container"
                          [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-    <mat-sidenav #snav class="sidenav" [mode]="mobileQuery.matches ? 'over' : 'side'"
+    <mat-sidenav #snav class="sidenav"
+                 [mode]="mobileQuery.matches ? 'over' : 'side'"
+                 (click)="mobileQuery.matches ? snav.close() : null"
                  [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
       <mat-nav-list dense>
         <div mat-subheader>Navigation</div>
