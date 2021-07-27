@@ -11,13 +11,17 @@
       <mat-nav-list dense>
         <div mat-subheader>Navigation</div>
         <a class="app-nav-list-item"
-           *ngFor="let link of navLinks"
+           *ngFor="let link of navLinks()"
            mat-list-item
            [routerLink]="link.path"
            routerLinkActive="app-nav-list-active"
            [routerLinkActiveOptions]="{ exact: !!link.exact }">
            <mat-icon mat-list-icon class="sidenav-icon">{{link.icon}}</mat-icon>
          {{link.label}}
+       </a>
+       <a *ngIf="isLoggedIn()" class="app-nav-list-item" mat-list-item (click)="logout()">
+         <mat-icon mat-list-icon class="sidenav-icon">logout</mat-icon>
+         LOGOUT
        </a>
       </mat-nav-list>
     </mat-sidenav>
