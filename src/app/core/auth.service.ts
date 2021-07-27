@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { NotificationService } from '../notification.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,7 @@ export class AuthService {
 
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.http
-      .post('http://myserver.com:3000/auth/login', credentials, {
+      .post(environment.serverUrl + 'auth/login', credentials, {
         headers: this.headers,
       })
       .pipe(
@@ -60,7 +61,7 @@ export class AuthService {
   register(email: string, password: string): Observable<any> {
     return this.http
       .post(
-        'http://myserver.com:3000/users',
+        environment.serverUrl + 'users',
         {
           user: { email, password },
         },
