@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { NotificationService } from '../notification.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,10 @@ import { Observable } from 'rxjs';
 export class AuthService {
   private headers: HttpHeaders = new HttpHeaders();
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private notificationService: NotificationService,
+  ) {
     this.headers.set('Content-Type', 'application/json');
     this.headers.set('Accept', 'application/json');
   }
@@ -30,27 +34,51 @@ export class AuthService {
         headers: this.headers,
       })
       .pipe(
-        tap((credentials: any) => {
-          localStorage.setItem('authToken', credentials['auth_token']);
-          localStorage.setItem('email', credentials['email']);
-        }),
+        tap(
+          (credentials: any) => {
+            localStorage.setItem('authToken', credentials['auth_token']);
+            localStorage.setItem('email', credentials['email']);
+            this.notificationService.notify(
+              `Logged in as ${credentials['email']}.`,
+            );
+          },
+          (err) => {
+            this.notificationService.notify(
+              `Error ${err.status}: ${err.error.message}`,
+            );
+          },
+        ),
       );
   }
 
   logout(): void {
+    this.notificationService.notify('Logged out.');
     localStorage.removeItem('authToken');
     localStorage.removeItem('email');
   }
 
   register(email: string, password: string): Observable<any> {
-    return this.http.post(
-      'http://myserver.com:3000/users',
-      {
-        user: { email, password },
-      },
-      {
-        headers: this.headers,
-      },
-    );
+    return this.http
+      .post(
+        'http://myserver.com:3000/users',
+        {
+          user: { email, password },
+        },
+        {
+          headers: this.headers,
+        },
+      )
+      .pipe(
+        tap(
+          (credentials: any) => {
+            this.notificationService.notify(`Registration successful.`);
+          },
+          (err) => {
+            this.notificationService.notify(
+              `Error ${err.status}: ${err.error.message}`,
+            );
+          },
+        ),
+      );
   }
 }
