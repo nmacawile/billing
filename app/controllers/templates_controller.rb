@@ -12,10 +12,7 @@ class TemplatesController < ApplicationController
   end
 
   def create
-    client = Client.find(params[:client_id])
-    @template = Template.new(template_params)
-    @template.client = client
-    @template.save!
+    @template = Template.create!(template_params)
     head :created
   end
 
@@ -32,11 +29,9 @@ class TemplatesController < ApplicationController
   private
 
   def template_params
-    params.require(:template).permit(:name, :save_name)
-  end
-
-  def update_template_params
-    params.require(:template).permit(:name, :save_name)
+    params
+      .require(:template)
+      .permit(:name, :save_name, client: [:name, :address])
   end
 
   def load_template

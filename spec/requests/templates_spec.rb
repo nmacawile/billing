@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Templates API', type: :request do
   let(:user) { create :user }
   let(:headers) { authorized_request_headers(user.id) }
-  let!(:client) { create :client }
-  let(:client_id) { client.id.to_s }
   let!(:templates) { create_populated_templates templates_count: 5 }
   let!(:random_template_name) { "Template_#{rand(200)}" }
   let(:template_ids) { templates.map { |t| t.id.to_s } }
@@ -42,9 +40,12 @@ RSpec.describe 'Templates API', type: :request do
             params: { 
               template: {
                 name: 'Example',
-                save_name: 'EXAMPLE'
+                save_name: 'EXAMPLE',
+                client: {
+                  name: 'example client',
+                  address: 'example address'
+                }
               },
-              client_id: client_id
             }.to_json,
             headers: headers
     end

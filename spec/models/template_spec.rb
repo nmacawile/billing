@@ -6,7 +6,8 @@ RSpec.describe Template, type: :model do
   it { is_expected.to be_valid }
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_presence_of :save_name }
-  it { is_expected.to belong_to :client }
+  it { is_expected.to validate_presence_of :client }
+  it { is_expected.to embed_one :client }
   it { is_expected.to embed_many :departments }
 
   describe '#split' do

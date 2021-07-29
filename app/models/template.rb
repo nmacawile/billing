@@ -3,7 +3,7 @@ class Template
   include Mongoid::Timestamps
   include Mongoid::Enum
   
-  belongs_to :client
+  embeds_one :client
   embeds_many :departments
 
   field :name, type: String
@@ -12,5 +12,5 @@ class Template
 
   enum :paper_size, [:short, :long], default: :short
 
-  validates_presence_of :name, :save_name
+  validates_presence_of :name, :save_name, :client
 end

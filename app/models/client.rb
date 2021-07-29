@@ -1,8 +1,7 @@
 class Client
   include Mongoid::Document
-  include Mongoid::Timestamps
 
-  has_many :templates
+  embedded_in :template
 
   field :name, type: String
   field :address, type: String
