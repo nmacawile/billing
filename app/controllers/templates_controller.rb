@@ -31,7 +31,12 @@ class TemplatesController < ApplicationController
   def template_params
     params
       .require(:template)
-      .permit(:name, :save_name, client: [:name, :address])
+      .permit(
+        :name,
+        :save_name,
+        :split,
+        :paper_size,
+        client: [:name, :address])
   end
 
   def load_template
