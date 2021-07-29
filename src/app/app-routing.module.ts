@@ -25,12 +25,6 @@ const routes: Routes = [
       import('./templates/templates.module').then((m) => m.TemplatesModule),
   },
   {
-    path: 'clients',
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./clients/clients.module').then((m) => m.ClientsModule),
-  },
-  {
     path: 'billings',
     canActivate: [AuthGuard],
     loadChildren: () =>

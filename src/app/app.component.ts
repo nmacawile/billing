@@ -20,7 +20,6 @@ export class AppComponent implements OnDestroy {
   private navLinksAuth: NavLink[] = [
     { path: '/', label: 'HOME', icon: 'home', exact: true },
     { path: '/billings', label: 'BILLINGS', icon: 'receipt' },
-    { path: '/clients', label: 'CLIENTS', icon: 'people' },
     { path: '/templates', label: 'TEMPLATES', icon: 'file_copy' },
     { path: '/items', label: 'ITEMS', icon: 'feed' },
   ];
