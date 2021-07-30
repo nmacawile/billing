@@ -1,0 +1,14 @@
+<a mat-button routerLink="/templates">GO BACK</a>
+
+<div *ngIf="template">
+  <app-template-form
+    [title]="title"
+    submitLabel="SAVE"
+    [template]="template"
+    (formSubmit)="saveTemplate($event)">
+  </app-template-form>
+</div>
+
+<div *ngIf="!template">
+  <p class="mat-body-1">404 no template found</p>
+</div>
