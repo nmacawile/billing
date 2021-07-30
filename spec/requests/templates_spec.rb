@@ -23,68 +23,141 @@ RSpec.describe 'Templates API', type: :request do
   end
 
   describe 'GET /templates/:id' do
-    before { get "/templates/#{first_template_id}", headers: headers }
+    context 'when template exists' do
+      before { get "/templates/#{first_template_id}", headers: headers }
 
-    it 'returns the template' do
-      expect(json_id).to eq(first_template_id)
+      it 'returns the template' do
+        expect(json_id).to eq(first_template_id)
+      end
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status 200
+      end
     end
 
-    it 'returns status code 200' do
-      expect(response).to have_http_status 200
+    context "when template doesn't exist" do
+      before { get "/templates/foobar", headers: headers }
+
+      it "returns an error message" do
+        expect(json['message']).to match /Document\(s\) not found/
+      end
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status 404
+      end
     end
   end
 
   describe 'POST /templates' do
-    before do
-      post '/templates',
-            params: { 
-              template: {
-                name: 'Example',
-                save_name: 'EXAMPLE',
-                client: {
-                  name: 'example client',
-                  address: 'example address'
-                }
-              },
-            }.to_json,
-            headers: headers
+    context 'when valid params' do
+      before do
+        post '/templates',
+              params: { 
+                template: {
+                  name: 'Example',
+                  save_name: 'EXAMPLE',
+                  client: {
+                    name: 'example client',
+                    address: 'example address'
+                  }
+                },
+              }.to_json,
+              headers: headers
+      end
+
+      it 'increases the templates count by one' do
+        expect(Template.count).to eq 6
+      end
+
+      it 'returns status code 201' do
+        expect(response).to have_http_status 201
+      end      
     end
 
-    it 'increases the templates count by one' do
-      expect(Template.count).to eq 6
-    end
+    context 'when invalid params' do
+      before do
+        post '/templates',
+              params: { template: { name: '', save_name: '' } }.to_json,
+              headers: headers
+      end
 
-    it 'returns status code 201' do
-      expect(response).to have_http_status 201
+      it 'returns an error message' do
+        expect(json['message']).to match /Validation of Template failed./
+      end
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status 422
+      end      
     end
   end
 
   describe 'PATCH /templates/:id' do
-    before do
-      patch "/templates/#{first_template_id}",
-            params: { template: { name: random_template_name } }.to_json,
-            headers: headers
-      first_template.reload
+    context 'when valid params' do
+      before do
+        patch "/templates/#{first_template_id}",
+              params: { template: { name: random_template_name } }.to_json,
+              headers: headers
+        first_template.reload
+      end
+
+      it 'makes changes to the template' do
+        expect(first_template.name).to eq random_template_name
+      end
+
+      it 'returns status code 204' do
+        expect(response).to have_http_status 204
+      end
     end
 
-    it 'makes changes to the template' do
-      expect(first_template.name).to eq random_template_name
-    end
+    context 'when invalid params' do
+      before do
+        patch "/templates/#{first_template_id}",
+              params: { template: { name: '' } }.to_json,
+              headers: headers
+        first_template.reload
+      end
 
-    it 'returns status code 204' do
-      expect(response).to have_http_status 204
+      it "doesn't change the template" do
+        expect(first_template.name).not_to eq ''
+      end
+
+      it 'returns an error message' do
+        expect(json['message']).to match /Validation of Template failed./
+      end
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status 422
+      end
     end
   end
 
   describe 'DELETE /templates/:id' do
-    before { delete "/templates/#{first_template_id}", headers: headers }
+    context 'when template exists' do
+      before { delete "/templates/#{first_template_id}", headers: headers }
 
-    it 'reduces the templates count by one' do
-      expect(Template.count).to eq 4
+      it 'reduces the templates count by one' do
+        expect(Template.count).to eq 4
+      end
+
+      it 'returns status code 204' do
+        expect(response).to have_http_status 204
+      end
     end
+    
+    context "when template doesn't exist" do
+      before { delete "/templates/foobar", headers: headers }
 
-    it 'returns status code 204' do
-      expect(response).to have_http_status 204
+      it "doesn't change the templates count" do
+        expect(Template.count).to eq 5
+      end
+
+      it "returns an error message" do
+        expect(json['message']).to match /Document\(s\) not found/
+      end
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status 404
+      end
     end
   end
 end
