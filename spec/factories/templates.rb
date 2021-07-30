@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :template do
     client { build :client }
-    name { Faker::Movie.title }
+    name { Faker::Movie.unique.title }
     save_name { name }
   end
 end
