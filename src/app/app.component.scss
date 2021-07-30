@@ -52,3 +52,7 @@ h1.app-name {
      `<body>` to be our scrolling element for mobile layouts. */
   flex: 1 0 auto;
 }
+
+::ng-deep button[mat-flat-button][type="submit"] {
+  margin: 8px 0;
+}
