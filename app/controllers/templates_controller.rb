@@ -35,7 +35,7 @@ class TemplatesController < ApplicationController
         :name,
         :save_name,
         :split,
-        :paper_size,
+        :_paper_size,
         client: [:name, :address])
   end
 
