@@ -13,4 +13,8 @@ class Template
   enum :paper_size, [:short, :long], default: :short
 
   validates_presence_of :name, :save_name, :client
+  validates_uniqueness_of :name, :save_name
+
+  index({ name: 1 }, { unique: true })
+  index({ save_name: 1 }, { unique: true })
 end
