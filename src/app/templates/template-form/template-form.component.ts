@@ -14,7 +14,6 @@ export class TemplateFormComponent implements OnInit {
   @Input('title') title = 'Template Form';
   @Input('template') template: TemplateParams = {
     name: '',
-    save_name: '',
     client: {
       name: '',
     },
@@ -43,7 +42,6 @@ export class TemplateFormComponent implements OnInit {
   private buildForm(): FormGroup {
     return this.fb.group({
       name: [this.template.name, [Validators.required]],
-      save_name: [this.template.save_name, [Validators.required]],
       split: [this.template.split],
       _paper_size: [this.template._paper_size],
       client: this.fb.group({

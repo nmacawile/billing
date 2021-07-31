@@ -7,7 +7,7 @@
   <mat-list-item *ngFor="let template of templates; let i = index">
     <div mat-line>{{template.client.name}}</div>
     <div mat-line>{{template.client.address || 'N/A'}}</div>
-    <div mat-line>{{template.save_name}}</div>
+    <div mat-line>{{template.name}}</div>
     <a [routerLink]="[getId(template)]" mat-icon-button>
       <mat-icon color="accent">edit</mat-icon>
     </a>

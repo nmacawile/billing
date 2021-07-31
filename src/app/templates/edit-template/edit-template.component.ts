@@ -18,7 +18,7 @@ export class EditTemplateComponent implements OnInit {
     private templatesService: TemplatesService,
   ) {
     this.template = this.route.snapshot.data.template;
-    this.title = this.template.save_name;
+    this.title = this.template.name;
     this.id = this.template['_id']['$oid'];
   }
 
@@ -27,6 +27,6 @@ export class EditTemplateComponent implements OnInit {
   saveTemplate(templateParams: TemplateParams): void {
     this.templatesService
       .editTemplate(this.id, templateParams)
-      .subscribe(() => (this.title = templateParams.save_name));
+      .subscribe(() => (this.title = templateParams.name));
   }
 }

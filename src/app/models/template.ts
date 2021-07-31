@@ -6,7 +6,6 @@ interface Client {
 export interface Template {
   _id: { $oid: string };
   name: string;
-  save_name: string;
   _paper_size?: 'short' | 'long';
   split?: boolean;
   client: Client;
