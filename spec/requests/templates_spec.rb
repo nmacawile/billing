@@ -55,7 +55,6 @@ RSpec.describe 'Templates API', type: :request do
               params: { 
                 template: {
                   name: 'Example',
-                  save_name: 'EXAMPLE',
                   client: {
                     name: 'example client',
                     address: 'example address'
@@ -77,7 +76,7 @@ RSpec.describe 'Templates API', type: :request do
     context 'when invalid params' do
       before do
         post '/templates',
-              params: { template: { name: '', save_name: '' } }.to_json,
+              params: { template: { name: '' } }.to_json,
               headers: headers
       end
 
