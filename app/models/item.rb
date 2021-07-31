@@ -5,7 +5,6 @@ class Item
 
   field :name, type: String
   field :price, type: BigDecimal
-  field :sunday_price, type: BigDecimal
 
   enum :item_type, [:broadsheet, :tabloid], default: :broadsheet
 

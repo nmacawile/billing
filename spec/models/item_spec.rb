@@ -7,7 +7,6 @@ RSpec.describe Item, type: :model do
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:price) }
   it { is_expected.to validate_presence_of(:item_type) }
-  it { is_expected.not_to validate_presence_of(:sunday_price) }
 
   describe '#item_type' do
     it 'is set to :broadsheet by default' do
