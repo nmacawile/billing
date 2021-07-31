@@ -1,4 +1,5 @@
 import { MongoidId } from './mongoid-id';
+import { Timestamps } from './timestamps';
 
 interface Client {
   name: string;
@@ -12,7 +13,4 @@ export interface TemplateParams {
   client: Client;
 }
 
-export interface Template extends TemplateParams, MongoidId {
-  created_at?: string;
-  updated_at?: string;
-}
+export interface Template extends TemplateParams, MongoidId, Timestamps {}
