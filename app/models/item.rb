@@ -3,6 +3,8 @@ class Item
   include Mongoid::Timestamps
   include Mongoid::Enum
 
+  default_scope ->{ order(name: :asc) }
+
   field :name, type: String
   field :price, type: BigDecimal
 
