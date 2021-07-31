@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :item do
-    name { Faker::Book.title }
+    sequence(:name) do |n|
+      "#{Faker::Book.title} #{n}"
+    end
     price { 18 }
   end
 end

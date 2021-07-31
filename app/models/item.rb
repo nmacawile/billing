@@ -9,4 +9,7 @@ class Item
   enum :item_type, [:broadsheet, :tabloid], default: :broadsheet
 
   validates_presence_of :name, :price
+  validates_uniqueness_of :name
+
+  index({ name: 1 }, { unique: true })
 end
