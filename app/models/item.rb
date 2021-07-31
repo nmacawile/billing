@@ -8,5 +8,5 @@ class Item
 
   enum :item_type, [:broadsheet, :tabloid], default: :broadsheet
 
-  validates_presence_of :name, :price, :item_type
+  validates_presence_of :name, :price
 end
