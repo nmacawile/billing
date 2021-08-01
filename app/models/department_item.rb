@@ -1,6 +1,5 @@
 class DepartmentItem
   include Mongoid::Document
-  include Mongoid::Timestamps
 
   belongs_to :item
   embedded_in :department
@@ -8,8 +7,10 @@ class DepartmentItem
   field :price, type: BigDecimal
   field :quantity, type: Integer
   field :position, type: Integer
-  field :days, type: Array
-  field :deductions, type: Array
+  field :days, type: Array,
+               default: [
+                 *Array.new(6) { true }, false
+               ]
 
-  validates_presence_of :position
+  field :deductions, type: Array
 end
