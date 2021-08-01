@@ -26,7 +26,6 @@ export class ItemsListComponent implements OnInit {
   ngOnInit(): void {}
 
   deleteItem(item: Item, index: number): void {
-    console.log(index);
     this.sharedService
       .confirmDeleteDialog(item.name)
       .pipe(switchMap(() => this.itemsService.deleteItem(this.getId(item))))
