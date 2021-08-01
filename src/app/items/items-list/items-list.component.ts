@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Item } from '../../models/item';
-import { ItemsService } from '../items.service';
+import { ItemsService } from '../../services/items.service';
 import { SharedService } from '../../shared/shared.service';
 import { switchMap } from 'rxjs/operators';
 import { MatTable } from '@angular/material/table';

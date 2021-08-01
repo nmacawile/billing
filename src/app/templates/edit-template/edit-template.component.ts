@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Template, TemplateParams } from '../../models/template';
-import { TemplatesService } from '../templates.service';
+import { TemplatesService } from '../../services/templates.service';
 
 @Component({
   selector: 'app-edit-template',

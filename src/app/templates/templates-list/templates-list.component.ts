@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TemplatesService } from '../templates.service';
+import { TemplatesService } from '../../services/templates.service';
 import { Template } from '../../models/template';
 import { MatDialog } from '@angular/material/dialog';
 import { switchMap } from 'rxjs/operators';

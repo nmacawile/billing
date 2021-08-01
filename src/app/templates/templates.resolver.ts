@@ -6,7 +6,7 @@ import {
   ActivatedRouteSnapshot,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { TemplatesService } from './templates.service';
+import { TemplatesService } from '../services/templates.service';
 import { Template } from '../models/template';
 import { catchError } from 'rxjs/operators';
 

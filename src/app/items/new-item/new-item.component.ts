@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemParams } from '../../models/item';
-import { ItemsService } from '../items.service';
+import { ItemsService } from '../../services/items.service';
 import { Router } from '@angular/router';
 
 @Component({
