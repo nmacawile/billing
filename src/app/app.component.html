@@ -21,7 +21,7 @@
            <mat-icon mat-list-icon class="sidenav-icon">{{link.icon}}</mat-icon>
          {{link.label}}
        </a>
-       <a *ngIf="isLoggedIn()" class="app-nav-list-item" mat-list-item (click)="logout()">
+       <a [routerLink]="" *ngIf="isLoggedIn()" class="app-nav-list-item" mat-list-item (click)="logout()">
          <mat-icon mat-list-icon class="sidenav-icon">logout</mat-icon>
          LOGOUT
        </a>
