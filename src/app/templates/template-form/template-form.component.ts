@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TemplatesService } from '../templates.service';
-import { Template, TemplateParams } from '../../models/template';
+import { TemplateParams } from '../../models/template';
 
 @Component({
   selector: 'app-template-form',
@@ -24,7 +23,6 @@ export class TemplateFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private templatesService: TemplatesService,
   ) {
     this.templateForm = this.buildForm();
   }
