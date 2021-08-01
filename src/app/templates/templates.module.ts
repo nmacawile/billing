@@ -8,7 +8,7 @@ import { NewTemplateComponent } from './new-template/new-template.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TemplateFormComponent } from './template-form/template-form.component';
 import { EditTemplateComponent } from './edit-template/edit-template.component';
-import { ConfirmTemplateDeleteDialogComponent } from './confirm-template-delete-dialog/confirm-template-delete-dialog.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -17,13 +17,13 @@ import { ConfirmTemplateDeleteDialogComponent } from './confirm-template-delete-
     NewTemplateComponent,
     TemplateFormComponent,
     EditTemplateComponent,
-    ConfirmTemplateDeleteDialogComponent,
   ],
   imports: [
     CommonModule,
     TemplatesRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
+    SharedModule,
   ],
 })
 export class TemplatesModule {}
