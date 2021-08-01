@@ -1,0 +1,14 @@
+<a mat-button routerLink="/items">GO BACK</a>
+
+<div *ngIf="item">
+  <app-item-form
+    [title]="title"
+    submitLabel="SAVE"
+    [item]="item"
+    (formSubmit)="saveItem($event)">
+  </app-item-form>
+</div>
+
+<div *ngIf="!item">
+  <p class="mat-body-1">404 no item found</p>
+</div>

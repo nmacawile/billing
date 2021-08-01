@@ -1,9 +1,14 @@
+<a mat-flat-button color="accent" class="new-item-button" routerLink="new">
+  <mat-icon>add</mat-icon>
+  NEW ITEM
+</a>
+
 <table mat-table [dataSource]="items" class="mat-elevation-z6">
   <!-- Name Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Name </th>
     <td mat-cell *matCellDef="let item">
-      <a href="#" class="mat-link">{{item.name}}</a>
+      <a [routerLink]="getId(item)" class="mat-link">{{item.name}}</a>
     </td>
   </ng-container>
 
@@ -17,6 +22,15 @@
   <ng-container matColumnDef="_item_type">
     <th mat-header-cell *matHeaderCellDef> Type </th>
     <td mat-cell *matCellDef="let item"> {{item._item_type | titlecase}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef> Delete </th>
+    <td mat-cell *matCellDef="let item; let i = index">
+      <button mat-icon-button color="warn" (click)="deleteItem(item, i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

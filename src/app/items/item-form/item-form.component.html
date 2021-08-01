@@ -1,0 +1,33 @@
+<form class="item-form" [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+  <h2 class="mat-h2">{{ title }}</h2>
+  <mat-form-field>
+    <mat-label>Item name</mat-label>
+    <input matInput formControlName="name" required />
+    <mat-error>Item name is required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Price</mat-label>
+    <span matPrefix>₱ &nbsp;</span>
+    <input
+      type="number"
+      matInput
+      formControlName="price"
+      min="0"
+      required
+    />
+    <mat-error>Price is required.</mat-error>
+  </mat-form-field>
+
+  <div class="item-type-selector">
+    Type
+    <mat-button-toggle-group formControlName="_item_type">
+      <mat-button-toggle value="broadsheet">Broadsheet</mat-button-toggle>
+      <mat-button-toggle value="tabloid">Tabloid</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <button type="submit" mat-flat-button color="primary">
+    {{ submitLabel }}
+  </button>
+</form>
