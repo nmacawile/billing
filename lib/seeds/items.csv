@@ -1,0 +1,33 @@
+ItemID,ShortItemName,ItemName,ItemCode,ItemType,UnitPrice
+1,Bus. Mirror,Business Mirror,bm,broadsheet,25
+2,Bus. World,Business World,bw,broadsheet,25
+3,Malaya,Malaya,mal,broadsheet,25
+4,Mla Bulletin,Manila Bulletin,mb,broadsheet,18
+5,Mla Bulletin (Sunday),Manila Bulletin (Sunday),mb,broadsheet,20
+6,Mla Standard,Manila Standard,ms,broadsheet,18
+7,Mla Times,Manila Times,mt,broadsheet,20
+8,PD Inquirer,Philippine Daily Inquirer,pdi,broadsheet,20
+9,Phil. Star,Philippine Star,ps,broadsheet,20
+10,Tribune,Tribune,tri,broadsheet,18
+11,Abante,Abante,ab,tabloid,10
+12,Ab. Tonite,Abante Tonite,abt,tabloid,10
+13,Balita,Balita,bal,tabloid,10
+14,Bandera,Bandera,ban,tabloid,10
+15,Bomba,Bomba,bom,tabloid,10
+16,Bulgar,Bulgar,bul,tabloid,10
+17,Hataw,Hataw,hat,tabloid,10
+18,Parazzi,Parazzi,par,tabloid,10
+19,P. Balita,People's Balita,pb,tabloid,10
+20,P. Files,People's Files,pf,tabloid,10
+21,P. Journal,People's Journal,pj,tabloid,10
+22,P. Tonight,People's Tonight,pt,tabloid,10
+23,P. Ngayon,Pilipino Ngayon,pn,tabloid,10
+24,PM,Pang Masa,pm,tabloid,10
+25,Remate,Remate,rem,tabloid,10
+26,Taliba,Taliba,tal,tabloid,10
+27,Tanod,Tanod,tan,tabloid,10
+28,Tempo,Tempo,tem,tabloid,10
+29,Tiktik,Tiktik,tik,tabloid,10
+30,Tumbok,Tumbok,tum,tabloid,10
+31,X-Files,X-Files,xf,tabloid,10
+32,Saksi,Saksi,sak,tabloid,10
