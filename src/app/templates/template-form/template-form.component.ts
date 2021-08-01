@@ -10,7 +10,7 @@ import { TemplateParams } from '../../models/template';
 export class TemplateFormComponent implements OnInit {
   templateForm: FormGroup;
   @Output() formSubmit = new EventEmitter<TemplateParams>();
-  @Input('title') title = 'Template Form';
+  @Input('title') title: string;
   @Input('template') template: TemplateParams = {
     name: '',
     client: {
@@ -19,26 +19,12 @@ export class TemplateFormComponent implements OnInit {
     _paper_size: 'short',
     split: true,
   };
-  @Input('submitLabel') submitLabel: string = '';
+  @Input('submitLabel') submitLabel: string;
 
-  constructor(
-    private fb: FormBuilder,
-  ) {
-    this.templateForm = this.buildForm();
-  }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.templateForm = this.buildForm();
-  }
-
-  onSubmit(): void {
-    const params: TemplateParams =
-      this.templateForm.getRawValue();
-    this.formSubmit.emit(params);
-  }
-
-  private buildForm(): FormGroup {
-    return this.fb.group({
+    this.templateForm = this.fb.group({
       name: [this.template.name, [Validators.required]],
       split: [this.template.split],
       _paper_size: [this.template._paper_size],
@@ -47,5 +33,10 @@ export class TemplateFormComponent implements OnInit {
         address: [this.template.client.address],
       }),
     });
+  }
+
+  onSubmit(): void {
+    const params: TemplateParams = this.templateForm.getRawValue();
+    this.formSubmit.emit(params);
   }
 }
