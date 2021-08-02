@@ -33,7 +33,6 @@ class TemplatesController < ApplicationController
       .require(:template)
       .permit(
         :name,
-        :save_name,
         :split,
         :_paper_size,
         client: [:name, :address])
