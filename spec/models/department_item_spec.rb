@@ -9,7 +9,7 @@ RSpec.describe DepartmentItem, type: :model do
 
   describe '#days' do
     it "is set to 'Mon-Sat' by default" do
-      expect(subject.days).to eq([true, true, true, true, true, true, false])
+      expect(subject.days).to eq('Mon-Sat')
     end
   end
 end
