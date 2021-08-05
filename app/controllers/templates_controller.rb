@@ -35,7 +35,26 @@ class TemplatesController < ApplicationController
         :name,
         :split,
         :_paper_size,
-        client: [:name, :address])
+        departments: [
+          :name,
+          department_items: [
+            :days,
+            :item,
+            :quantity,
+            :position,
+            :price,
+            deduction: [
+              :mon,
+              :tue,
+              :wed,
+              :thu,
+              :fri,
+              :sat, :sun
+            ]
+          ]
+        ],
+        client: [:name, :address]
+      )
   end
 
   def load_template

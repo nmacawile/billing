@@ -8,6 +8,7 @@ RSpec.describe 'Templates API', type: :request do
   let(:template_ids) { templates.map { |t| t.id.to_s } }
   let(:first_template) { templates.first }
   let(:first_template_id) { first_template.id.to_s }
+  let(:item) { create :item }
 
   describe 'GET /templates' do
     before { get '/templates', headers: headers }
@@ -87,6 +88,71 @@ RSpec.describe 'Templates API', type: :request do
       it 'returns status code 422' do
         expect(response).to have_http_status 422
       end      
+    end
+
+    context 'with department and department items' do
+      before do
+        post '/templates',
+              params: { 
+                template: {
+                  name: 'Example2',
+                  client: {
+                    name: 'example client',
+                    address: 'example address'
+                  },
+                  departments: [
+                    {
+                      name: 'dep1',
+                      department_items: [
+                        {
+                          days: 'Mon-Fri',
+                          item: item.id.to_s,
+                          quantity: 4,
+                          position: 0,
+                          price: 18.0,
+                          deduction: {
+                            mon: 1,
+                            tue: 2
+                          }
+                        }
+                      ]
+                    }
+                    
+                  ]
+                },
+              }.to_json,
+              headers: headers
+      end
+
+      it 'matches the template name value set' do
+        expect(Template.last.name).to eq('Example2')
+      end
+
+      it 'matches the department name value set' do
+        expect(Template.last.departments.first.name).to eq('dep1')
+      end
+
+      it 'matches the days value set' do
+        expect(
+          Template.last
+            .departments.first
+              .department_items.first
+                .days
+        ).to eq('Mon-Fri')
+      end
+
+      it 'matches the deduction value set' do
+        expect(
+          Template.last
+            .departments.first
+              .department_items.first
+                .deduction
+        ).to have_attributes(mon: 1, tue: 2)
+      end
+
+      it 'returns status code 201' do
+        expect(response).to have_http_status 201   
+      end
     end
   end
 
