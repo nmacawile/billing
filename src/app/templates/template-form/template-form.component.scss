@@ -6,8 +6,8 @@
 }
 
 .template-form {
-  padding: 16px;
-  max-width: 240px;
+  padding: 16px 8px;
+  max-width: 600px;
 
   mat-slide-toggle[formcontrolname="split"] {
     align-self: flex-start;
