@@ -7,7 +7,6 @@ class Template
   embeds_many :departments
 
   field :name, type: String
-  field :split, type: Boolean, default: true
 
   enum :paper_size, [:short, :long], default: :short
 

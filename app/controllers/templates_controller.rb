@@ -33,7 +33,6 @@ class TemplatesController < ApplicationController
       .require(:template)
       .permit(
         :name,
-        :split,
         :_paper_size,
         departments: [
           :name,
@@ -62,7 +61,6 @@ class TemplatesController < ApplicationController
       .require(:template)
       .permit(
         :name,
-        :split,
         :_paper_size,
         client: [:name, :address])
   end
