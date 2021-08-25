@@ -13,6 +13,13 @@ export class NewTemplateComponent implements OnInit {
     private templatesService: TemplatesService,
     private router: Router,
   ) {}
+  template: TemplateParams = {
+    name: '',
+    client: {
+      name: '',
+    },
+    _paper_size: 'short',
+  };
 
   ngOnInit(): void {}
 

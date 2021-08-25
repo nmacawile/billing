@@ -1,16 +1,22 @@
 import { MongoidId } from './mongoid-id';
 import { Timestamps } from './timestamps';
+import { Department, DepartmentParams } from './department';
 
 interface Client {
   name: string;
   address?: string;
 }
 
-export interface TemplateParams {
+interface TemplatePartials {
   name: string;
   _paper_size?: 'short' | 'long';
-  split?: boolean;
   client: Client;
 }
 
-export interface Template extends TemplateParams, MongoidId, Timestamps {}
+export interface TemplateParams extends TemplatePartials {
+  departments?: DepartmentParams[];
+}
+
+export interface Template extends TemplatePartials, MongoidId, Timestamps {
+  departments?: Department[];
+}
