@@ -12,12 +12,12 @@ class TemplatesController < ApplicationController
   end
 
   def create
-    @template = Template.create!(template_params)
+    @template = Template.create!(new_template_params)
     head :created
   end
 
   def update
-    @template.update!(template_params)
+    @template.update!(edit_template_params)
     head :no_content
   end
 
@@ -28,7 +28,7 @@ class TemplatesController < ApplicationController
 
   private
 
-  def template_params
+  def new_template_params
     params
       .require(:template)
       .permit(
@@ -55,6 +55,16 @@ class TemplatesController < ApplicationController
         ],
         client: [:name, :address]
       )
+  end
+
+  def edit_template_params
+    params
+      .require(:template)
+      .permit(
+        :name,
+        :split,
+        :_paper_size,
+        client: [:name, :address])
   end
 
   def load_template
