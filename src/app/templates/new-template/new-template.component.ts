@@ -18,7 +18,7 @@ export class NewTemplateComponent implements OnInit {
     client: {
       name: '',
     },
-    _paper_size: 'short',
+    _format: 'short',
   };
 
   ngOnInit(): void {}

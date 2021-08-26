@@ -18,13 +18,13 @@
     <mat-error>Template name is required.</mat-error>
   </mat-form-field>
 
-  <div class="paper-size-selector">
-    Paper size
-    <mat-button-toggle-group formControlName="_paper_size">
+  <div class="format-selector">
+    Format
+    <mat-button-toggle-group formControlName="_format">
       <mat-button-toggle value="short">Short</mat-button-toggle>
       <mat-button-toggle value="long">Long</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
-
+  <a mat-stroked-button color="primary" routerLink="items">EDIT ITEMS</a>
   <button type="submit" mat-flat-button color="primary">{{submitLabel}}</button>
 </form>

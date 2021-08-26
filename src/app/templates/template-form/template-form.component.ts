@@ -19,7 +19,7 @@ export class TemplateFormComponent implements OnInit {
   ngOnInit(): void {
     this.templateForm = this.fb.group({
       name: [this.template.name, [Validators.required]],
-      _paper_size: [this.template._paper_size],
+      _format: [this.template._format],
       client: this.fb.group({
         name: [this.template.client.name, [Validators.required]],
         address: [this.template.client.address],

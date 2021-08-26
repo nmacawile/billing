@@ -9,7 +9,7 @@ interface Client {
 
 interface TemplatePartials {
   name: string;
-  _paper_size?: 'short' | 'long';
+  _format?: 'short' | 'long';
   client: Client;
 }
 
