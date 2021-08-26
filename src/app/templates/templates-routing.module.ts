@@ -5,6 +5,8 @@ import { TemplatesComponent } from './templates.component';
 import { TemplatesListComponent } from './templates-list/templates-list.component';
 import { NewTemplateComponent } from './new-template/new-template.component';
 import { EditTemplateComponent } from './edit-template/edit-template.component';
+import { TemplateItemsComponent } from './template-items/template-items.component';
+import { TemplateFieldsComponent } from './template-fields/template-fields.component';
 import { TemplatesResolver } from './templates.resolver';
 
 const routes: Routes = [
@@ -26,6 +28,10 @@ const routes: Routes = [
         resolve: {
           template: TemplatesResolver,
         },
+        children: [
+          { path: '', component: TemplateFieldsComponent },
+          { path: 'items', component: TemplateItemsComponent },
+        ],
       },
     ],
   },
