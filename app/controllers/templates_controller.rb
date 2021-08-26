@@ -61,7 +61,7 @@ class TemplatesController < ApplicationController
       .require(:template)
       .permit(
         :name,
-        :_paper_size,
+        :_format,
         client: [:name, :address])
   end
 

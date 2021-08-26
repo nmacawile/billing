@@ -8,7 +8,7 @@ class Template
 
   field :name, type: String
 
-  enum :paper_size, [:short, :long], default: :short
+  enum :format, [:short, :long], default: :short
 
   validates_presence_of :name, :client
   validates_uniqueness_of :name
