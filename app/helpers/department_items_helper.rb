@@ -1,0 +1,2 @@
+module DepartmentItemsHelper
+end
