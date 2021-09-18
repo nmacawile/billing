@@ -28,7 +28,7 @@
       </mat-nav-list>
     </mat-sidenav>
 
-    <mat-sidenav-content class="app-content">
+    <mat-sidenav-content [ngClass]="mobileQuery.matches ? 'app-content-mobile' : 'app-content' ">
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
