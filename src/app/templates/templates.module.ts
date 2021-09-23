@@ -5,12 +5,13 @@ import { TemplatesRoutingModule } from './templates-routing.module';
 import { TemplatesListComponent } from './templates-list/templates-list.component';
 import { MaterialModule } from '../material/material.module';
 import { NewTemplateComponent } from './new-template/new-template.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TemplateFormComponent } from './template-form/template-form.component';
 import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { SharedModule } from '../shared/shared.module';
 import { TemplateItemsComponent } from './template-items/template-items.component';
 import { TemplateFieldsComponent } from './template-fields/template-fields.component';
+import { DepartmentsModule } from '../departments/departments.module';
 
 @NgModule({
   declarations: [
@@ -26,8 +27,10 @@ import { TemplateFieldsComponent } from './template-fields/template-fields.compo
     CommonModule,
     TemplatesRoutingModule,
     MaterialModule,
+    FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    DepartmentsModule,
   ],
 })
 export class TemplatesModule {}

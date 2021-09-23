@@ -5,8 +5,8 @@ import { TemplatesComponent } from './templates.component';
 import { TemplatesListComponent } from './templates-list/templates-list.component';
 import { NewTemplateComponent } from './new-template/new-template.component';
 import { EditTemplateComponent } from './edit-template/edit-template.component';
-import { TemplateItemsComponent } from './template-items/template-items.component';
 import { TemplateFieldsComponent } from './template-fields/template-fields.component';
+import { DepartmentsComponent } from '../departments/departments.component';
 import { TemplatesResolver } from './templates.resolver';
 
 const routes: Routes = [
@@ -25,12 +25,13 @@ const routes: Routes = [
       {
         path: ':id',
         component: EditTemplateComponent,
+        runGuardsAndResolvers: 'always',
         resolve: {
           template: TemplatesResolver,
         },
         children: [
           { path: '', component: TemplateFieldsComponent },
-          { path: 'items', component: TemplateItemsComponent },
+          { path: 'items', component: DepartmentsComponent },
         ],
       },
     ],

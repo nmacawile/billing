@@ -1,0 +1,18 @@
+<mat-toolbar class="subgroup-header">
+  <input class="subgroup-name" (change)="saveDepartment(department)" placeholder="Department Name" [(ngModel)]="department.name">
+</mat-toolbar>
+<table class="department-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Days</th>
+      <th>Qty</th>
+      <th>Price</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let di of department.department_items" appDepartmentItem [departmentItem]="di">
+    </tr>
+  </tbody>
+</table>

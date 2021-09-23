@@ -1,0 +1,38 @@
+td:first-child {
+  padding-left: 16px;
+}
+
+td:last-child {
+  text-align: right;
+}
+
+td {
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  height: 48px;
+}
+
+.editable-cell {
+  width: 36px;
+  padding: 0;
+  background: none;
+  outline: none;
+  border: none;
+}
+
+.price-cell {
+  width: 48px;
+}
+
+.selection {
+  height: 36px;
+  max-width: 30vw;
+  border: none;
+  outline: none;
+  color: rgba(0,0,0,.87);
+  background: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+  cursor: pointer;
+}
