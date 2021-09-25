@@ -12,7 +12,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let di of department.department_items" appDepartmentItem [departmentItem]="di">
+    <tr *ngFor="let di of department.department_items"
+        appDepartmentItem [departmentItem]="di"
+        [templateId]="templateId"
+        [departmentId]="departmentId(department)">
     </tr>
   </tbody>
 </table>

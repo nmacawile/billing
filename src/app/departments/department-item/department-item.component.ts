@@ -3,6 +3,7 @@ import { ItemsService } from '../../services/items.service';
 import { Item } from '../../models/item';
 import { DepartmentItem } from '../../models/department-item';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { DepartmentItemsService } from '../../services/department-items.service';
 
 @Component({
   selector: '[appDepartmentItem]',
@@ -11,6 +12,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class DepartmentItemComponent implements OnInit {
   @Input('departmentItem') departmentItem: DepartmentItem;
+  @Input('templateId') templateId: string;
+  @Input('departmentId') departmentId: string;
   items: Item[] = [];
   formGroup: FormGroup;
   scheduleGroups = [
@@ -36,13 +39,17 @@ export class DepartmentItemComponent implements OnInit {
     },
   ];
 
-  constructor(private itemsService: ItemsService, private fb: FormBuilder) {
+  constructor(
+    private itemsService: ItemsService,
+    private fb: FormBuilder,
+    private departmentItemsService: DepartmentItemsService,
+  ) {
     this.itemsService.getItems().subscribe((items) => (this.items = items));
   }
 
   ngOnInit(): void {
     this.formGroup = this.fb.group({
-      item_id: this.departmentItem.item_id.$oid,
+      item: this.departmentItem.item_id.$oid,
       days: this.departmentItem.days,
       quantity: this.departmentItem.quantity,
       price: this.departmentItem.price,
@@ -50,12 +57,21 @@ export class DepartmentItemComponent implements OnInit {
   }
 
   price(): number {
-    const id = this.formGroup.value.item_id;
+    const id = this.formGroup.value.item;
     const item = this.items.find((i) => i._id.$oid === id);
     return item?.price || 0;
   }
 
   onSave(): void {
-    console.log('saved');
+    this.departmentItemsService.updateDepartmentItem(
+      this.templateId,
+      this.departmentId,
+      this.id,
+      this.formGroup.getRawValue(),
+    ).subscribe();
+  }
+
+  private get id(): string {
+    return this.departmentItem._id.$oid;
   }
 }

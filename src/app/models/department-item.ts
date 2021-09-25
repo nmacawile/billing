@@ -19,7 +19,7 @@ interface DepartmentItemPartials {
 }
 
 export interface DepartmentItemParams extends DepartmentItemPartials {
-  item_id: string;
+  item: string;
 }
 
 export interface DepartmentItem extends DepartmentItemPartials, MongoidId {

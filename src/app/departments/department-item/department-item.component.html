@@ -1,6 +1,6 @@
 <ng-container [formGroup]="formGroup">
   <td>
-    <select class="item-selection selection" formControlName="item_id">
+    <select class="item-selection selection" formControlName="item">
       <option *ngFor="let item of items" [value]="item['_id']['$oid']">{{item.name}}</option>
     </select>
   </td>
