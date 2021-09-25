@@ -9,7 +9,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TemplateFormComponent } from './template-form/template-form.component';
 import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { SharedModule } from '../shared/shared.module';
-import { TemplateItemsComponent } from './template-items/template-items.component';
 import { TemplateFieldsComponent } from './template-fields/template-fields.component';
 import { DepartmentsModule } from '../departments/departments.module';
 
@@ -20,7 +19,6 @@ import { DepartmentsModule } from '../departments/departments.module';
     NewTemplateComponent,
     TemplateFormComponent,
     EditTemplateComponent,
-    TemplateItemsComponent,
     TemplateFieldsComponent,
   ],
   imports: [
