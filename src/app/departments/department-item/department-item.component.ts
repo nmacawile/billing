@@ -63,12 +63,18 @@ export class DepartmentItemComponent implements OnInit {
   }
 
   onSave(): void {
-    this.departmentItemsService.updateDepartmentItem(
-      this.templateId,
-      this.departmentId,
-      this.id,
-      this.formGroup.getRawValue(),
-    ).subscribe();
+    this.departmentItemsService
+      .updateDepartmentItem(
+        this.templateId,
+        this.departmentId,
+        this.id,
+        this.formGroup.getRawValue(),
+      )
+      .subscribe({
+        complete: () => {
+          this.formGroup.markAsPristine();
+        },
+      });
   }
 
   private get id(): string {
