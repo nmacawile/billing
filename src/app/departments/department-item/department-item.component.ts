@@ -56,12 +56,6 @@ export class DepartmentItemComponent implements OnInit {
     });
   }
 
-  price(): number {
-    const id = this.formGroup.value.item;
-    const item = this.items.find((i) => i._id.$oid === id);
-    return item?.price || 0;
-  }
-
   onSave(): void {
     this.departmentItemsService
       .updateDepartmentItem(
@@ -75,6 +69,12 @@ export class DepartmentItemComponent implements OnInit {
           this.formGroup.markAsPristine();
         },
       });
+  }
+
+  get itemPrice(): number {
+    const id = this.formGroup.value.item;
+    const item = this.items.find((i) => i._id.$oid === id);
+    return item?.price || 0;
   }
 
   private get id(): string {
