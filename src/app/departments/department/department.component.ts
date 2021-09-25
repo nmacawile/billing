@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Department, DepartmentParams } from '../../models/department';
 import { DepartmentsService } from '../../services/departments.service';
-import { Template } from '../../models/template';
 
 @Component({
   selector: 'app-department',
@@ -10,20 +9,17 @@ import { Template } from '../../models/template';
 })
 export class DepartmentComponent implements OnInit {
   @Input('department') department: Department;
-  @Input('template') template: Template;
-  id: string;
+  @Input('templateId') templateId: string;
 
   constructor(private departmentsService: DepartmentsService) {}
 
-  ngOnInit(): void {
-    this.id = this.template['_id']['$oid'];
-  }
+  ngOnInit(): void {}
 
   saveDepartment(department: Department): void {
     const deptId = this.departmentId(department);
     const { department_items, ...deptParams } = department as DepartmentParams;
     this.departmentsService
-      .updateDepartment(this.id, this.departmentId(department), deptParams)
+      .updateDepartment(this.templateId, this.departmentId(department), deptParams)
       .subscribe();
   }
 
