@@ -8,5 +8,5 @@ export interface DepartmentParams {
 
 export interface Department extends MongoidId {
   name: string;
-  department_items?: DepartmentItem[];
+  department_items: DepartmentItem[];
 }
