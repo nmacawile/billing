@@ -46,10 +46,32 @@ export class DepartmentItemsService {
       );
   }
 
+  createDepartmentItem(
+    templateId: string,
+    departmentId: string,
+    department_item: DepartmentItemParams,
+  ): Observable<{ id: string }> {
+    return this.http
+      .post<{ id: string }>(
+        this.departmentItemsPath(templateId, departmentId),
+        { department_item },
+        { headers: this.headers },
+      )
+      .pipe(
+        tap(
+          () => this.notificationService.notify('Department Item has been created.'),
+          (err) =>
+            this.notificationService.notify(
+              'Error ' + err.status + ': ' + err.error.message,
+            ),
+        ),
+      );
+  }
+
   private departmentItemsPath(
     templateId: string,
     departmentId: string,
-    p: string,
+    p: string = '',
   ): string {
     return (
       environment.serverUrl +

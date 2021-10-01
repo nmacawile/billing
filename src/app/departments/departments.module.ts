@@ -7,9 +7,17 @@ import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { DepartmentComponent } from './department/department.component';
 import { DepartmentItemComponent } from './department-item/department-item.component';
+import { NewDepartmentItemComponent } from './new-department-item/new-department-item.component';
+import { EditDepartmentItemComponent } from './edit-department-item/edit-department-item.component';
 
 @NgModule({
-  declarations: [DepartmentsComponent, DepartmentComponent, DepartmentItemComponent],
+  declarations: [
+    DepartmentsComponent,
+    DepartmentComponent,
+    DepartmentItemComponent,
+    NewDepartmentItemComponent,
+    EditDepartmentItemComponent,
+  ],
   imports: [
     CommonModule,
     MaterialModule,

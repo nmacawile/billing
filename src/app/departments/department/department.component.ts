@@ -17,7 +17,7 @@ export class DepartmentComponent implements OnInit {
 
   saveDepartment(department: Department): void {
     const deptId = this.departmentId(department);
-    const { department_items, ...deptParams } = department as DepartmentParams;
+    const { department_items, ...deptParams } = department;
     this.departmentsService
       .updateDepartment(this.templateId, this.departmentId(department), deptParams)
       .subscribe();

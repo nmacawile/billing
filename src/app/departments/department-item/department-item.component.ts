@@ -40,36 +40,16 @@ export class DepartmentItemComponent implements OnInit {
   ];
 
   constructor(
-    private itemsService: ItemsService,
-    private fb: FormBuilder,
-    private departmentItemsService: DepartmentItemsService,
+    protected itemsService: ItemsService,
+    protected fb: FormBuilder,
+    protected departmentItemsService: DepartmentItemsService,
   ) {
     this.itemsService.getItems().subscribe((items) => (this.items = items));
   }
 
-  ngOnInit(): void {
-    this.formGroup = this.fb.group({
-      item: this.departmentItem.item_id.$oid,
-      days: this.departmentItem.days,
-      quantity: this.departmentItem.quantity,
-      price: this.departmentItem.price,
-    });
-  }
+  ngOnInit(): void {}
 
-  onSave(): void {
-    this.departmentItemsService
-      .updateDepartmentItem(
-        this.templateId,
-        this.departmentId,
-        this.id,
-        this.formGroup.getRawValue(),
-      )
-      .subscribe({
-        complete: () => {
-          this.formGroup.markAsPristine();
-        },
-      });
-  }
+  onSave(): void {}
 
   get itemPrice(): number {
     const id = this.formGroup.value.item;
@@ -77,7 +57,7 @@ export class DepartmentItemComponent implements OnInit {
     return item?.price || 0;
   }
 
-  private get id(): string {
+  protected get id(): string {
     return this.departmentItem._id.$oid;
   }
 }

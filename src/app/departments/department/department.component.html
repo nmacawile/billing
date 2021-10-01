@@ -13,9 +13,16 @@
   </thead>
   <tbody>
     <tr *ngFor="let di of department.department_items"
-        appDepartmentItem [departmentItem]="di"
+        editDepartmentItem
+        [departmentItem]="di"
         [templateId]="templateId"
         [departmentId]="departmentId(department)">
+    </tr>
+
+    <tr newDepartmentItem
+        [templateId]="templateId"
+        [departmentId]="departmentId(department)"
+        [departmentItems]="department.department_items">
     </tr>
   </tbody>
 </table>
