@@ -4,13 +4,14 @@ import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { NotificationService } from '../notification.service';
 import { Item, ItemParams } from '../models/item';
-import { tap } from 'rxjs/operators';
+import { shareReplay, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemsService {
   headers: HttpHeaders;
+  private items$: Observable<Item[]>;
 
   constructor(
     private http: HttpClient,
@@ -21,12 +22,16 @@ export class ItemsService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + localStorage.getItem('authToken'),
     });
+
+    this.items$ = this.http
+      .get<Item[]>(this.itemsPath(), {
+        headers: this.headers,
+      })
+      .pipe(shareReplay(1));
   }
 
   getItems(): Observable<Item[]> {
-    return this.http.get<Item[]>(this.itemsPath(), {
-      headers: this.headers,
-    });
+    return this.items$;
   }
 
   createItem(item: ItemParams): Observable<void> {
