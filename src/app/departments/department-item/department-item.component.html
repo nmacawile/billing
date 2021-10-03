@@ -20,6 +20,11 @@
     <input type="number" class="editable-cell price-cell" formControlName="price" min="0" [placeholder]="itemPrice">
   </td>
   <td>
-    <button mat-icon-button (click)="onSave()" [disabled]="formGroup.pristine"><mat-icon>save</mat-icon></button>
+    <button mat-icon-button color="primary" (click)="onSave()" [class.hidden]="formGroup.pristine">
+      <mat-icon>save</mat-icon>
+    </button>
+    <button mat-icon-button color="warn" (click)="onReset()" [class.hidden]="formGroup.pristine">
+      <mat-icon>close</mat-icon>
+    </button>
   </td>
 </ng-container>

@@ -51,6 +51,8 @@ export class DepartmentItemComponent implements OnInit {
 
   onSave(): void {}
 
+  onReset(): void {}
+
   get itemPrice(): number {
     const id = this.formGroup.value.item;
     const item = this.items.find((i) => i._id.$oid === id);

@@ -1,14 +1,20 @@
 td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
   padding-left: 16px;
+  background: linear-gradient(90deg, #fff 75%, transparent);
 }
 
 td:last-child {
+  white-space: nowrap;
   text-align: right;
 }
 
 td {
   border-bottom: 1px solid rgba(0,0,0,.12);
   height: 48px;
+  box-sizing: border-box;
 }
 
 .editable-cell {
@@ -35,4 +41,8 @@ td {
   text-indent: 1px;
   text-overflow: '';
   cursor: pointer;
+}
+
+button.hidden {
+  display: none;
 }

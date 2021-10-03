@@ -13,6 +13,8 @@ import { DepartmentItem } from '../../models/department-item';
 })
 export class NewDepartmentItemComponent extends DepartmentItemComponent {
   @Input('departmentItems') departmentItems: DepartmentItem[];
+  newRecord = true;
+
   constructor(
     protected itemsService: ItemsService,
     protected fb: FormBuilder,
@@ -22,12 +24,7 @@ export class NewDepartmentItemComponent extends DepartmentItemComponent {
   }
 
   ngOnInit(): void {
-    this.formGroup = this.fb.group({
-      item: '',
-      days: '',
-      quantity: '',
-      price: '',
-    });
+    this.onReset();
   }
 
   onSave(): void {
@@ -39,18 +36,17 @@ export class NewDepartmentItemComponent extends DepartmentItemComponent {
       )
       .subscribe(({ id }) => {
         this.departmentItems.push(this.createDepartmentItem(id));
-        this.formGroup.reset();
-        
-
-
-        this.formGroup = this.fb.group({
-          item: '',
-          days: '',
-          quantity: '',
-          price: '',
-        });
-        
+        this.onReset();
       });
+  }
+
+  onReset(): void {
+    this.formGroup = this.fb.group({
+      item: '',
+      days: '',
+      quantity: '',
+      price: '',
+    });
   }
 
   private createDepartmentItem(id: string): DepartmentItem {

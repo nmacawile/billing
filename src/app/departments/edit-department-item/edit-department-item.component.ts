@@ -3,6 +3,7 @@ import { DepartmentItemComponent } from '../department-item/department-item.comp
 import { ItemsService } from '../../services/items.service';
 import { FormBuilder } from '@angular/forms';
 import { DepartmentItemsService } from '../../services/department-items.service';
+import { DepartmentItem } from '../../models/department-item';
 
 @Component({
   selector: '[editDepartmentItem]',
@@ -19,12 +20,7 @@ export class EditDepartmentItemComponent extends DepartmentItemComponent {
   }
 
   ngOnInit(): void {
-    this.formGroup = this.fb.group({
-      item: this.departmentItem.item_id.$oid,
-      days: this.departmentItem.days,
-      quantity: this.departmentItem.quantity,
-      price: this.departmentItem.price,
-    });
+    this.onReset();
   }
 
   onSave(): void {
@@ -37,6 +33,26 @@ export class EditDepartmentItemComponent extends DepartmentItemComponent {
       )
       .subscribe(() => {
         this.formGroup.markAsPristine();
+        this.updateDepartmentItemCopy();
       });
+  }
+
+  onReset(): void {
+    this.formGroup = this.fb.group({
+      item: this.departmentItem.item_id.$oid,
+      days: this.departmentItem.days,
+      quantity: this.departmentItem.quantity,
+      price: this.departmentItem.price,
+    });
+  }
+
+  private updateDepartmentItemCopy(): void {
+    const departmentItemParams = this.formGroup.getRawValue();
+    const departmentItem: DepartmentItem = {
+      ...departmentItemParams,
+      _id: this.departmentItem._id,
+      item_id: { $oid: departmentItemParams.item },
+    };
+    this.departmentItem = departmentItem;
   }
 }
