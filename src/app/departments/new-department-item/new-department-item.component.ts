@@ -12,7 +12,6 @@ import { DepartmentItem } from '../../models/department-item';
   styleUrls: ['../department-item/department-item.component.scss'],
 })
 export class NewDepartmentItemComponent extends DepartmentItemComponent {
-  @Input('departmentItems') departmentItems: DepartmentItem[];
   newRecord = true;
 
   constructor(

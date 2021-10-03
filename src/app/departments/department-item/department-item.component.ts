@@ -12,6 +12,7 @@ import { DepartmentItemsService } from '../../services/department-items.service'
 })
 export class DepartmentItemComponent implements OnInit {
   @Input('departmentItem') departmentItem: DepartmentItem;
+  @Input('departmentItems') departmentItems: DepartmentItem[];
   @Input('templateId') templateId: string;
   @Input('departmentId') departmentId: string;
   items: Item[] = [];
@@ -38,6 +39,7 @@ export class DepartmentItemComponent implements OnInit {
       days: ['Mon-Thu', 'MWF', 'TTh'],
     },
   ];
+  newRecord = false;
 
   constructor(
     protected itemsService: ItemsService,
@@ -52,6 +54,8 @@ export class DepartmentItemComponent implements OnInit {
   onSave(): void {}
 
   onReset(): void {}
+
+  onDelete(): void {}
 
   get itemPrice(): number {
     const id = this.formGroup.value.item;

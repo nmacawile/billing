@@ -46,6 +46,15 @@ export class EditDepartmentItemComponent extends DepartmentItemComponent {
     });
   }
 
+  onDelete(): void {
+    this.departmentItemsService
+      .deleteDepartmentItem(this.templateId, this.departmentId, this.id)
+      .subscribe(() => {
+        const index = this.departmentItems.indexOf(this.departmentItem);
+        this.departmentItems.splice(index, 1);
+      });
+  }
+
   private updateDepartmentItemCopy(): void {
     const departmentItemParams = this.formGroup.getRawValue();
     const departmentItem: DepartmentItem = {

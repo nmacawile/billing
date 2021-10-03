@@ -37,7 +37,8 @@ export class DepartmentItemsService {
       )
       .pipe(
         tap(
-          () => this.notificationService.notify('Department Item has been saved.'),
+          () =>
+            this.notificationService.notify('Department Item has been saved.'),
           (err) =>
             this.notificationService.notify(
               'Error ' + err.status + ': ' + err.error.message,
@@ -59,7 +60,33 @@ export class DepartmentItemsService {
       )
       .pipe(
         tap(
-          () => this.notificationService.notify('Department Item has been created.'),
+          () =>
+            this.notificationService.notify(
+              'Department Item has been created.',
+            ),
+          (err) =>
+            this.notificationService.notify(
+              'Error ' + err.status + ': ' + err.error.message,
+            ),
+        ),
+      );
+  }
+
+  deleteDepartmentItem(
+    templateId: string,
+    departmentId: string,
+    id: string,
+  ): Observable<void> {
+    return this.http
+      .delete<void>(this.departmentItemsPath(templateId, departmentId, id), {
+        headers: this.headers,
+      })
+      .pipe(
+        tap(
+          () =>
+            this.notificationService.notify(
+              'Department Item has been deleted.',
+            ),
           (err) =>
             this.notificationService.notify(
               'Error ' + err.status + ': ' + err.error.message,
