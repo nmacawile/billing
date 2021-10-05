@@ -12,8 +12,8 @@ class DepartmentsController < ApplicationController
   end
 
   def create
-    @template.departments.create!(department_params)
-    head :created
+    department = @template.departments.create!(department_params)
+    json_response({ id:  department.id.to_s }, :created)
   end
 
   def update

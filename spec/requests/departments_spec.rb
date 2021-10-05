@@ -43,6 +43,10 @@ RSpec.describe 'Departments', type: :request do
       expect(response).to have_http_status 201
     end
 
+    it 'returns the id of the newly created item' do
+      expect(department_ids).to include(json['id'])
+    end
+
     it 'creates a new department' do
       expect(template.departments.count).to eq 4
     end
