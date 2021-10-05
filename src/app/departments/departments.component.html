@@ -3,3 +3,5 @@
 <div class="table-container" *ngFor="let department of departments">
   <app-department [department]="department" [templateId]="id"></app-department>
 </div>
+
+<button mat-flat-button color="primary" (click)="addNewDepartment()">ADD NEW DEPARTMENT</button>
