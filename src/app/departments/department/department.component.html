@@ -1,6 +1,6 @@
 <mat-toolbar class="subgroup-header">
   <input class="subgroup-name" (change)="saveDepartment(department)" placeholder="Department Name" [(ngModel)]="department.name">
-  <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+  <button mat-icon-button color="warn" (click)="deleteDepartment()"><mat-icon>delete</mat-icon></button>
 </mat-toolbar>
 <table class="department-table">
   <thead>
@@ -17,13 +17,13 @@
         editDepartmentItem
         [departmentItem]="di"
         [templateId]="templateId"
-        [departmentId]="departmentId(department)"
+        [departmentId]="id"
         [departmentItems]="department.department_items">
     </tr>
 
     <tr newDepartmentItem
         [templateId]="templateId"
-        [departmentId]="departmentId(department)"
+        [departmentId]="id"
         [departmentItems]="department.department_items">
     </tr>
   </tbody>

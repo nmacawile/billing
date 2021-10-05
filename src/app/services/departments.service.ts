@@ -67,6 +67,28 @@ export class DepartmentsService {
       );
   }
 
+  deleteDepartment(
+    templateId: string,
+    id: string,
+  ): Observable<void> {
+    return this.http
+      .delete<void>(this.departmentsPath(templateId, id), {
+        headers: this.headers,
+      })
+      .pipe(
+        tap(
+          () =>
+            this.notificationService.notify(
+              'Department has been deleted.',
+            ),
+          (err) =>
+            this.notificationService.notify(
+              'Error ' + err.status + ': ' + err.error.message,
+            ),
+        ),
+      );
+  }
+
   private departmentsPath(templateId: string, p: string = ''): string {
     return (
       environment.serverUrl + 'templates/' + templateId + '/departments/' + p

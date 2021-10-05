@@ -8,6 +8,7 @@ import { DepartmentsService } from '../../services/departments.service';
   styleUrls: ['./department.component.scss'],
 })
 export class DepartmentComponent implements OnInit {
+  @Input('departments') departments: Department[];
   @Input('department') department: Department;
   @Input('templateId') templateId: string;
 
@@ -18,14 +19,23 @@ export class DepartmentComponent implements OnInit {
   }
 
   saveDepartment(department: Department): void {
-    const deptId = this.departmentId(department);
     const { department_items, ...deptParams } = department;
     this.departmentsService
-      .updateDepartment(this.templateId, this.departmentId(department), deptParams)
+      .updateDepartment(this.templateId, this.id, deptParams)
       .subscribe();
   }
 
-  departmentId(department: Department): string {
-    return department['_id']['$oid'];
+  deleteDepartment(): void {
+    this.departmentsService.deleteDepartment(
+      this.templateId,
+      this.id,
+    ).subscribe(() => {
+      const index = this.departments.indexOf(this.department);
+      this.departments.splice(index, 1);
+    });
+  }
+
+  get id(): string {
+    return this.department['_id']['$oid'];
   }
 }
