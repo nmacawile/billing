@@ -13,7 +13,9 @@ export class DepartmentComponent implements OnInit {
 
   constructor(private departmentsService: DepartmentsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.department.department_items = this.department.department_items || [];
+  }
 
   saveDepartment(department: Department): void {
     const deptId = this.departmentId(department);
