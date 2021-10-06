@@ -28,8 +28,10 @@
       </mat-nav-list>
     </mat-sidenav>
 
-    <mat-sidenav-content [ngClass]="mobileQuery.matches ? 'app-content-mobile' : 'app-content' ">
-      <router-outlet></router-outlet>
+    <mat-sidenav-content>
+      <div [ngClass]="mobileQuery.matches ? 'app-content-mobile' : 'app-content' ">
+        <router-outlet></router-outlet>
+      </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
