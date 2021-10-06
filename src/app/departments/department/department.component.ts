@@ -14,6 +14,7 @@ export class DepartmentComponent implements OnInit {
   @Input('departments') departments: Department[];
   @Input('department') department: Department;
   @Input('templateId') templateId: string;
+  @Input('deleteMode') deleteMode: boolean;
 
   constructor(
     private departmentsService: DepartmentsService,

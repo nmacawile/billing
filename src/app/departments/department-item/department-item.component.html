@@ -26,7 +26,7 @@
     <button mat-icon-button color="warn" (click)="onReset()" [class.hidden]="formGroup.pristine">
       <mat-icon>close</mat-icon>
     </button>
-    <button mat-icon-button color="warn" (click)="onDelete()" [class.hidden]="newRecord || !formGroup.pristine">
+    <button mat-icon-button color="warn" (click)="onDelete()" [class.hidden]="!deleteMode || newRecord || !formGroup.pristine">
       <mat-icon>delete</mat-icon>
     </button>
   </td>

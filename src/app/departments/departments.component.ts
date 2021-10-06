@@ -15,6 +15,7 @@ export class DepartmentsComponent implements OnInit {
   departments: Department[];
   title: string;
   id: string;
+  deleteMode = false;
 
   items: Item[] = [];
 

@@ -15,6 +15,7 @@ export class DepartmentItemComponent implements OnInit {
   @Input('departmentItems') departmentItems: DepartmentItem[];
   @Input('templateId') templateId: string;
   @Input('departmentId') departmentId: string;
+  @Input('deleteMode') deleteMode: boolean;
   items: Item[] = [];
   formGroup: FormGroup;
   scheduleGroups = [
