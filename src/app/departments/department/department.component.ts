@@ -3,6 +3,7 @@ import { Department, DepartmentParams } from '../../models/department';
 import { DepartmentsService } from '../../services/departments.service';
 import { SharedService } from '../../shared/shared.service';
 import { switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-department',
@@ -31,20 +32,25 @@ export class DepartmentComponent implements OnInit {
   }
 
   deleteDepartment(): void {
-    this.sharedService
-      .confirmDeleteDialog(this.department.name || 'untitled department')
-      .pipe(
-        switchMap(() =>
-          this.departmentsService.deleteDepartment(this.templateId, this.id),
-        ),
-      )
-      .subscribe(() => {
-        const index = this.departments.indexOf(this.department);
-        this.departments.splice(index, 1);
-      });
+    this.delete$.subscribe(() => {
+      const index = this.departments.indexOf(this.department);
+      this.departments.splice(index, 1);
+    });
   }
 
   get id(): string {
     return this.department['_id']['$oid'];
+  }
+
+  private get delete$(): Observable<void> {
+    const delete$ = this.departmentsService.deleteDepartment(
+      this.templateId,
+      this.id,
+    );
+    return this.department.department_items.length > 0
+      ? this.sharedService
+          .confirmDeleteDialog(this.department.name || 'untitled department')
+          .pipe(switchMap(() => delete$))
+      : delete$;
   }
 }
