@@ -36,8 +36,7 @@ class DepartmentItemsController < ApplicationController
         :days,
         :price,
         :quantity,
-        deductions: 
-          [:mon, :tue, :wed, :thu, :fri, :sat, :sun])
+        deduction: {})
   end
 
   def load_department

@@ -42,14 +42,7 @@ class TemplatesController < ApplicationController
             :quantity,
             :position,
             :price,
-            deduction: [
-              :mon,
-              :tue,
-              :wed,
-              :thu,
-              :fri,
-              :sat, :sun
-            ]
+            deduction: {}
           ]
         ],
         client: [:name, :address]

@@ -111,8 +111,13 @@ RSpec.describe 'Templates API', type: :request do
                           position: 0,
                           price: 18.0,
                           deduction: {
-                            mon: 1,
-                            tue: 2
+                            0 => 1,
+                            1 => 1,
+                            2 => 1,
+                            3 => 1,
+                            4 => 1,
+                            5 => 1,
+                            6 => 1
                           }
                         }
                       ]
@@ -146,8 +151,16 @@ RSpec.describe 'Templates API', type: :request do
           Template.last
             .departments.first
               .department_items.first
-                .deduction
-        ).to have_attributes(mon: 1, tue: 2)
+                .deduction)
+                  .to include(
+                    '0' => 1,
+                    '1' => 1,
+                    '2' => 1,
+                    '3' => 1,
+                    '4' => 1,
+                    '5' => 1,
+                    '6' => 1
+                  )
       end
 
       it 'returns status code 201' do
