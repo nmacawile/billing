@@ -13,6 +13,7 @@ export class TemplateFormComponent implements OnInit {
   @Input('title') title: string;
   @Input('template') template: TemplateParams | Template;
   @Input('submitLabel') submitLabel: string;
+  @Input('newRecord') newRecord = false;
 
   constructor(private fb: FormBuilder) {}
 

@@ -25,6 +25,6 @@
       <mat-button-toggle value="long">Long</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
-  <a mat-stroked-button color="primary" routerLink="items">EDIT ITEMS</a>
+  <a mat-stroked-button *ngIf="!newRecord" color="primary" routerLink="items">EDIT ITEMS</a>
   <button type="submit" mat-flat-button color="primary">{{submitLabel}}</button>
 </form>

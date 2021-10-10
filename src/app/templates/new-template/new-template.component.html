@@ -1,6 +1,7 @@
 <a mat-button routerLink="/templates">GO BACK</a>
 <app-template-form
   title="New Template"
+  [newRecord]="true"
   submitLabel="CREATE"
   [template]="template"
   (formSubmit)="createTemplate($event)">
