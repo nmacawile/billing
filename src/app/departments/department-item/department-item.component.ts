@@ -5,6 +5,9 @@ import { DepartmentItem } from '../../models/department-item';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DepartmentItemsService } from '../../services/department-items.service';
 
+import { DeductionDialogComponent } from '../deduction-dialog/deduction-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: '[appDepartmentItem]',
   templateUrl: './department-item.component.html',
@@ -46,6 +49,7 @@ export class DepartmentItemComponent implements OnInit {
     protected itemsService: ItemsService,
     protected fb: FormBuilder,
     protected departmentItemsService: DepartmentItemsService,
+    protected dialog: MatDialog,
   ) {
     this.itemsService.getItems().subscribe((items) => (this.items = items));
   }
@@ -58,10 +62,34 @@ export class DepartmentItemComponent implements OnInit {
 
   onDelete(): void {}
 
+  openDeductionDialog(): void {
+    const dialogRef = this.dialog.open(DeductionDialogComponent, {
+      width: '288px',
+      data: {
+        deduction: this.formGroup.getRawValue().deduction || [],
+        max: this.formGroup.getRawValue().quantity || 1,
+        itemName: this.itemName,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.formGroup.patchValue({ deduction: result });
+        this.formGroup.markAsDirty();
+      }
+    });
+  }
+
   get itemPrice(): number {
     const id = this.formGroup.value.item;
     const item = this.items.find((i) => i._id.$oid === id);
     return item?.price || 0;
+  }
+
+  get itemName(): string {
+    const id = this.formGroup.value.item;
+    const item = this.items.find((i) => i._id.$oid === id);
+    return item?.name || 'Item';
   }
 
   protected get id(): string {

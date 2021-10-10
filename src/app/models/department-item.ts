@@ -1,18 +1,8 @@
 import { MongoidId } from './mongoid-id';
 
-interface Deduction {
-  mon?: number;
-  tue?: number;
-  wed?: number;
-  thu?: number;
-  fri?: number;
-  sat?: number;
-  sun?: number;
-}
-
 interface DepartmentItemPartials {
   days: string;
-  deduction?: Deduction;
+  deduction?: number[];
   price: number;
   quantity: number;
   position: number;

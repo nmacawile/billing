@@ -4,6 +4,7 @@ import { ItemsService } from '../../services/items.service';
 import { FormBuilder } from '@angular/forms';
 import { DepartmentItemsService } from '../../services/department-items.service';
 import { DepartmentItem } from '../../models/department-item';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: '[editDepartmentItem]',
@@ -15,8 +16,9 @@ export class EditDepartmentItemComponent extends DepartmentItemComponent {
     protected itemsService: ItemsService,
     protected fb: FormBuilder,
     protected departmentItemsService: DepartmentItemsService,
+    protected dialog: MatDialog,
   ) {
-    super(itemsService, fb, departmentItemsService);
+    super(itemsService, fb, departmentItemsService, dialog);
   }
 
   ngOnInit(): void {
@@ -43,6 +45,7 @@ export class EditDepartmentItemComponent extends DepartmentItemComponent {
       days: this.departmentItem.days,
       quantity: this.departmentItem.quantity,
       price: this.departmentItem.price,
+      deduction: [this.departmentItem.deduction],
     });
   }
 

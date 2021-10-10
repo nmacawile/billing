@@ -20,14 +20,17 @@
     <input type="number" class="editable-cell price-cell" formControlName="price" min="0" [placeholder]="itemPrice">
   </td>
   <td>
-    <button mat-icon-button color="primary" (click)="onSave()" [class.hidden]="formGroup.pristine">
+    <button mat-icon-button color="warn" (click)="onDelete()" *ngIf="deleteMode && !newRecord && formGroup.pristine">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-icon-button (click)="openDeductionDialog()">
+      <mat-icon>event_busy</mat-icon>
+    </button>
+    <button mat-icon-button color="primary" (click)="onSave()" *ngIf="!formGroup.pristine">
       <mat-icon>save</mat-icon>
     </button>
-    <button mat-icon-button color="warn" (click)="onReset()" [class.hidden]="formGroup.pristine">
+    <button mat-icon-button (click)="onReset()" *ngIf="!formGroup.pristine">
       <mat-icon>close</mat-icon>
-    </button>
-    <button mat-icon-button color="warn" (click)="onDelete()" [class.hidden]="!deleteMode || newRecord || !formGroup.pristine">
-      <mat-icon>delete</mat-icon>
     </button>
   </td>
 </ng-container>

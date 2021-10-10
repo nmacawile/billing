@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Deduction for {{data.itemName}}</h1>
+<div mat-dialog-content class="mat-body-1">
+  Default: <span class="mat-body-2">{{data.max}}</span>
+  <div class="deduction-fields">
+    <mat-form-field class="deduction-field" *ngFor="let day of weekdays; index as i">
+      <mat-label>{{day}}</mat-label>
+      <input type="number" matInput [(ngModel)]="deduction[i]" [max]="data.max" min="0" autocomplete="off">
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button type="button" mat-button (click)="onNoClick()">CANCEL</button>
+  <button type="button" mat-button (click)="onClear()">CLEAR</button>
+  <button type="submit" mat-flat-button color="primary" [mat-dialog-close]="deduction" cdkFocusInitial>OK</button>
+</div>

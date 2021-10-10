@@ -1,0 +1,9 @@
+.deduction-fields {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .deduction-field {
+    width: 24px;
+  }
+}

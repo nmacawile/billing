@@ -9,6 +9,7 @@ import { DepartmentComponent } from './department/department.component';
 import { DepartmentItemComponent } from './department-item/department-item.component';
 import { NewDepartmentItemComponent } from './new-department-item/new-department-item.component';
 import { EditDepartmentItemComponent } from './edit-department-item/edit-department-item.component';
+import { DeductionDialogComponent } from './deduction-dialog/deduction-dialog.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { EditDepartmentItemComponent } from './edit-department-item/edit-departm
     DepartmentItemComponent,
     NewDepartmentItemComponent,
     EditDepartmentItemComponent,
+    DeductionDialogComponent,
   ],
   imports: [
     CommonModule,
