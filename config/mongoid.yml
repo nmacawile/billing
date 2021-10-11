@@ -126,7 +126,7 @@ development:
     # Mark belongs_to associations as required by default, so that saving a
     # model with a missing belongs_to association will trigger a validation
     # error. (default: true)
-    # belongs_to_required_by_default: true
+    belongs_to_required_by_default: false
     
     # Raise an exception when a field is redefined. (default: false)
     # duplicate_fields_exception: false

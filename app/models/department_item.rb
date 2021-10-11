@@ -9,4 +9,6 @@ class DepartmentItem
   field :position, type: Integer
   field :days, type: String, default: 'Mon-Fri'
   field :deduction, type: Hash, default: {}
+
+  validates_presence_of :item
 end
