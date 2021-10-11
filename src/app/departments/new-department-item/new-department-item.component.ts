@@ -47,7 +47,7 @@ export class NewDepartmentItemComponent extends DepartmentItemComponent {
       days: '',
       quantity: '',
       price: '',
-      deduction: [[]],
+      deduction: [{}],
     });
   }
 

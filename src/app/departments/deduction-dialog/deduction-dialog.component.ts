@@ -8,16 +8,14 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class DeductionDialogComponent implements OnInit {
   weekdays = ['M', 'Tu', 'W', 'Th', 'F', 'Sa', 'Su'];
-  deduction: number[];
+  deduction: { [key: number]: number };
 
   constructor(
     public dialogRef: MatDialogRef<DeductionDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { max: number; deduction: number[]; itemName: string },
+    public data: { max: number; deduction: { [key: number]: number }; itemName: string },
   ) {
-    this.deduction = this.data.deduction.length
-      ? [...this.data.deduction]
-      : Array(7);
+    this.deduction = { ...data.deduction }
   }
 
   ngOnInit() {}
@@ -27,6 +25,6 @@ export class DeductionDialogComponent implements OnInit {
   }
 
   onClear(): void {
-    this.deduction = Array(7);
+    this.deduction = {}
   }
 }

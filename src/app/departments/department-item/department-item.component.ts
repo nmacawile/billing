@@ -66,7 +66,7 @@ export class DepartmentItemComponent implements OnInit {
     const dialogRef = this.dialog.open(DeductionDialogComponent, {
       width: '288px',
       data: {
-        deduction: this.formGroup.getRawValue().deduction || [],
+        deduction: this.formGroup.getRawValue().deduction || {},
         max: this.formGroup.getRawValue().quantity || 1,
         itemName: this.itemName,
       },

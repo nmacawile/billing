@@ -2,7 +2,7 @@ import { MongoidId } from './mongoid-id';
 
 interface DepartmentItemPartials {
   days: string;
-  deduction?: number[];
+  deduction?: { [key: number]: number };
   price: number;
   quantity: number;
   position: number;
