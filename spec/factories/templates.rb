@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :template do
     client { build :client }
-    name { Faker::Movie.unique.title }
+    name { Faker::Movie.title + rand(9999).to_s }
   end
 end
 
