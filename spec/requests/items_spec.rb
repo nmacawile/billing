@@ -22,7 +22,7 @@ RSpec.describe 'Items API', type: :request do
     end
   end
 
-  describe 'GET /item/:id' do
+  describe 'GET /items/:id' do
     context 'when item exists' do
       before { get "/items/#{first_item_id}", headers: headers }
 
