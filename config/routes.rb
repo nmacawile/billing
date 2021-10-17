@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   resources :items, except: [:new, :edit]
   resources :periodic_billings, except: [:new, :edit] do
     resources :periods, except: [:new, :edit] do
-      resources :period_departments, except: [:new, :edit]
+      resources :period_departments, except: [:new, :edit] do
+        resources :period_department_items, except: [:new, :edit]
+      end
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
