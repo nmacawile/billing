@@ -5,8 +5,8 @@ RSpec.describe Template, type: :model do
 
   it { is_expected.to be_valid }
   it { is_expected.to validate_presence_of :name }
-  it { is_expected.to validate_presence_of :client }
-  it { is_expected.to embed_one :client }
+  it { is_expected.to validate_presence_of(:client_name) }
+  it { is_expected.not_to validate_presence_of(:client_address) }
   it { is_expected.to embed_many :departments }
 
   it { is_expected.to validate_uniqueness_of :name }

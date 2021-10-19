@@ -33,6 +33,8 @@ class TemplatesController < ApplicationController
       .require(:template)
       .permit(
         :name,
+        :client_name,
+        :client_address,
         :_paper_size,
         departments: [
           :name,
@@ -44,8 +46,7 @@ class TemplatesController < ApplicationController
             :price,
             deduction: {}
           ]
-        ],
-        client: [:name, :address]
+        ]
       )
   end
 
@@ -55,7 +56,8 @@ class TemplatesController < ApplicationController
       .permit(
         :name,
         :_format,
-        client: [:name, :address])
+        :client_name,
+        :client_address)
   end
 
   def load_template

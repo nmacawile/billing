@@ -56,10 +56,8 @@ RSpec.describe 'Templates API', type: :request do
               params: { 
                 template: {
                   name: 'Example',
-                  client: {
-                    name: 'example client',
-                    address: 'example address'
-                  }
+                  client_name: 'example client',
+                  client_address: 'example address'
                 },
               }.to_json,
               headers: headers
@@ -96,10 +94,8 @@ RSpec.describe 'Templates API', type: :request do
               params: { 
                 template: {
                   name: 'Example2',
-                  client: {
-                    name: 'example client',
-                    address: 'example address'
-                  },
+                  client_name: 'example client',
+                  client_address: 'example address',
                   departments: [
                     {
                       name: 'dep1',
