@@ -27,7 +27,7 @@ export class TemplatesListComponent implements OnInit {
 
   deleteTemplate(template: Template, index: number): void {
     const id = this.getId(template);
-    const title = `${template.client.name} (${template.name})`;
+    const title = `${template.client_name} (${template.name})`;
     this.sharedService
       .confirmDeleteDialog(title)
       .pipe(switchMap(() => this.templatesService.deleteTemplate(id)))

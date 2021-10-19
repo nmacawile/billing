@@ -21,10 +21,8 @@ export class TemplateFormComponent implements OnInit {
     this.templateForm = this.fb.group({
       name: [this.template.name, [Validators.required]],
       _format: [this.template._format],
-      client: this.fb.group({
-        name: [this.template.client.name, [Validators.required]],
-        address: [this.template.client.address],
-      }),
+      client_name: [this.template.client_name, [Validators.required]],
+      client_address: [this.template.client_address],
     });
   }
 

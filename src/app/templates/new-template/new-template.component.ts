@@ -15,9 +15,7 @@ export class NewTemplateComponent implements OnInit {
   ) {}
   template: TemplateParams = {
     name: '',
-    client: {
-      name: '',
-    },
+    client_name: '',
     _format: 'short',
   };
 
