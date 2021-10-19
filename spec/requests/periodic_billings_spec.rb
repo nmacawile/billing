@@ -10,7 +10,9 @@ RSpec.describe 'Periodic Billings API', type: :request do
   let(:first_billing_id) { first_billing.id.to_s }
   let(:template) { create :template }
   let(:billing_params) do
-    { start_date: Date.new(2021, 9, 1), 
+    { start_date: Date.new(2021, 9, 1),
+      client_name: Faker::Name.name,
+      client_address: '',
       end_date: Date.new(2021, 9, 30),
       template: template.id.to_s }
   end

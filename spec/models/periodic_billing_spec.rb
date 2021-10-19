@@ -6,4 +6,6 @@ RSpec.describe PeriodicBilling, type: :model do
   it { is_expected.to be_valid }
   it { is_expected.to belong_to :template }
   it { is_expected.to embed_many :periods }
+  it { is_expected.to validate_presence_of :client_name }
+  it { is_expected.not_to validate_presence_of :client_address }
 end

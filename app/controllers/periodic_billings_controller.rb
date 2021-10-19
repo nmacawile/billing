@@ -26,7 +26,12 @@ class PeriodicBillingsController < ApplicationController
   private
 
   def billing_params
-    params.require(:periodic_billing).permit(:start_date, :end_date, :template)
+    params.require(:periodic_billing)
+    .permit(:start_date,
+            :end_date,
+            :template,
+            :client_name,
+            :client_address)
   end
 
   def load_billing
