@@ -7,7 +7,7 @@ import { NewTemplateComponent } from './new-template/new-template.component';
 import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { TemplateFieldsComponent } from './template-fields/template-fields.component';
 import { DepartmentsComponent } from '../departments/departments.component';
-import { TemplatesResolver } from './templates.resolver';
+import { TemplateResolver } from '../resolvers/template.resolver';
 
 const routes: Routes = [
   {
@@ -27,7 +27,7 @@ const routes: Routes = [
         component: EditTemplateComponent,
         runGuardsAndResolvers: 'always',
         resolve: {
-          template: TemplatesResolver,
+          template: TemplateResolver,
         },
         children: [
           { path: '', component: TemplateFieldsComponent },

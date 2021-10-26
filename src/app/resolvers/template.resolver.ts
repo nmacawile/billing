@@ -13,7 +13,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class TemplatesResolver implements Resolve<Template> {
+export class TemplateResolver implements Resolve<Template> {
   constructor(private templatesService: TemplatesService) {}
 
   resolve(
