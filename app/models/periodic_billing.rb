@@ -11,5 +11,7 @@ class PeriodicBilling
 
   embeds_many :periods
 
-  validates_presence_of :client_name
+  validates_presence_of :client_name,
+                        :start_date,
+                        :end_date
 end
