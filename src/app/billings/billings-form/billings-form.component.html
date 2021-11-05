@@ -31,5 +31,9 @@
     <mat-datepicker #endDatePicker></mat-datepicker>
   </mat-form-field>
   <br />
+
+  <app-periods [periodsFormArray]="periodsFormArray">
+  </app-periods>
+
   <button type="submit" mat-flat-button color="primary">SUBMIT</button>
 </form>

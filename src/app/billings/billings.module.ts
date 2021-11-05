@@ -6,6 +6,7 @@ import { BillingsListComponent } from './billings-list/billings-list.component';
 import { MaterialModule } from '../material/material.module';
 import { BillingsFormComponent } from './billings-form/billings-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PeriodsModule } from '../periods/periods.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    PeriodsModule,
   ],
 })
 export class BillingsModule {}

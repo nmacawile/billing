@@ -1,0 +1,43 @@
+<mat-card [formGroup]="period">
+  <mat-form-field>
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="dateRangePicker">
+      <input matStartDate formControlName="start_date" placeholder="Start date" (dateChange)="clearDaysOff($event)">
+      <input matEndDate formControlName="end_date" placeholder="End date" (dateChange)="clearDaysOff($event)">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="dateRangePicker"></mat-datepicker-toggle>
+    <mat-date-range-picker #dateRangePicker></mat-date-range-picker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-chip-list #chipList aria-label="Choose a date" (click)="picker.open()">
+      <mat-chip
+        *ngFor="let value of days_off"
+        [selectable]="false"
+        [removable]="true"
+        (removed)="remove(value)"
+      >
+        {{value | date}}
+        <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+      </mat-chip>
+      <input
+        [value]="resetModel"
+        matInput
+        [matDatepicker]="picker"
+        [matDatepickerFilter]="offDaysFilter"
+        placeholder="Days off"
+        (dateChange)="dateChanged($event)"
+        [matChipInputFor]="chipList"
+        hidden
+      />
+    </mat-chip-list>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker
+      #picker
+      [startAt]="init"
+      [dateClass]="dateClass"
+      [disabled]="unsetPeriod"
+    ></mat-datepicker>
+  </mat-form-field>
+</mat-card>
+  

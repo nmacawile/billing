@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Template } from '../../models/template';
 import { BillingsService } from '../../services/billings.service';
 
@@ -32,11 +32,17 @@ export class BillingsFormComponent implements OnInit {
       client_address: this.template?.client_address,
       start_date: '',
       end_date: '',
+      periods: this.fb.array([]),
     });
   }
 
   onFormSubmit(): void {
     const billingData = this.billingForm.getRawValue();
-    this.billingsService.createBilling(billingData).subscribe();
+    //this.billingsService.createBilling(billingData).subscribe();
+    console.log(billingData)
+  }
+
+  get periodsFormArray(): FormArray {
+    return this.billingForm.get('periods') as FormArray;
   }
 }
