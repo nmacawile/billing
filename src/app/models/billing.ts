@@ -1,4 +1,5 @@
 import { MongoidId } from './mongoid-id';
+import { Period, PeriodParams } from './period';
 
 interface BillingPartials {
   client_name: string;
@@ -9,8 +10,10 @@ interface BillingPartials {
 
 export interface BillingParams extends BillingPartials {
   template?: string;
+  periods: PeriodParams;
 }
 
 export interface Billing extends MongoidId, BillingPartials {
   template?: { $oid: string };
+  period: Period;
 }
