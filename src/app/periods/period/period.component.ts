@@ -3,6 +3,7 @@ import {
   MatDatepicker,
   MatDatepickerInputEvent,
 } from '@angular/material/datepicker';
+import { FormArray, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-period',
@@ -11,7 +12,7 @@ import {
 })
 export class PeriodComponent implements OnInit {
   @ViewChild('picker', { static: true }) _picker: MatDatepicker<Date>;
-  @Input('period') period: any;
+  @Input('period') period: FormGroup;
 
   CLOSE_ON_SELECTED = false;
   init = new Date();
@@ -24,19 +25,23 @@ export class PeriodComponent implements OnInit {
   ngOnInit(): void {}
 
   get start_date(): Date {
-    return this.period.get('start_date').value;
+    return this.period.get('start_date')?.value;
   }
 
   get end_date(): Date {
-    return this.period.get('end_date').value;
+    return this.period.get('end_date')?.value;
   }
 
   get days_off(): Date[] {
-    return this.period.get('days_off').value;
+    return this.period.get('days_off')?.value;
   }
 
   get unsetPeriod(): boolean {
     return !this.start_date || !this.end_date;
+  }
+
+  get period_departments(): FormArray {
+    return this.period.get('period_departments') as FormArray;
   }
 
   offDaysFilter = (d: Date | null): boolean => {

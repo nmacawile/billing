@@ -1,6 +1,8 @@
-<h3 class="mat-h3">Periods</h3>
-<app-period *ngFor="let period of periodsFormArray.controls" [period]="period"></app-period>
-<button type="button" mat-button (click)="onAddPeriod()">
-  Add Period
-</button>
-<br>
+<div>
+  <h3 class="mat-h3">Periods</h3>
+  <app-period *ngFor="let period of periodsFormArray.controls" [period]="toFormGroup(period)"></app-period>
+  <button type="button" mat-button (click)="onAddPeriod()">
+    Add Period
+  </button>
+  <br>
+</div>
