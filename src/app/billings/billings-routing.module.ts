@@ -6,6 +6,7 @@ import { BillingsListComponent } from './billings-list/billings-list.component';
 import { BillingsFormComponent } from './billings-form/billings-form.component';
 import { TemplatesResolver } from '../resolvers/templates.resolver';
 import { TemplateQueryResolver } from '../resolvers/template-query.resolver';
+import { ItemsResolver } from '../resolvers/items.resolver';
 
 const routes: Routes = [
   {
@@ -20,7 +21,7 @@ const routes: Routes = [
       {
         path: 'new',
         component: BillingsFormComponent,
-        resolve: { template: TemplateQueryResolver },
+        resolve: { template: TemplateQueryResolver, items: ItemsResolver },
       },
     ],
   },

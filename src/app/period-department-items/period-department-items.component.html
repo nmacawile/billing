@@ -1,0 +1,24 @@
+<div class="table-container">
+  <table class="department-table">
+    <thead>
+      <tr>
+        <th *ngFor="let col of columns">
+          {{col}}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr appPeriodDepartmentItem
+        *ngFor="let department_item of period_department_items.controls; let i = index"
+        [department_item]="toFormGroup(department_item)"
+        [period_department_items]="period_department_items"
+        [index]="i">
+      </tr>
+      <tr>
+        <td>
+          <button type="button" mat-icon-button (click)="onAddDepartmentItem()"><mat-icon>add</mat-icon></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

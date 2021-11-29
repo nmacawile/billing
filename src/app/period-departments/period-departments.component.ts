@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
-  FormBuilder,
   FormGroup,
 } from '@angular/forms';
+import { FormBuilderService } from '../services/form-builder.service';
 
 @Component({
   selector: 'app-period-departments',
@@ -14,14 +14,12 @@ import {
 export class PeriodDepartmentsComponent implements OnInit {
   @Input('period_departments') period_departments: FormArray;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fbs: FormBuilderService) {}
 
   ngOnInit(): void {}
 
   addNewDepartment(): void {
-    this.period_departments.push(
-      this.fb.group({ name: '', period_department_items: this.fb.array([]) }),
-    );
+    this.period_departments.push(this.fbs.periodDepartmentForm());
   }
 
   toFormGroup(control: AbstractControl): FormGroup {

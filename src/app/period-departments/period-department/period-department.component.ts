@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-period-department',
@@ -12,4 +12,8 @@ export class PeriodDepartmentComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  get period_department_items(): FormArray {
+    return this.department_form.get('period_department_items') as FormArray;
+  }
 }

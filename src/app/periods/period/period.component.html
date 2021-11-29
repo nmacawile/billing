@@ -1,4 +1,4 @@
-<mat-card [formGroup]="period">
+<div class="period-container" [formGroup]="period">
   <mat-form-field>
     <mat-label>Enter a date range</mat-label>
     <mat-date-range-input [rangePicker]="dateRangePicker">
@@ -40,5 +40,5 @@
     ></mat-datepicker>
   </mat-form-field>
   <app-period-departments [period_departments]="period_departments"></app-period-departments>
-</mat-card>
+</div>
   

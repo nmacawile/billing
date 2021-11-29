@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
+import { FormBuilderService } from '../services/form-builder.service';
 
 @Component({
   selector: 'app-periods',
@@ -9,19 +10,12 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/for
 export class PeriodsComponent implements OnInit {
   @Input('periodsFormArray') periodsFormArray: FormArray;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fbs: FormBuilderService) {}
 
   ngOnInit(): void {}
 
   onAddPeriod(): void {
-    this.periodsFormArray.push(
-      this.fb.group({
-        start_date: '',
-        end_date: '',
-        days_off: [[]],
-        period_departments: this.fb.array([]),
-      }),
-    );
+    this.periodsFormArray.push(this.fbs.periodForm());
   }
 
   toFormGroup(control: AbstractControl): FormGroup {

@@ -1,6 +1,5 @@
-<h3 class="mat-h3">Departments</h3>
 <app-period-department
   *ngFor="let department_form of period_departments.controls"
   [department_form]="toFormGroup(department_form)">
 </app-period-department>
-<button type="button" mat-button (click)="addNewDepartment()">Add Department</button>
+<button type="button" mat-stroked-button (click)="addNewDepartment()">New Department</button>
