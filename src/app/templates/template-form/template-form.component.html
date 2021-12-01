@@ -16,13 +16,14 @@
     <mat-error>Template name is required.</mat-error>
   </mat-form-field>
 
-  <div class="format-selector">
-    Format
-    <mat-button-toggle-group formControlName="_format">
-      <mat-button-toggle value="short">Short</mat-button-toggle>
-      <mat-button-toggle value="long">Long</mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
+  <mat-form-field>
+    <mat-label>Format</mat-label>
+    <select matNativeControl formControlName="_format">
+      <option *ngFor="let format of ['Short', 'Long']" [value]="format.toLowerCase()">
+        {{format}}
+      </option>
+    </select>
+  </mat-form-field>
   <a mat-stroked-button *ngIf="!newRecord" color="primary" routerLink="items">EDIT ITEMS</a>
   <button type="submit" mat-flat-button color="primary">{{submitLabel}}</button>
 </form>
