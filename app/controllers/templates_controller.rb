@@ -35,7 +35,7 @@ class TemplatesController < ApplicationController
         :name,
         :client_name,
         :client_address,
-        :_paper_size,
+        :_format,
         departments: [
           :name,
           department_items: [
