@@ -30,17 +30,6 @@ export class BillingsFormComponent implements OnInit {
       template: this.template,
       client_name: client_name,
     });
-
-    // .group({
-    //   template: [{ value: this.templateId, disabled: true }],
-    //   client_name:
-    //     this.template?.client_name ||
-    //     this.route.snapshot.queryParams.client_name,
-    //   client_address: this.template?.client_address,
-    //   start_date: '',
-    //   end_date: '',
-    //   periods: this.fb.array([]),
-    // });
   }
 
   onFormSubmit(): void {
