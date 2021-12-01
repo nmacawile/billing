@@ -1,6 +1,7 @@
 class PeriodicBilling
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Enum
 
   belongs_to :template
   
@@ -14,4 +15,7 @@ class PeriodicBilling
   validates_presence_of :client_name,
                         :start_date,
                         :end_date
+
+                        
+  enum :format, [:short, :long], default: :short
 end

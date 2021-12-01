@@ -31,7 +31,8 @@ class PeriodicBillingsController < ApplicationController
             :end_date,
             :template,
             :client_name,
-            :client_address)
+            :client_address,
+            :format)
   end
 
   def load_billing
