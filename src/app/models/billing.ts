@@ -6,6 +6,7 @@ interface BillingPartials {
   client_address?: string;
   start_date: Date;
   end_date: Date;
+  _format: string;
 }
 
 export interface BillingParams extends BillingPartials {

@@ -16,6 +16,7 @@ export class FormBuilderService {
       template: [{ value: templateId, disabled: true }],
       client_name: clientName,
       client_address: data.template?.client_address,
+      _format: data.template?._format,
       start_date: '',
       end_date: '',
       periods: this.fb.array([this.periodForm()]),
