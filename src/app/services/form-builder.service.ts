@@ -47,7 +47,7 @@ export class FormBuilderService {
   }
 
   periodDepartmentForm(department?: Department): FormGroup {
-    const departmentItems = department
+    const departmentItems = department && department.department_items
       ? department.department_items.map((di) => this.periodDepartmentItem(di))
       : [this.periodDepartmentItem()];
 
@@ -66,7 +66,7 @@ export class FormBuilderService {
     return this.fb.group({
       name: item?.name,
       price: di?.price || item?.price,
-      days: di?.days,
+      days: di?.days || '',
       quantity: di?.quantity,
       total_copies: '',
       total_deductions: '',
