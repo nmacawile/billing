@@ -3,6 +3,7 @@ import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { FormBuilderService } from '../services/form-builder.service';
 import { ActivatedRoute } from '@angular/router';
 import { Department } from '../models/department';
+import { DateHelpers } from '../lib/date-helpers';
 
 @Component({
   selector: 'app-periods',
@@ -20,7 +21,17 @@ export class PeriodsComponent implements OnInit {
   ngOnInit(): void {}
 
   onAddPeriod(): void {
-    this.periodsFormArray.push(this.fbs.periodForm(this.departments));
+    const periodsCount = this.periodsFormArray.getRawValue().length;
+    let dateRange;
+
+    if (periodsCount > 0)
+      dateRange = DateHelpers.getNext(
+        this.periodsFormArray.getRawValue()[periodsCount - 1].start_date,
+      );
+
+    this.periodsFormArray.push(
+      this.fbs.periodForm(this.departments, dateRange),
+    );
   }
 
   toFormGroup(control: AbstractControl): FormGroup {

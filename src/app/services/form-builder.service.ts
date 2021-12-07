@@ -5,6 +5,7 @@ import { Department } from '../models/department';
 import { DepartmentItem } from '../models/department-item';
 import { ItemsService } from './items.service';
 import { Item } from '../models/item';
+import { DateHelpers } from '../lib/date-helpers';
 
 @Injectable({
   providedIn: 'root',
@@ -32,24 +33,30 @@ export class FormBuilderService {
     });
   }
 
-  periodForm(departments: Department[] = []): FormGroup {
-    let periodDepartmentForms =
+  periodForm(
+    departments: Department[] = [],
+    dateRange?: { start_date: Date; end_date: Date },
+  ): FormGroup {
+    const periodDepartmentForms =
       departments.length > 0
         ? departments?.map((d) => this.periodDepartmentForm(d))
         : [this.periodDepartmentForm()];
 
+    const _dateRange = dateRange || DateHelpers.getPrevious(new Date());
+
     return this.fb.group({
-      start_date: '',
-      end_date: '',
+      start_date: _dateRange?.start_date,
+      end_date: _dateRange?.end_date,
       days_off: [[]],
       period_departments: this.fb.array(periodDepartmentForms),
     });
   }
 
   periodDepartmentForm(department?: Department): FormGroup {
-    const departmentItems = department && department.department_items
-      ? department.department_items.map((di) => this.periodDepartmentItem(di))
-      : [this.periodDepartmentItem()];
+    const departmentItems =
+      department && department.department_items
+        ? department.department_items.map((di) => this.periodDepartmentItem(di))
+        : [this.periodDepartmentItem()];
 
     return this.fb.group({
       name: department?.name,
