@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { NotificationService } from '../notification.service';
 import { DepartmentItemParams } from '../models/department-item';
 import { Observable } from 'rxjs';
@@ -10,18 +10,10 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class DepartmentItemsService {
-  headers: HttpHeaders;
-
   constructor(
     private http: HttpClient,
     private notificationService: NotificationService,
-  ) {
-    this.headers = new HttpHeaders({
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('authToken'),
-    });
-  }
+  ) {}
 
   updateDepartmentItem(
     templateId: string,
@@ -30,11 +22,9 @@ export class DepartmentItemsService {
     department_item: DepartmentItemParams,
   ): Observable<void> {
     return this.http
-      .patch<void>(
-        this.departmentItemsPath(templateId, departmentId, id),
-        { department_item },
-        { headers: this.headers },
-      )
+      .patch<void>(this.departmentItemsPath(templateId, departmentId, id), {
+        department_item,
+      })
       .pipe(
         tap(
           () =>
@@ -56,7 +46,6 @@ export class DepartmentItemsService {
       .post<{ id: string }>(
         this.departmentItemsPath(templateId, departmentId),
         { department_item },
-        { headers: this.headers },
       )
       .pipe(
         tap(
@@ -78,9 +67,7 @@ export class DepartmentItemsService {
     id: string,
   ): Observable<void> {
     return this.http
-      .delete<void>(this.departmentItemsPath(templateId, departmentId, id), {
-        headers: this.headers,
-      })
+      .delete<void>(this.departmentItemsPath(templateId, departmentId, id))
       .pipe(
         tap(
           () =>

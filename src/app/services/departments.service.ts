@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { NotificationService } from '../notification.service';
 import { Template } from '../models/template';
 import { DepartmentParams } from '../models/department';
@@ -11,18 +11,10 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class DepartmentsService {
-  headers: HttpHeaders;
-
   constructor(
     private http: HttpClient,
     private notificationService: NotificationService,
-  ) {
-    this.headers = new HttpHeaders({
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('authToken'),
-    });
-  }
+  ) {}
 
   updateDepartment(
     templateId: string,
@@ -30,11 +22,7 @@ export class DepartmentsService {
     department: DepartmentParams,
   ): Observable<void> {
     return this.http
-      .patch<void>(
-        this.departmentsPath(templateId, id),
-        { department },
-        { headers: this.headers },
-      )
+      .patch<void>(this.departmentsPath(templateId, id), { department })
       .pipe(
         tap(
           () => this.notificationService.notify('Department has been saved.'),
@@ -51,11 +39,7 @@ export class DepartmentsService {
     department: DepartmentParams,
   ): Observable<{ id: string }> {
     return this.http
-      .post<{ id: string }>(
-        this.departmentsPath(templateId),
-        { department },
-        { headers: this.headers },
-      )
+      .post<{ id: string }>(this.departmentsPath(templateId), { department })
       .pipe(
         tap(
           () => this.notificationService.notify('Department has been created.'),
@@ -67,26 +51,16 @@ export class DepartmentsService {
       );
   }
 
-  deleteDepartment(
-    templateId: string,
-    id: string,
-  ): Observable<void> {
-    return this.http
-      .delete<void>(this.departmentsPath(templateId, id), {
-        headers: this.headers,
-      })
-      .pipe(
-        tap(
-          () =>
-            this.notificationService.notify(
-              'Department has been deleted.',
-            ),
-          (err) =>
-            this.notificationService.notify(
-              'Error ' + err.status + ': ' + err.error.message,
-            ),
-        ),
-      );
+  deleteDepartment(templateId: string, id: string): Observable<void> {
+    return this.http.delete<void>(this.departmentsPath(templateId, id)).pipe(
+      tap(
+        () => this.notificationService.notify('Department has been deleted.'),
+        (err) =>
+          this.notificationService.notify(
+            'Error ' + err.status + ': ' + err.error.message,
+          ),
+      ),
+    );
   }
 
   private departmentsPath(templateId: string, p: string = ''): string {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { NotificationService } from '../notification.service';
@@ -10,24 +10,13 @@ import { shareReplay, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ItemsService {
-  headers: HttpHeaders;
   private items$: Observable<Item[]>;
 
   constructor(
     private http: HttpClient,
     private notificationService: NotificationService,
   ) {
-    this.headers = new HttpHeaders({
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('authToken'),
-    });
-
-    this.items$ = this.http
-      .get<Item[]>(this.itemsPath(), {
-        headers: this.headers,
-      })
-      .pipe(shareReplay(1));
+    this.items$ = this.http.get<Item[]>(this.itemsPath()).pipe(shareReplay(1));
   }
 
   getItems(): Observable<Item[]> {
@@ -35,63 +24,51 @@ export class ItemsService {
   }
 
   createItem(item: ItemParams): Observable<void> {
-    return this.http
-      .post<void>(this.itemsPath(), { item }, { headers: this.headers })
-      .pipe(
-        tap(
-          () => this.notificationService.notify('Item has been created.'),
-          (err) =>
-            this.notificationService.notify(
-              'Error ' + err.status + ': ' + err.error.message,
-            ),
-        ),
-      );
+    return this.http.post<void>(this.itemsPath(), { item }).pipe(
+      tap(
+        () => this.notificationService.notify('Item has been created.'),
+        (err) =>
+          this.notificationService.notify(
+            'Error ' + err.status + ': ' + err.error.message,
+          ),
+      ),
+    );
   }
 
   editItem(id: string, item: ItemParams): Observable<void> {
-    return this.http
-      .patch<void>(this.itemsPath(id), { item }, { headers: this.headers })
-      .pipe(
-        tap(
-          () => this.notificationService.notify('Item has been saved.'),
-          (err) =>
-            this.notificationService.notify(
-              'Error ' + err.status + ': ' + err.error.message,
-            ),
-        ),
-      );
+    return this.http.patch<void>(this.itemsPath(id), { item }).pipe(
+      tap(
+        () => this.notificationService.notify('Item has been saved.'),
+        (err) =>
+          this.notificationService.notify(
+            'Error ' + err.status + ': ' + err.error.message,
+          ),
+      ),
+    );
   }
 
   deleteItem(id: string): Observable<void> {
-    return this.http
-      .delete<void>(this.itemsPath(id), {
-        headers: this.headers,
-      })
-      .pipe(
-        tap(
-          () => this.notificationService.notify('Item has been deleted.'),
-          (err) =>
-            this.notificationService.notify(
-              'Error ' + err.status + ': ' + err.error.message,
-            ),
-        ),
-      );
+    return this.http.delete<void>(this.itemsPath(id)).pipe(
+      tap(
+        () => this.notificationService.notify('Item has been deleted.'),
+        (err) =>
+          this.notificationService.notify(
+            'Error ' + err.status + ': ' + err.error.message,
+          ),
+      ),
+    );
   }
 
   getItem(id: string): Observable<Item> {
-    return this.http
-      .get<Item>(this.itemsPath(id), {
-        headers: this.headers,
-      })
-      .pipe(
-        tap(
-          () => {},
-          (err) =>
-            this.notificationService.notify(
-              'Error ' + err.status + ': ' + err.error.message,
-            ),
-        ),
-      );
+    return this.http.get<Item>(this.itemsPath(id)).pipe(
+      tap(
+        () => {},
+        (err) =>
+          this.notificationService.notify(
+            'Error ' + err.status + ': ' + err.error.message,
+          ),
+      ),
+    );
   }
 
   private itemsPath(p: string = ''): string {

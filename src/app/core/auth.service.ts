@@ -52,8 +52,8 @@ export class AuthService {
       );
   }
 
-  logout(): void {
-    this.notificationService.notify('Logged out.');
+  logout(message?: string): void {
+    this.notificationService.notify(message || 'Logged out.');
     localStorage.removeItem('authToken');
     localStorage.removeItem('email');
   }
