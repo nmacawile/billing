@@ -4,11 +4,13 @@ import {
   MatDatepickerInputEvent,
 } from '@angular/material/datepicker';
 import { FormArray, FormGroup } from '@angular/forms';
+import { PeriodService } from '../../services/period.service';
 
 @Component({
   selector: 'app-period',
   templateUrl: './period.component.html',
   styleUrls: ['./period.component.scss'],
+  providers: [PeriodService],
 })
 export class PeriodComponent implements OnInit {
   @ViewChild('picker', { static: true }) _picker: MatDatepicker<Date>;
@@ -20,9 +22,11 @@ export class PeriodComponent implements OnInit {
 
   selected: Date | null;
 
-  constructor() {}
+  constructor(private periodService: PeriodService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.periodService.periodForm = this.period;
+  }
 
   get start_date(): Date {
     return this.period.get('start_date')?.value;

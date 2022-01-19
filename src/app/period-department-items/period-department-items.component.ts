@@ -9,7 +9,7 @@ import { FormBuilderService } from '../services/form-builder.service';
 })
 export class PeriodDepartmentItemsComponent implements OnInit {
   @Input('period_department_items') period_department_items: FormArray;
-  columns: string[] = ['Name', 'Days', 'Price', 'Qty', 'Off', 'Total', ''];
+  columns: string[] = ['Name', 'Days', 'Price', 'Qty', 'Off', 'Total', 'Amount', ''];
 
   constructor(private fbs: FormBuilderService) {}
 
