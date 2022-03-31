@@ -2,6 +2,7 @@ import { MongoidId } from './mongoid-id';
 
 export interface PeriodDepartmentItemParams {
   price: number;
+  name: string;
   days: string;
   quantity: number;
   total_copies: number;
