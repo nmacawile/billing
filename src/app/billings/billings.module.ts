@@ -7,12 +7,14 @@ import { MaterialModule } from '../material/material.module';
 import { BillingsFormComponent } from './billings-form/billings-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PeriodsModule } from '../periods/periods.module';
+import { BillingComponent } from './billing/billing.component';
 
 @NgModule({
   declarations: [
     BillingsComponent,
     BillingsListComponent,
     BillingsFormComponent,
+    BillingComponent,
   ],
   imports: [
     CommonModule,

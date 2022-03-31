@@ -15,6 +15,10 @@ export class BillingsService {
     private notificationService: NotificationService,
   ) {}
 
+  getBilling(id: string): Observable<Billing> {
+    return this.http.get<Billing>(this.billingsPath(id));
+  }
+
   getBillings(): Observable<Billing[]> {
     return this.http.get<Billing[]>(this.billingsPath());
   }

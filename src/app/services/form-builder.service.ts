@@ -6,6 +6,10 @@ import { DepartmentItem } from '../models/department-item';
 import { ItemsService } from './items.service';
 import { Item } from '../models/item';
 import { DateHelpers } from '../lib/date-helpers';
+import { Billing } from '../models/billing';
+import { Period } from '../models/period';
+import { PeriodDepartment } from '../models/period-department';
+import { PeriodDepartmentItem } from '../models/period-department-item';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +34,61 @@ export class FormBuilderService {
       start_date: '',
       end_date: '',
       periods: this.fb.array([this.periodForm(departments)]),
+    });
+  }
+
+  billingEditForm(billing: Billing): FormGroup {
+    const { created_at, updated_at, periods, _id, template_id, ...billingParams } = billing;
+    const templateId = template_id?.$oid;
+
+    return this.fb.group({
+      template: [{ value: templateId, disabled: true }],
+      ...billingParams,
+      periods: this.fb.array(this.rebuildPeriodForms(periods)),
+    });
+  }
+
+  rebuildPeriodForms(periods: Period[]): FormGroup[] {
+    return periods.map((p) => {
+      return this.fb.group({
+        start_date: new Date(p.start_date),
+        end_date: new Date(p.end_date),
+        days_off: [p.days_off],
+        period_departments: this.fb.array(
+          this.rebuildPeriodDepartmentForms(p.period_departments || []),
+        ),
+      });
+    });
+  }
+
+  rebuildPeriodDepartmentForms(
+    periodDepartments: PeriodDepartment[],
+  ): FormGroup[] {
+    return periodDepartments.map((pd) => {
+      return this.fb.group({
+        name: pd.name,
+        period_department_items: this.fb.array(
+          this.rebuildPeriodDepartmentItemForms(
+            pd.period_department_items || []
+          ),
+        ),
+      });
+    });
+  }
+
+  rebuildPeriodDepartmentItemForms(
+    period_department_items: PeriodDepartmentItem[],
+  ): FormGroup[] {
+    return period_department_items.map((pdi) => {
+      return this.fb.group({
+        days: pdi.days,
+        days_off: [pdi.days_off],
+        name: pdi.name,
+        price: pdi.price,
+        quantity: pdi.quantity,
+        total_copies: pdi.total_copies,
+        total_deductions: pdi.total_deductions,
+      });
     });
   }
 

@@ -34,8 +34,7 @@ export class BillingsFormComponent implements OnInit {
 
   onFormSubmit(): void {
     const billingData = this.billingForm.getRawValue();
-    //this.billingsService.createBilling(billingData).subscribe();
-    console.log(billingData);
+    this.billingsService.createBilling(billingData).subscribe();
   }
 
   get periodsFormArray(): FormArray {

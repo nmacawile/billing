@@ -1,0 +1,41 @@
+<a mat-button routerLink="/billings"><mat-icon>chevron_left</mat-icon> GO BACK</a>
+
+<form [formGroup]="billingForm" (ngSubmit)="onFormSubmit()">
+  <mat-form-field>
+    <mat-label>Template</mat-label>
+    <input matInput formControlName="template">
+  </mat-form-field>
+  <br />
+  <mat-form-field>
+    <mat-label>Client Name</mat-label>
+    <input matInput formControlName="client_name">
+  </mat-form-field>
+  <br />
+  <mat-form-field>
+    <mat-label>Client Address</mat-label>
+    <input matInput formControlName="client_address">
+  </mat-form-field>
+  <br />
+  <mat-form-field>
+    <mat-label>Format</mat-label>
+    <select matNativeControl formControlName="_format">
+      <option *ngFor="let format of ['Short', 'Long']" [value]="format.toLowerCase()">
+        {{format}}
+      </option>
+    </select>
+  </mat-form-field>
+  <br />
+  <mat-form-field>
+    <mat-label>Coverage</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate formControlName="start_date" placeholder="Start date">
+      <input matEndDate formControlName="end_date" placeholder="End date">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <app-periods [periodsFormArray]="periodsFormArray"></app-periods>
+
+  <button type="submit" mat-flat-button color="primary">SUBMIT</button>
+</form>

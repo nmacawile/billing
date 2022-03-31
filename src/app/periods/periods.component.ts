@@ -15,7 +15,9 @@ export class PeriodsComponent implements OnInit {
   departments: Department[];
 
   constructor(private fbs: FormBuilderService, private route: ActivatedRoute) {
-    this.departments = this.route.snapshot.data.template?.departments;
+    this.departments =
+      this.route.snapshot.data.template?.departments ||
+      this.route.snapshot.data.combined?.template?.departments;
   }
 
   ngOnInit(): void {}
