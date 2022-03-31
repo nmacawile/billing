@@ -9,9 +9,9 @@ interface PeriodDepartmentPartials {
 }
 
 export interface PeriodDepartmentParams extends PeriodDepartmentPartials {
-  period_department_item?: PeriodDepartmentItemParams;
+  period_department_items?: PeriodDepartmentItemParams[];
 }
 
 export interface PeriodDepartment extends MongoidId, PeriodDepartmentPartials {
-  period_department_item?: PeriodDepartmentItem;
+  period_department_items?: PeriodDepartmentItem[];
 }
