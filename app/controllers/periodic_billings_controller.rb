@@ -32,7 +32,24 @@ class PeriodicBillingsController < ApplicationController
             :template,
             :client_name,
             :client_address,
-            :format)
+            :_format,
+            periods: [
+              :start_date,
+              :end_date,
+              days_off: [],
+              period_departments: [
+                :name,
+                period_department_items: [
+                  :name,
+                  :price,
+                  :days,
+                  :quantity,
+                  :total_copies,
+                  :total_deductions,
+                  days_off: []
+                ]
+              ]
+            ])
   end
 
   def load_billing
