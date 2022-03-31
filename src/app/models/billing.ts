@@ -15,6 +15,8 @@ export interface BillingParams extends BillingPartials {
 }
 
 export interface Billing extends MongoidId, BillingPartials {
-  template?: { $oid: string };
-  period: Period;
+  template_id?: { $oid: string };
+  periods: Period[];
+  created_at?: Date;
+  updated_at?: Date;
 }
