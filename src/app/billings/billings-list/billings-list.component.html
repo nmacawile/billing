@@ -28,7 +28,7 @@
       {{billing.start_date | date}} to
       {{billing.end_date | date}}
      </a>
-     <button mat-icon-button color="warn">
+     <button mat-icon-button color="warn" (click)="delete(billing._id.$oid, i)">
         <mat-icon>delete</mat-icon>
      </button>
   </a>

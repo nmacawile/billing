@@ -57,6 +57,12 @@ export class BillingsListComponent implements OnInit {
       : { template: val?._id.$oid };
   }
 
+  delete(id: string, index: number): void {
+    this.billingsService
+      .deleteBilling(id)
+      .subscribe((res) => this.billings.splice(index, 1));
+  }
+
   private _filter(name: string): Template[] {
     const filterValue = name.toLowerCase();
 

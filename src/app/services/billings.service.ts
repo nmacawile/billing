@@ -31,6 +31,23 @@ export class BillingsService {
     );
   }
 
+  deleteBilling(id: string): Observable<void> {
+    return this.http
+      .delete<void>(this.billingsPath(id))
+      .pipe(
+        tap(
+          () =>
+            this.notificationService.notify(
+              'Billing has been deleted.',
+            ),
+          (err) =>
+            this.notificationService.notify(
+              'Error ' + err.status + ': ' + err.error.message,
+            ),
+        ),
+      );
+  }
+
   private billingsPath(p: string = ''): string {
     return environment.serverUrl + 'periodic_billings/' + p;
   }
