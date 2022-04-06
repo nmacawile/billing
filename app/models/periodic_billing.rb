@@ -7,8 +7,8 @@ class PeriodicBilling
   
   field :client_name, type: String
   field :client_address, type: String
-  field :start_date, type: Date
-  field :end_date, type: Date
+  field :start_date, type: DateTime
+  field :end_date, type: DateTime
 
   embeds_many :periods
 

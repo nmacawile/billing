@@ -5,7 +5,7 @@ class Period
   embedded_in :periodic_billing
   embeds_many :period_departments
 
-  field :start_date, type: Date
-  field :end_date, type: Date
+  field :start_date, type: DateTime
+  field :end_date, type: DateTime
   field :days_off, type: Array
 end
