@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormGroup } from '@angular/forms';
 import { Template } from '../../models/template';
 import { BillingsService } from '../../services/billings.service';
@@ -22,6 +22,7 @@ export class BillingsFormComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private billingsService: BillingsService,
     private fbs: FormBuilderService,
     private bfs: BillingFormService,
@@ -43,7 +44,9 @@ export class BillingsFormComponent implements OnInit {
 
   onFormSubmit(): void {
     const billingData = this.billingForm.getRawValue();
-    this.billingsService.createBilling(billingData).subscribe();
+    this.billingsService
+      .createBilling(billingData)
+      .subscribe((res) => this.router.navigate(['billings', res.id]));
   }
 
   get periodsFormArray(): FormArray {

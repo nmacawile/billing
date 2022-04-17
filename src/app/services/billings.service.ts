@@ -23,8 +23,8 @@ export class BillingsService {
     return this.http.get<Billing[]>(this.billingsPath());
   }
 
-  createBilling(periodic_billing: BillingParams): Observable<void> {
-    return this.http.post<void>(this.billingsPath(), { periodic_billing }).pipe(
+  createBilling(periodic_billing: BillingParams): Observable<{ id: string }> {
+    return this.http.post<{ id: string }>(this.billingsPath(), { periodic_billing }).pipe(
       tap(
         () => this.notificationService.notify('Billing has been created.'),
         (err) =>
