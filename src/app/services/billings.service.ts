@@ -36,14 +36,23 @@ export class BillingsService {
   }
 
   deleteBilling(id: string): Observable<void> {
+    return this.http.delete<void>(this.billingsPath(id)).pipe(
+      tap(
+        () => this.notificationService.notify('Billing has been deleted.'),
+        (err) =>
+          this.notificationService.notify(
+            'Error ' + err.status + ': ' + err.error.message,
+          ),
+      ),
+    );
+  }
+
+  updateBilling(id: string, periodic_billing: BillingParams): Observable<void> {
     return this.http
-      .delete<void>(this.billingsPath(id))
+      .patch<void>(this.billingsPath(id), { periodic_billing })
       .pipe(
         tap(
-          () =>
-            this.notificationService.notify(
-              'Billing has been deleted.',
-            ),
+          () => this.notificationService.notify('Billing has been updated.'),
           (err) =>
             this.notificationService.notify(
               'Error ' + err.status + ': ' + err.error.message,
