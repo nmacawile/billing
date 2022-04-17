@@ -1,5 +1,7 @@
 <app-period-department
-  *ngFor="let department_form of period_departments.controls"
-  [department_form]="toFormGroup(department_form)">
+  *ngFor="let department_form of period_departments.controls; let i = index"
+  [department_form]="toFormGroup(department_form)"
+  (delete)="onDelete(i)"
+  >
 </app-period-department>
 <button type="button" mat-stroked-button (click)="addNewDepartment()">New Department</button>

@@ -22,6 +22,10 @@ export class PeriodDepartmentsComponent implements OnInit {
     this.period_departments.push(this.fbs.periodDepartmentForm());
   }
 
+  onDelete(i: number): void {
+    this.period_departments.removeAt(i);
+  }
+
   toFormGroup(control: AbstractControl): FormGroup {
     return control as FormGroup;
   }

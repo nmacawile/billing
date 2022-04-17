@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 
 @Component({
@@ -8,10 +8,15 @@ import { FormArray, FormGroup } from '@angular/forms';
 })
 export class PeriodDepartmentComponent implements OnInit {
   @Input('department_form') department_form: FormGroup;
+  @Output() delete = new EventEmitter();
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  deleteDepartment(): void {
+    this.delete.emit();
+  }
 
   get period_department_items(): FormArray {
     return this.department_form.get('period_department_items') as FormArray;
