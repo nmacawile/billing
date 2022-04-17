@@ -115,11 +115,13 @@ export class PeriodDepartmentItemComponent implements OnInit, OnDestroy {
   delete(): void {
     this.department_items.removeAt(this.index);
   }
-  
+
   calculateAmount(): void {
     const copies =
       this.department_item.get('total_copies')!.value || this.calculatedCopies;
-    this.amount = this.department_item.get('price')!.value * copies;
+    this.department_item
+      .get('amount')!
+      .setValue(this.department_item.get('price')!.value * copies);
   }
 
   private _filter(value: string): Item[] {

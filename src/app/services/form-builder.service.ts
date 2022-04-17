@@ -87,6 +87,7 @@ export class FormBuilderService {
         price: pdi.price,
         quantity: pdi.quantity,
         total_copies: pdi.total_copies,
+        amount: [{ value: '', disabled: true }],
         total_deductions: pdi.total_deductions,
       });
     });
@@ -135,6 +136,7 @@ export class FormBuilderService {
       days: di?.days || '',
       quantity: di?.quantity,
       total_copies: '',
+      amount: [{ value: '', disabled: true }],
       total_deductions: '',
       days_off: [[]],
     });

@@ -8,6 +8,7 @@ import { BillingsFormComponent } from './billings-form/billings-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PeriodsModule } from '../periods/periods.module';
 import { BillingComponent } from './billing/billing.component';
+import { StickyFooterComponent } from './sticky-footer/sticky-footer.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { BillingComponent } from './billing/billing.component';
     BillingsListComponent,
     BillingsFormComponent,
     BillingComponent,
+    StickyFooterComponent,
   ],
   imports: [
     CommonModule,

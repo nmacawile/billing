@@ -1,0 +1,18 @@
+.sticky-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background: linear-gradient(transparent 10%,#fff 20%);
+  
+  mat-form-field {
+    width: 96px;
+    margin-right: 8px;
+  }
+
+  input, label {
+    color: currentColor;
+  }
+}

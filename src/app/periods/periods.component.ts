@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
 import { FormBuilderService } from '../services/form-builder.service';
 import { ActivatedRoute } from '@angular/router';
 import { Department } from '../models/department';
@@ -13,6 +18,7 @@ import { DateHelpers } from '../lib/date-helpers';
 export class PeriodsComponent implements OnInit {
   @Input('periodsFormArray') periodsFormArray: FormArray;
   departments: Department[];
+  selected = new FormControl(0);
 
   constructor(private fbs: FormBuilderService, private route: ActivatedRoute) {
     this.departments =
@@ -34,6 +40,11 @@ export class PeriodsComponent implements OnInit {
     this.periodsFormArray.push(
       this.fbs.periodForm(this.departments, dateRange),
     );
+    this.selected.setValue(periodsCount);
+  }
+
+  onDeletePeriod(index: number): void {
+    this.periodsFormArray.removeAt(index);
   }
 
   toFormGroup(control: AbstractControl): FormGroup {
