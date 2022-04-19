@@ -31,18 +31,20 @@ export class FormBuilderService {
       client_name: clientName,
       client_address: data.template?.client_address,
       _format: data.template?._format,
-      start_date: '',
-      end_date: '',
+      start_date: [{ value: '', disabled: true }],
+      end_date: [{ value: '', disabled: true }],
       periods: this.fb.array([this.periodForm(departments)]),
     });
   }
 
   billingEditForm(billing: Billing): FormGroup {
-    const { created_at, updated_at, periods, _id, template_id, ...billingParams } = billing;
+    const { created_at, updated_at, periods, _id, template_id, start_date, end_date, ...billingParams } = billing;
     const templateId = template_id?.$oid;
 
     return this.fb.group({
       template: [{ value: templateId, disabled: true }],
+      start_date: [{ value: start_date, disabled: true }],
+      end_date: [{ value: end_date, disabled: true }],
       ...billingParams,
       periods: this.fb.array(this.rebuildPeriodForms(periods)),
     });

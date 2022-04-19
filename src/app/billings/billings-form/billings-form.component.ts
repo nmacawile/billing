@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormGroup } from '@angular/forms';
 import { Template } from '../../models/template';
 import { BillingsService } from '../../services/billings.service';
 import { FormBuilderService } from '../../services/form-builder.service';
 import { BillingFormService } from '../../services/billing-form.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-billings-form',
@@ -13,12 +13,13 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./billings-form.component.scss'],
   providers: [BillingFormService],
 })
-export class BillingsFormComponent implements OnInit {
+export class BillingsFormComponent implements OnInit, OnDestroy {
   billingForm: FormGroup;
   template: Template;
   templateId: string;
 
   total$: BehaviorSubject<number>;
+  coverageSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +41,15 @@ export class BillingsFormComponent implements OnInit {
 
     this.bfs.setForm(this.billingForm);
     this.total$ = this.bfs.total$;
+
+    this.coverageSub = this.bfs.coverage$.subscribe(coverage => {
+      this.billingForm.get('start_date')?.setValue(coverage.start_date);
+      this.billingForm.get('end_date')?.setValue(coverage.end_date);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.coverageSub.unsubscribe();
   }
 
   onFormSubmit(): void {

@@ -9,6 +9,8 @@ export class BillingFormService implements OnDestroy {
   private billingForm: FormGroup;
   private formSub: Subscription;
   total$: BehaviorSubject<number> = new BehaviorSubject(0);
+  coverage$: BehaviorSubject<{ start_date?: Date; end_date?: Date }> =
+    new BehaviorSubject({});
 
   constructor() {}
 
@@ -20,10 +22,21 @@ export class BillingFormService implements OnDestroy {
     this.billingForm = form;
     this.formSub = this.billingForm.valueChanges
       .pipe(debounceTime(200))
-      .subscribe((billing) => this.calculate(billing));
+      .subscribe((billing) => {
+        this.calculateTotal(billing);
+        this.getCoverage(billing);
+      });
   }
 
-  private calculate(billing: Billing): void {
+  private getCoverage(billing: Billing): void {
+    const startDates = billing.periods?.map(period => period.start_date).filter(d => d);
+    const endDates = billing.periods?.map(period => period.end_date).filter(d => d);
+    const start_date = startDates.sort((a, b) => +a - +b)[0]
+    const end_date = endDates.sort((a, b) => +b - +a)[0]
+    this.coverage$.next({ start_date, end_date });
+  }
+
+  private calculateTotal(billing: Billing): void {
     var total = 0;
     (this.billingForm.getRawValue() as Billing).periods.forEach((period) =>
       period.period_departments?.forEach((dept) =>
