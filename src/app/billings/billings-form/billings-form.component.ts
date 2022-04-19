@@ -27,9 +27,7 @@ export class BillingsFormComponent implements OnInit, OnDestroy {
     private billingsService: BillingsService,
     private fbs: FormBuilderService,
     private bfs: BillingFormService,
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.template = this.route.snapshot.data.template;
     this.templateId = this.template?._id.$oid;
     const client_name = this.route.snapshot.queryParams.client_name;
@@ -42,11 +40,13 @@ export class BillingsFormComponent implements OnInit, OnDestroy {
     this.bfs.setForm(this.billingForm);
     this.total$ = this.bfs.total$;
 
-    this.coverageSub = this.bfs.coverage$.subscribe(coverage => {
+    this.coverageSub = this.bfs.coverage$.subscribe((coverage) => {
       this.billingForm.get('start_date')?.setValue(coverage.start_date);
       this.billingForm.get('end_date')?.setValue(coverage.end_date);
     });
   }
+
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.coverageSub.unsubscribe();
