@@ -34,7 +34,8 @@ export class DateHelpers {
   }
 
   static getNext(date: Date): DateRange {
-    const start_date = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+    const _date = date || new Date();
+    const start_date = new Date(_date.getFullYear(), _date.getMonth() + 1, 1);
     const end_date = new Date(
       start_date.getFullYear(),
       start_date.getMonth() + 1,
