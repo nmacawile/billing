@@ -48,7 +48,7 @@ export class DateHelpers {
     endDate: Date,
     days: string = 'Mon-Sun',
   ): number {
-    if (startDate > endDate) return 0;
+    if (!startDate || !endDate || startDate > endDate) return 0;
     const breakdown = this.breakdownDaysOfWeek(startDate, endDate);
     return breakdown.reduce((acc, daysCount, i) => {
       if (TABLE[days][i]) return acc + daysCount;
