@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormArray, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Template } from '../../models/template';
 import { BillingsService } from '../../services/billings.service';
 import { FormBuilderService } from '../../services/form-builder.service';
 import { BillingFormService } from '../../services/billing-form.service';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-billings-form',
@@ -18,7 +18,6 @@ export class BillingsFormComponent implements OnInit, OnDestroy {
   template: Template;
   templateId: string;
 
-  total$: BehaviorSubject<number>;
   coverageSub: Subscription;
 
   constructor(
@@ -38,7 +37,6 @@ export class BillingsFormComponent implements OnInit, OnDestroy {
     });
 
     this.bfs.setForm(this.billingForm);
-    this.total$ = this.bfs.total$;
 
     this.coverageSub = this.bfs.coverage$.subscribe((coverage) => {
       this.billingForm.get('start_date')?.setValue(coverage.start_date);
@@ -61,5 +59,9 @@ export class BillingsFormComponent implements OnInit, OnDestroy {
 
   get periodsFormArray(): FormArray {
     return this.billingForm.get('periods') as FormArray;
+  }
+
+  get totalFormControl(): FormControl {
+    return this.billingForm.get('total') as FormControl;
   }
 }

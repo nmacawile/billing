@@ -33,6 +33,8 @@ export class FormBuilderService {
       _format: data.template?._format,
       start_date: [{ value: '', disabled: true }],
       end_date: [{ value: '', disabled: true }],
+      total: 0,
+      discount: 0,
       periods: this.fb.array([this.periodForm(departments)]),
     });
   }

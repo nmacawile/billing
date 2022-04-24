@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-sticky-footer',
@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./sticky-footer.component.scss'],
 })
 export class StickyFooterComponent implements OnInit {
-  @Input('total$') total$: BehaviorSubject<number>;
+  @Input('control') control: FormControl;
 
   constructor() {}
 

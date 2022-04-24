@@ -6,6 +6,8 @@ interface BillingPartials {
   client_address?: string;
   start_date: Date;
   end_date: Date;
+  total?: number;
+  discount?: number;
   _format: string;
 }
 

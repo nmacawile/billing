@@ -8,7 +8,6 @@ import { debounceTime } from 'rxjs/operators';
 export class BillingFormService implements OnDestroy {
   private billingForm: FormGroup;
   private formSub: Subscription;
-  total$: BehaviorSubject<number> = new BehaviorSubject(0);
   coverage$: BehaviorSubject<{ start_date?: Date; end_date?: Date }> =
     new BehaviorSubject({});
 
@@ -45,6 +44,6 @@ export class BillingFormService implements OnDestroy {
         }),
       ),
     );
-    this.total$.next(total);
+    this.billingForm.get('total')?.setValue(total, { emitEvent: false });
   }
 }
