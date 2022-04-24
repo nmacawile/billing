@@ -38,7 +38,16 @@ export class FormBuilderService {
   }
 
   billingEditForm(billing: Billing): FormGroup {
-    const { created_at, updated_at, periods, _id, template_id, start_date, end_date, ...billingParams } = billing;
+    const {
+      created_at,
+      updated_at,
+      periods,
+      _id,
+      template_id,
+      start_date,
+      end_date,
+      ...billingParams
+    } = billing;
     const templateId = template_id?.$oid;
 
     return this.fb.group({
@@ -71,7 +80,7 @@ export class FormBuilderService {
         name: pd.name,
         period_department_items: this.fb.array(
           this.rebuildPeriodDepartmentItemForms(
-            pd.period_department_items || []
+            pd.period_department_items || [],
           ),
         ),
       });
