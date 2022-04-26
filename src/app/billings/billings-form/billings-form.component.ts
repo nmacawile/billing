@@ -1,11 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { Template } from '../../models/template';
 import { BillingsService } from '../../services/billings.service';
 import { FormBuilderService } from '../../services/form-builder.service';
 import { BillingFormService } from '../../services/billing-form.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-billings-form',
@@ -13,12 +12,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./billings-form.component.scss'],
   providers: [BillingFormService],
 })
-export class BillingsFormComponent implements OnInit, OnDestroy {
+export class BillingsFormComponent implements OnInit {
   billingForm: FormGroup;
   template: Template;
   templateId: string;
-
-  coverageSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,18 +34,9 @@ export class BillingsFormComponent implements OnInit, OnDestroy {
     });
 
     this.bfs.setForm(this.billingForm);
-
-    this.coverageSub = this.bfs.coverage$.subscribe((coverage) => {
-      this.billingForm.get('start_date')?.setValue(coverage.start_date);
-      this.billingForm.get('end_date')?.setValue(coverage.end_date);
-    });
   }
 
   ngOnInit(): void {}
-
-  ngOnDestroy(): void {
-    this.coverageSub.unsubscribe();
-  }
 
   onFormSubmit(): void {
     const billingData = this.billingForm.getRawValue();
@@ -61,7 +49,11 @@ export class BillingsFormComponent implements OnInit, OnDestroy {
     return this.billingForm.get('periods') as FormArray;
   }
 
-  get totalFormControl(): FormControl {
-    return this.billingForm.get('total') as FormControl;
+  get startDate(): Date {
+    return this.billingForm.get('start_date')?.value;
+  }
+
+  get endDate(): Date {
+    return this.billingForm.get('end_date')?.value;
   }
 }

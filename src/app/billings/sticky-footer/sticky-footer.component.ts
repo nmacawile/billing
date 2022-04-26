@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { BillingFormService } from '../../services/billing-form.service';
 
 @Component({
   selector: 'app-sticky-footer',
@@ -7,9 +8,11 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./sticky-footer.component.scss'],
 })
 export class StickyFooterComponent implements OnInit {
-  @Input('control') control: FormControl;
+  totalFormControl: FormControl;
 
-  constructor() {}
+  constructor(private bfs: BillingFormService) {
+    this.totalFormControl = this.bfs.totalFormControl;
+  }
 
   ngOnInit(): void {}
 }

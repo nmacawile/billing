@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Billing } from '../models/billing';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -8,8 +8,7 @@ import { debounceTime } from 'rxjs/operators';
 export class BillingFormService implements OnDestroy {
   private billingForm: FormGroup;
   private formSub: Subscription;
-  coverage$: BehaviorSubject<{ start_date?: Date; end_date?: Date }> =
-    new BehaviorSubject({});
+  total$: BehaviorSubject<number> = new BehaviorSubject(0);
 
   constructor() {}
 
@@ -27,12 +26,20 @@ export class BillingFormService implements OnDestroy {
       });
   }
 
+  get totalFormControl(): FormControl {
+    return this.billingForm.get('total') as FormControl;
+  }
+
   private getCoverage(billing: Billing): void {
-    const startDates = billing.periods?.map(period => period.start_date).filter(d => d);
-    const endDates = billing.periods?.map(period => period.end_date).filter(d => d);
-    const start_date = startDates.sort((a, b) => +a - +b)[0]
-    const end_date = endDates.sort((a, b) => +b - +a)[0]
-    this.coverage$.next({ start_date, end_date });
+    const startDates = billing.periods
+      ?.map((period) => period.start_date)
+      .filter((d) => d);
+    const endDates = billing.periods
+      ?.map((period) => period.end_date)
+      .filter((d) => d);
+    const start_date = startDates.sort((a, b) => +a - +b)[0];
+    const end_date = endDates.sort((a, b) => +b - +a)[0];
+    this.billingForm.patchValue({ start_date, end_date }, { emitEvent: false });
   }
 
   private calculateTotal(billing: Billing): void {
@@ -44,6 +51,8 @@ export class BillingFormService implements OnDestroy {
         }),
       ),
     );
-    this.billingForm.get('total')?.setValue(total, { emitEvent: false });
+    this.billingForm.controls['total'].setValue(total, {
+      emitEvent: false,
+    });
   }
 }
