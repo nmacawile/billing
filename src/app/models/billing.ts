@@ -13,7 +13,7 @@ interface BillingPartials {
 
 export interface BillingParams extends BillingPartials {
   template?: string;
-  periods: PeriodParams;
+  periods: PeriodParams[];
 }
 
 export interface Billing extends MongoidId, BillingPartials {
