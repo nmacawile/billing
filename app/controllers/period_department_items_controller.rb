@@ -37,6 +37,7 @@ class PeriodDepartmentItemsController < ApplicationController
           :quantity,
           :total_copies,
           :total_deductions,
+          :amount,
           days_off: [])
   end
 

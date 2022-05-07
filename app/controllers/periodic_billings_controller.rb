@@ -33,6 +33,8 @@ class PeriodicBillingsController < ApplicationController
             :client_name,
             :client_address,
             :_format,
+            :discount,
+            :total,
             periods: [
               :start_date,
               :end_date,
@@ -46,6 +48,7 @@ class PeriodicBillingsController < ApplicationController
                   :quantity,
                   :total_copies,
                   :total_deductions,
+                  :amount,
                   days_off: []
                 ]
               ]

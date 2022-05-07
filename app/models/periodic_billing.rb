@@ -9,6 +9,8 @@ class PeriodicBilling
   field :client_address, type: String
   field :start_date, type: DateTime
   field :end_date, type: DateTime
+  field :discount, type: BigDecimal
+  field :total, type: BigDecimal
 
   embeds_many :periods
 
