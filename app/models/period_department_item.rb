@@ -6,9 +6,9 @@ class PeriodDepartmentItem
 
   field :name, type: String
   field :price, type: BigDecimal
-  field :quantity, type: BigDecimal
+  field :quantity, type: Integer
 
-  field :total_copies, type: BigDecimal
+  field :total_copies, type: Integer
   field :total_deductions, type: BigDecimal
 
   field :days, type: String
