@@ -94,9 +94,13 @@ export class PeriodDepartmentItemComponent implements OnInit, OnDestroy {
     ]).subscribe(([sd, ed, d, q, de]) => {
       const total = DateHelpers.daysBetween(sd, ed, d) * (q || 1) - de;
       this.calculatedCopies = total;
-      if (!this.department_item.get('total_copies')!.pristine)
-        this.department_item.get('total_copies')!.reset();
-      else this.calculateAmount();
+      this.department_item.patchValue({ total_copies: total }, { emitEvent: false });
+
+      // if (!this.department_item.get('total_copies')!.pristine)
+      //   this.department_item.get('total_copies')!.reset();
+      // else 
+
+        this.calculateAmount();
     });
   }
 

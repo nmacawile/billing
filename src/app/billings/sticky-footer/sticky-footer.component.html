@@ -3,5 +3,6 @@
     <mat-label>Total</mat-label>
     <input matInput [ngModel]="totalFormControl.value | number:'1.2-2'" disabled>
   </mat-form-field>
-  <button type="submit" mat-flat-button color="primary">SUBMIT</button>
+  <button type="button" mat-flat-button color="accent" (click)="downloadSheet()">Download</button>
+  <button type="submit" mat-flat-button color="primary">Save</button>
 </div>

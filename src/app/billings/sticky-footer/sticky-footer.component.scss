@@ -6,10 +6,13 @@
   align-items: center;
   justify-content: flex-end;
   background: linear-gradient(transparent 10%,#fff 20%);
+
+  * {
+    margin-left: 8px;
+  }
   
   mat-form-field {
     width: 96px;
-    margin-right: 8px;
   }
 
   input, label {

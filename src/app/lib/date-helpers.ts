@@ -57,6 +57,51 @@ export class DateHelpers {
     }, 0);
   }
 
+  static format(date: Date): string {
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    const m = months[date.getMonth()];
+    const d = (date.getDate() + '').padStart(2, '0');
+    const y = date.getFullYear();
+
+    return `${m} ${d}, ${y}`;
+  }
+
+  static format2(date: Date, uppercase = true): string {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+
+    const m = months[date.getMonth()];
+    const d = date.getDate() + '';
+    const text = `${m} ${d}`;
+    return uppercase ? text.toUpperCase() : text;
+  }
+
   private static breakdownDaysOfWeek(startDate: Date, endDate: Date) {
     const dTotal = 1 + Math.abs((+endDate - +startDate) / 86400000);
     const wStart = startDate.getDay();

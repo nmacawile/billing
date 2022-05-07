@@ -6,8 +6,8 @@ import { debounceTime } from 'rxjs/operators';
 
 @Injectable()
 export class BillingFormService implements OnDestroy {
-  private billingForm: FormGroup;
   private formSub: Subscription;
+  billingForm: FormGroup;
   total$: BehaviorSubject<number> = new BehaviorSubject(0);
 
   constructor() {}
