@@ -14,8 +14,6 @@ import {
 } from '../models/period-department-item';
 
 export class ShortSheetBuilder extends SheetBuilder {
-  private writePeriods = false;
-  private writeDepartments = false;
   private writeIndex = 20;
 
   build(): void {
@@ -91,5 +89,15 @@ export class ShortSheetBuilder extends SheetBuilder {
     this.writeToCell('G' + this.writeIndex, +i.price);
     this.writeToCell('I' + this.writeIndex, +i.amount);
     this.writeIndex++;
+  }
+
+  private get writePeriods(): boolean {
+    return this.billing.periods?.length > 1;
+  }
+
+  private get writeDepartments(): boolean {
+    return this.billing.periods.some(
+      (p) => p.period_departments && p.period_departments.length > 1,
+    );
   }
 }
