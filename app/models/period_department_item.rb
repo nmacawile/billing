@@ -9,7 +9,7 @@ class PeriodDepartmentItem
   field :quantity, type: Integer
 
   field :total_copies, type: Integer
-  field :total_deductions, type: BigDecimal
+  field :total_deductions, type: Integer
   field :amount, type: BigDecimal
 
   field :days, type: String
