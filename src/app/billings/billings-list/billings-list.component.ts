@@ -7,6 +7,7 @@ import { TemplatesService } from '../../services/templates.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Billing } from '../../models/billing';
 import { BillingsService } from '../../services/billings.service';
+import { SheetsService } from '../../services/sheets.service';
 
 @Component({
   selector: 'app-billings-list',
@@ -24,6 +25,7 @@ export class BillingsListComponent implements OnInit {
     private billingsService: BillingsService,
     private route: ActivatedRoute,
     private router: Router,
+    private sheetsService: SheetsService,
   ) {
     this.templates = this.route.snapshot.data.templates;
   }
@@ -61,6 +63,10 @@ export class BillingsListComponent implements OnInit {
     this.billingsService
       .deleteBilling(id)
       .subscribe((res) => this.billings.splice(index, 1));
+  }
+
+  downloadSheet(billing: Billing): void {
+    this.sheetsService.download(billing);
   }
 
   private _filter(name: string): Template[] {

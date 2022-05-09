@@ -64,8 +64,8 @@ export class FormBuilderService {
   rebuildPeriodForms(periods: Period[]): FormGroup[] {
     return periods.map((p) => {
       return this.fb.group({
-        start_date: new Date(p.start_date),
-        end_date: new Date(p.end_date),
+        start_date: p.start_date,
+        end_date: p.end_date,
         days_off: [p.days_off],
         period_departments: this.fb.array(
           this.rebuildPeriodDepartmentForms(p.period_departments || []),

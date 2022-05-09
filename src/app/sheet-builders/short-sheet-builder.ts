@@ -30,7 +30,6 @@ export class ShortSheetBuilder extends SheetBuilder {
   }
 
   private setCoverage(): void {
-    if (typeof this.billing.start_date === 'string') console.log('ugh');
     const startDate = DateHelpers.format(this.billing.start_date);
     const endDate = DateHelpers.format(this.billing.end_date);
     this.writeToCell('C15', startDate + ' to ' + endDate);
@@ -83,9 +82,10 @@ export class ShortSheetBuilder extends SheetBuilder {
   private writeItem(
     i: PeriodDepartmentItem | PeriodDepartmentItemParams,
   ): void {
-    this.writeToCell('A' + this.writeIndex, (+i.quantity || 1) + ' ' + i.name);
+    const qty = i.quantity || (i.quantity === 0 ? 0 : 1);
+    this.writeToCell('A' + this.writeIndex, qty + ' ' + i.name);
     this.writeToCell('D' + this.writeIndex, i.days);
-    this.writeToCell('E' + this.writeIndex, +i.total_copies || 1);
+    this.writeToCell('E' + this.writeIndex, +i.total_copies);
     this.writeToCell('G' + this.writeIndex, +i.price);
     this.writeToCell('I' + this.writeIndex, +i.amount);
     this.writeIndex++;
