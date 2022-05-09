@@ -133,6 +133,15 @@ export class PeriodDepartmentItemComponent implements OnInit, OnDestroy {
       .setValue(this.department_item.get('price')!.value * copies);
   }
 
+  autofillTotalCopiesValue(e: FocusEvent): void {
+    const value: any = (e.target as HTMLInputElement).value;
+    if (!value && value !== 0)
+      this.department_item.patchValue(
+        { total_copies: this.calculatedCopies },
+        { emitEvent: false },
+      );
+  }
+
   private _filter(value: string): Item[] {
     const filterValue = value.toLowerCase();
 
