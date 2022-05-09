@@ -80,7 +80,8 @@ export class PeriodDepartmentItemComponent implements OnInit, OnDestroy {
     const dVC = days!.valueChanges.pipe(startWith(days!.value));
 
     const qty = this.department_item.get('quantity');
-    const qtyVC = qty!.valueChanges.pipe(startWith(qty!.value || 1));
+    const initialQty = this.defaultToOne(qty!.value);
+    const qtyVC = qty!.valueChanges.pipe(startWith(initialQty));
 
     const ded = this.department_item.get('total_deductions');
     const dedVC = ded!.valueChanges.pipe(startWith(ded!.value));
@@ -92,15 +93,19 @@ export class PeriodDepartmentItemComponent implements OnInit, OnDestroy {
       qtyVC,
       dedVC,
     ]).subscribe(([sd, ed, d, q, de]) => {
-      const total = DateHelpers.daysBetween(sd, ed, d) * (q || 1) - de;
+      const total =
+        DateHelpers.daysBetween(sd, ed, d) * this.defaultToOne(q) - de;
       this.calculatedCopies = total;
-      this.department_item.patchValue({ total_copies: total }, { emitEvent: false });
+      this.department_item.patchValue(
+        { total_copies: total },
+        { emitEvent: false },
+      );
 
       // if (!this.department_item.get('total_copies')!.pristine)
       //   this.department_item.get('total_copies')!.reset();
-      // else 
+      // else
 
-        this.calculateAmount();
+      this.calculateAmount();
     });
   }
 
@@ -134,5 +139,9 @@ export class PeriodDepartmentItemComponent implements OnInit, OnDestroy {
     return this.items.filter((option) =>
       option.name.toLowerCase().includes(filterValue),
     );
+  }
+
+  private defaultToOne(n: number): number {
+    return n || (n === 0 ? 0 : 1);
   }
 }
