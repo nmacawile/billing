@@ -3,6 +3,7 @@ import { Billing, BillingParams } from '../models/billing';
 import { Workbook } from 'exceljs';
 import { SheetBuilder } from '../sheet-builders/sheet-builder';
 import { ShortSheetBuilder } from '../sheet-builders/short-sheet-builder';
+import { LongSheetBuilder } from '../sheet-builders/long-sheet-builder';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { switchMap } from 'rxjs/operators';
@@ -35,7 +36,7 @@ export class SheetsService {
     let builder: SheetBuilder;
     switch (format) {
       case 'long':
-        builder = new ShortSheetBuilder(wb, billing);
+        builder = new LongSheetBuilder(wb, billing);
         break;
       default:
         builder = new ShortSheetBuilder(wb, billing);

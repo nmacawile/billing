@@ -14,7 +14,7 @@ import {
 } from '../models/period-department-item';
 
 export class ShortSheetBuilder extends SheetBuilder {
-  private writeIndex = 20;
+  protected writeIndex = 20;
 
   build(): void {
     this.setClientInfo();
@@ -24,26 +24,26 @@ export class ShortSheetBuilder extends SheetBuilder {
     this.writeItems();
   }
 
-  private setClientInfo(): void {
+  protected setClientInfo(): void {
     this.writeToCell('B10', this.billing.client_name);
     this.writeToCell('B11', this.billing.client_address);
   }
 
-  private setCoverage(): void {
+  protected setCoverage(): void {
     const startDate = DateHelpers.format(this.billing.start_date);
     const endDate = DateHelpers.format(this.billing.end_date);
     this.writeToCell('C15', startDate + ' to ' + endDate);
   }
 
-  private writeTotal(): void {
+  protected writeTotal(): void {
     this.writeToCell('I49', this.total);
   }
 
-  private writeTotalText(): void {
+  protected writeTotalText(): void {
     this.writeToCell('A50', numberToText(this.total));
   }
 
-  private writeItems(): void {
+  protected writeItems(): void {
     this.billing.periods.forEach((p) => {
       if (this.writePeriods) this.writePeriodHeader(p);
       p.period_departments?.forEach((d) => {
@@ -55,7 +55,7 @@ export class ShortSheetBuilder extends SheetBuilder {
     });
   }
 
-  private writePeriodHeader(p: Period | PeriodParams): void {
+  protected writePeriodHeader(p: Period | PeriodParams): void {
     const address = 'A' + this.writeIndex;
     const title =
       DateHelpers.format2(p.start_date) +
@@ -69,7 +69,7 @@ export class ShortSheetBuilder extends SheetBuilder {
     this.writeIndex++;
   }
 
-  private writeDepartmentHeader(d: PeriodDepartment | PeriodDepartmentParams) {
+  protected writeDepartmentHeader(d: PeriodDepartment | PeriodDepartmentParams) {
     const address = 'A' + this.writeIndex;
     const cell = this.ws.getCell(address);
     this.cloneStyle(cell);
@@ -79,7 +79,7 @@ export class ShortSheetBuilder extends SheetBuilder {
     this.writeIndex++;
   }
 
-  private writeItem(
+  protected writeItem(
     i: PeriodDepartmentItem | PeriodDepartmentItemParams,
   ): void {
     const qty = i.quantity || (i.quantity === 0 ? 0 : 1);
@@ -91,11 +91,11 @@ export class ShortSheetBuilder extends SheetBuilder {
     this.writeIndex++;
   }
 
-  private get writePeriods(): boolean {
+  protected get writePeriods(): boolean {
     return this.billing.periods?.length > 1;
   }
 
-  private get writeDepartments(): boolean {
+  protected get writeDepartments(): boolean {
     return this.billing.periods.some(
       (p) => p.period_departments && p.period_departments.length > 1,
     );
