@@ -4,6 +4,7 @@ import { Workbook } from 'exceljs';
 import { SheetBuilder } from '../sheet-builders/sheet-builder';
 import { ShortSheetBuilder } from '../sheet-builders/short-sheet-builder';
 import { LongSheetBuilder } from '../sheet-builders/long-sheet-builder';
+import { NCMFSheetBuilder } from '../sheet-builders/ncmf-sheet-builder';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { switchMap } from 'rxjs/operators';
@@ -37,6 +38,9 @@ export class SheetsService {
     switch (format) {
       case 'long':
         builder = new LongSheetBuilder(wb, billing);
+        break;
+      case 'ncmf':
+        builder = new NCMFSheetBuilder(wb, billing);
         break;
       default:
         builder = new ShortSheetBuilder(wb, billing);
