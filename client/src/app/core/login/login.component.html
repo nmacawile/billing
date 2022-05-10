@@ -1,11 +1,16 @@
-<form class="login-form">
+<form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
   <h2 class="mat-h2">Login</h2>
   <mat-form-field>
     <mat-label>E-mail</mat-label>
-    <input matInput type="email">
+    <input matInput type="email" formControlName="email">
+    <mat-error>E-mail is required.</mat-error>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Password</mat-label>
-    <input matInput type="password">
+    <input matInput type="password" formControlName="password">
+    <mat-error>Password is required.</mat-error>
   </mat-form-field>
+  <button type="submit" mat-flat-button color="primary" [disabled]="processing">
+    {{ processing ? 'PLEASE WAIT...' : 'LOGIN' }}
+  </button>
 </form>

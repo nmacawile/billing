@@ -1,0 +1,29 @@
+.table-container {
+  width: 100%;
+  overflow: auto;
+}
+
+.department-table  {
+  width: 100%;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  border-collapse: collapse;
+
+  th, td {
+    text-align: left;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(0,0,0,.54);
+    height: 48px;
+    border-bottom: 1px solid rgba(0,0,0,.12);
+    height: 48px;
+  }
+
+  th:first-child, td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    padding-left: 16px;
+    background: linear-gradient(90deg, #fff 75%, transparent);
+  }
+}

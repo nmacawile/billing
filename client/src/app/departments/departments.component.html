@@ -1,0 +1,12 @@
+<a mat-button [routerLink]="['/templates', id]"><mat-icon>chevron_left</mat-icon> {{title}}</a>
+<div class="delete-mode-toggle-container">
+  <mat-slide-toggle [(ngModel)]="deleteMode">Allow Deletion</mat-slide-toggle>
+</div>
+<div class="table-container" *ngFor="let department of departments">
+  <app-department [deleteMode]="deleteMode" [department]="department" [departments]="departments" [templateId]="id"></app-department>
+</div>
+
+<button mat-flat-button color="primary"
+        class="add-department-button"
+        (click)="addNewDepartment()"
+        >ADD NEW DEPARTMENT</button>

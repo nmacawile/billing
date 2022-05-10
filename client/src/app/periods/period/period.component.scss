@@ -1,0 +1,25 @@
+::ng-deep .special-date {
+   background-color: red;
+}
+
+.period-container {
+  padding: 16px 0 8px;
+}
+
+.period-calendar-container {
+  width: 360px;
+}
+
+
+
+
+::ng-deep mat-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-calendar-body-cell.selected > .mat-calendar-body-cell-content,
+::ng-deep .mat-calendar-body-cell.selected:hover > .mat-calendar-body-cell-content,
+::ng-deep .mat-calendar-body-cell.selected > .mat-calendar-body-cell-content:hover {
+  background-color: #673ab7 !important;
+  color: #fff !important;
+}

@@ -1,0 +1,28 @@
+<form class="register-form" [formGroup]="registerForm" (ngSubmit)="register()">
+  <h2 class="mat-h2">Register</h2>
+  <mat-form-field>
+    <mat-label>E-mail</mat-label>
+    <input matInput type="email" formControlName="email">
+    <mat-error *ngFor="let error of errors('email')">
+      {{errorMessages['email'][error]}}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input matInput type="password" formControlName="password">
+    <mat-error *ngFor="let error of errors('password')">
+      {{errorMessages['password'][error]}}
+    </mat-error>
+    <mat-error></mat-error>
+  </mat-form-field>
+   <mat-form-field>
+    <mat-label>Password Confirmation</mat-label>
+    <input matInput type="password" formControlName="passwordConfirmation">
+    <mat-error *ngFor="let error of errors('passwordConfirmation')">
+      {{errorMessages['passwordConfirmation'][error]}}
+    </mat-error>
+  </mat-form-field>
+  <button type="submit" mat-flat-button color="primary" [disabled]="!registerForm.valid || processing">
+    {{processing ? 'PLEASE WAIT...' : 'REGISTER'}}
+  </button>
+</form>

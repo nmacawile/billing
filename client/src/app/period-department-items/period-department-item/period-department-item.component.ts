@@ -1,0 +1,153 @@
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { FormArray, FormGroup } from '@angular/forms';
+import { Observable, combineLatest, Subscription } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { Item } from '../../models/item';
+import { ActivatedRoute } from '@angular/router';
+import { DateHelpers } from '../../lib/date-helpers';
+import { PeriodService } from '../../services/period.service';
+
+@Component({
+  selector: '[appPeriodDepartmentItem]',
+  templateUrl: './period-department-item.component.html',
+  styleUrls: ['./period-department-item.component.scss'],
+})
+export class PeriodDepartmentItemComponent implements OnInit, OnDestroy {
+  @Input('period_department_items') department_items: FormArray;
+  @Input('department_item') department_item: FormGroup;
+  @Input('index') index: number;
+
+  items: Item[];
+  filteredItems: Observable<Item[]>;
+  scheduleGroups = [
+    {
+      label: 'Range',
+      days: ['Mon-Fri', 'Mon-Sat', 'Mon-Sun', 'Sat-Sun'],
+    },
+    {
+      label: 'Single',
+      days: [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
+      ],
+    },
+    {
+      label: 'Rarely Used',
+      days: ['Mon-Thu', 'MWF', 'TTh'],
+    },
+  ];
+
+  calculatedCopies: number = 0;
+  amount: number = 0.0;
+
+  priceSub: Subscription;
+  totalCopiesSub: Subscription;
+  copiesCalcSub: Subscription;
+
+  constructor(
+    private route: ActivatedRoute,
+    private periodService: PeriodService,
+  ) {
+    this.items = this.route.snapshot.data.items;
+  }
+
+  ngOnInit(): void {
+    this.filteredItems = this.department_item.controls[
+      'name'
+    ].valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value)),
+    );
+
+    this.priceSub = this.department_item
+      .get('price')!
+      .valueChanges.subscribe(() => {
+        this.calculateAmount();
+      });
+
+    this.totalCopiesSub = this.department_item
+      .get('total_copies')!
+      .valueChanges.subscribe(() => {
+        this.calculateAmount();
+      });
+
+    const days = this.department_item.get('days');
+    const dVC = days!.valueChanges.pipe(startWith(days!.value));
+
+    const qty = this.department_item.get('quantity');
+    const initialQty = this.defaultToOne(qty!.value);
+    const qtyVC = qty!.valueChanges.pipe(startWith(initialQty));
+
+    const ded = this.department_item.get('total_deductions');
+    const dedVC = ded!.valueChanges.pipe(startWith(ded!.value));
+
+    this.copiesCalcSub = combineLatest([
+      this.periodService.startDate$,
+      this.periodService.endDate$,
+      dVC,
+      qtyVC,
+      dedVC,
+    ]).subscribe(([sd, ed, d, q, de]) => {
+      const total =
+        DateHelpers.daysBetween(sd, ed, d) * this.defaultToOne(q) - de;
+      this.calculatedCopies = total;
+      this.department_item.patchValue(
+        { total_copies: total },
+        { emitEvent: false },
+      );
+      this.calculateAmount();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.priceSub.unsubscribe();
+    this.totalCopiesSub.unsubscribe();
+    this.copiesCalcSub.unsubscribe();
+  }
+
+  setPrice(): void {
+    const name = this.department_item.getRawValue().name;
+    const price = this.items.find((item) => item.name == name)?.price || 0;
+    this.department_item.controls['price'].setValue(price);
+  }
+
+  delete(): void {
+    this.department_items.removeAt(this.index);
+  }
+
+  calculateAmount(): void {
+    const totalCopiesValue = this.department_item.get('total_copies')!.value;
+    const copies =
+      totalCopiesValue || (totalCopiesValue === 0 ? 0 : this.calculatedCopies);
+
+    this.department_item
+      .get('amount')!
+      .setValue(this.department_item.get('price')!.value * copies);
+  }
+
+  autofillTotalCopiesValue(e: FocusEvent): void {
+    const value: any = (e.target as HTMLInputElement).value;
+    if (!value && value !== 0)
+      this.department_item.patchValue(
+        { total_copies: this.calculatedCopies },
+        { emitEvent: false },
+      );
+  }
+
+  private _filter(value: string): Item[] {
+    const filterValue = value.toLowerCase();
+
+    return this.items.filter((option) =>
+      option.name.toLowerCase().includes(filterValue),
+    );
+  }
+
+  private defaultToOne(n: number): number {
+    return n || (n === 0 ? 0 : 1);
+  }
+}

@@ -1,0 +1,45 @@
+<ng-container [formGroup]="department_item">
+  <td>
+    <input type="text"
+           class="selection"
+           placeholder="Item"
+           formControlName="name"
+           matInput
+           [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" 
+           (optionSelected)="setPrice()">
+      <mat-option *ngFor="let item of filteredItems | async" [value]="item.name">
+        {{item.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </td>
+  <td>
+    <select class="schedule-selection selection" formControlName="days">
+      <option value="">--</option>
+      <optgroup *ngFor="let group of scheduleGroups" [label]="group.label">
+        <option *ngFor="let schedule of group.days" [value]="schedule">{{schedule}}</option>
+      </optgroup>
+    </select>
+  </td>
+  <td>
+    <input type="number" class="editable-cell price-cell" formControlName="price" min="0" placeholder="0.00">
+  </td>
+  <td>
+    <input type="number" class="editable-cell" formControlName="quantity" min="0" placeholder="1">
+  </td>
+  <td>
+    <input type="number" class="editable-cell red-text" formControlName="total_deductions" min="0" placeholder="0">
+  </td>
+  <td>
+    <input type="number" class="editable-cell" (blur)="autofillTotalCopiesValue($event)" formControlName="total_copies" min="0" [placeholder]="calculatedCopies">
+  </td>
+  <td>
+    <input type="text" class="editable-cell amount-cell" placeholder="0.00" [value]="department_item.get('amount')?.value | number : '1.2-2'" disabled>
+  </td>
+  <td>
+    <input type="text" style="visibility: hidden; width: 1px;" [matDatepicker]="picker">
+    <mat-datepicker #picker></mat-datepicker>
+    <button type="button" mat-icon-button (click)="picker.open()"><mat-icon>event_busy</mat-icon></button>
+    <button type="button" mat-icon-button color="warn" (click)="delete()"><mat-icon>delete</mat-icon></button>
+  </td>
+</ng-container>

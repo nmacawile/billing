@@ -1,0 +1,29 @@
+<form class="template-form" [formGroup]="templateForm" (ngSubmit)="onSubmit()">
+  <h2 class="mat-h2">{{title}}</h2>
+  <mat-form-field>
+    <mat-label>Client name</mat-label>
+    <input matInput formControlName="client_name" required="">
+    <mat-error>Client name is required.</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Client address</mat-label>
+    <input matInput formControlName="client_address">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Template name</mat-label>
+    <input matInput formControlName="name" required="">
+    <mat-error>Template name is required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Format</mat-label>
+    <select matNativeControl formControlName="_format">
+      <option *ngFor="let format of formats" [value]="format.toLowerCase()">
+        {{format}}
+      </option>
+    </select>
+  </mat-form-field>
+  <a mat-stroked-button *ngIf="!newRecord" color="primary" routerLink="items">EDIT ITEMS</a>
+  <button type="submit" mat-flat-button color="primary">{{submitLabel}}</button>
+</form>

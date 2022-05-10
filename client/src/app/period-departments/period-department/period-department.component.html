@@ -1,0 +1,12 @@
+<mat-form-field [formGroup]="department_form" appearance="fill">
+  <mat-label>Department</mat-label>
+  <input matInput formControlName="name" />
+  <button type="button" mat-icon-button matSuffix color="warn" (click)="deleteDepartment()">
+    <mat-icon>delete</mat-icon>
+  </button>
+</mat-form-field>
+
+<app-period-department-items
+  [period_department_items]="period_department_items">  
+</app-period-department-items>
+<br>

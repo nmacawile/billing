@@ -1,0 +1,33 @@
+<mat-toolbar class="subgroup-header">
+  <input class="subgroup-name" (change)="saveDepartment(department)" placeholder="Department Name" [(ngModel)]="department.name">
+  <button *ngIf="deleteMode" mat-icon-button color="warn" (click)="deleteDepartment()">
+    <mat-icon>delete</mat-icon>
+  </button>
+</mat-toolbar>
+<table class="department-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Days</th>
+      <th>Qty</th>
+      <th>Price</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let di of department.department_items"
+        editDepartmentItem
+        [departmentItem]="di"
+        [templateId]="templateId"
+        [departmentId]="id"
+        [deleteMode]="deleteMode"
+        [departmentItems]="department.department_items">
+    </tr>
+
+    <tr newDepartmentItem
+        [templateId]="templateId"
+        [departmentId]="id"
+        [departmentItems]="department.department_items">
+    </tr>
+  </tbody>
+</table>

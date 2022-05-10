@@ -1,0 +1,11 @@
+.new-item-button {
+  margin-bottom: 16px;
+}
+
+table {
+  width: 100%;
+}
+
+.price::before {
+  content: '₱ ';
+}

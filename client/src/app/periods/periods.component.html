@@ -1,0 +1,30 @@
+<div class="periods-container">
+  <button type="button" mat-flat-button color="accent" (click)="onAddPeriod()">
+    Add Period
+  </button>
+
+  <mat-tab-group mat-align-tabs="start"
+                 *ngIf="periodsFormArray.controls.length > 0"
+                 class="periods-tab-group"
+                 [selectedIndex]="selected.value"
+                 (selectedIndexChange)="selected.setValue($event)">
+    <mat-tab 
+      *ngFor="let period of periodsFormArray.controls; let i = index"
+      >
+      <ng-template mat-tab-label>
+        {{this.period.value.start_date && this.period.value.end_date ? (this.period.value.start_date | date : 'MMM d') + ' to ' + (this.period.value.end_date | date : 'MMM d') : 'N/A'}}
+        <button mat-icon-button type="button" (click)="onDeletePeriod(i)">
+          <mat-icon color="warn">close</mat-icon>
+        </button>
+      </ng-template>
+      <app-period [period]="toFormGroup(period)">
+      </app-period>
+    </mat-tab>
+
+    <button type="button" mat-flat-button color="accent" (click)="onAddPeriod()">
+      Add Period
+    </button>
+
+  </mat-tab-group>
+  <br>
+</div>

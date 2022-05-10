@@ -1,0 +1,42 @@
+<form class="example-form" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Template</mat-label>
+    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+    <button type="button" mat-icon-button (click)="myControl.setValue('')" matSuffix>
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      [displayWith]="displayFn"
+      autoActiveFirstOption>
+      <mat-option *ngFor="let template of filteredTemplates | async" [value]="template">
+        {{template.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <button mat-flat-button 
+
+   color="accent">
+    <mat-icon>add</mat-icon>
+    NEW BILLING
+  </button>
+</form>
+
+<mat-nav-list>
+  <a mat-list-item *ngFor="let billing of billings; let i = index">
+     <a matLine [routerLink]="billing._id.$oid">{{billing.client_name}},
+      {{billing.start_date | date}} to
+      {{billing.end_date | date}}
+     </a>
+     <button mat-icon-button color="accent" (click)="downloadSheet(billing)">
+        <mat-icon>file_download</mat-icon>
+     </button>
+     <button mat-icon-button color="warn" (click)="delete(billing, i)">
+        <mat-icon>delete</mat-icon>
+     </button>
+  </a>
+</mat-nav-list>
+
+
+
+

@@ -21,6 +21,11 @@ h1.app-name {
 
 .app-content {
   padding: 16px 24px;
+  max-width: 960px;
+}
+
+.app-content-mobile {
+  padding: 8px;
 }
 
 .sidenav { 
@@ -35,6 +40,7 @@ h1.app-name {
     }
   }
   .app-nav-list-active {
+    font-weight: bold;
     background-color: #e3eefd;
     color: rgba(0,0,0,.87);
   }
@@ -50,4 +56,15 @@ h1.app-name {
   /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
      `<body>` to be our scrolling element for mobile layouts. */
   flex: 1 0 auto;
+}
+
+::ng-deep button[mat-flat-button][type="submit"] {
+  margin: 8px 0;
+}
+
+::ng-deep a.mat-link {
+  font-weight: 500;
+  letter-spacing: normal;
+  text-decoration: none;
+  color: #3f51b5;
 }

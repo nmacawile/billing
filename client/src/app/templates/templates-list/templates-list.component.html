@@ -1,0 +1,18 @@
+<a mat-flat-button color="accent" class="new-template-button" routerLink="new">
+  <mat-icon>add</mat-icon>
+  NEW TEMPLATE
+</a>
+
+<mat-list>
+  <mat-list-item *ngFor="let template of templates; let i = index">
+    <div mat-line>{{template.client_name}}</div>
+    <div mat-line>{{template.client_address || 'N/A'}}</div>
+    <div mat-line>{{template.name}}</div>
+    <a [routerLink]="[getId(template)]" mat-icon-button>
+      <mat-icon color="accent">edit</mat-icon>
+    </a>
+    <button mat-icon-button>
+      <mat-icon color="warn" (click)="deleteTemplate(template, i)">delete</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-list>
