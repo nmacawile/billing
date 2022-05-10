@@ -4,6 +4,7 @@ import { FormArray, FormGroup } from '@angular/forms';
 import { FormBuilderService } from '../../services/form-builder.service';
 import { BillingFormService } from '../../services/billing-form.service';
 import { BillingsService } from '../../services/billings.service';
+import { FORMATS } from '../../lib/formats';
 
 @Component({
   selector: 'app-billing',
@@ -14,6 +15,7 @@ import { BillingsService } from '../../services/billings.service';
 export class BillingComponent implements OnInit {
   billingForm: FormGroup;
   id: string;
+  formats = FORMATS;
 
   constructor(
     private route: ActivatedRoute,

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Template, TemplateParams } from '../../models/template';
+import { FORMATS } from '../../lib/formats';
 
 @Component({
   selector: 'app-template-form',
@@ -9,6 +10,7 @@ import { Template, TemplateParams } from '../../models/template';
 })
 export class TemplateFormComponent implements OnInit {
   templateForm: FormGroup;
+  formats = FORMATS;
   @Output() formSubmit = new EventEmitter<TemplateParams>();
   @Input('title') title: string;
   @Input('template') template: TemplateParams | Template;

@@ -5,6 +5,7 @@ import { Template } from '../../models/template';
 import { BillingsService } from '../../services/billings.service';
 import { FormBuilderService } from '../../services/form-builder.service';
 import { BillingFormService } from '../../services/billing-form.service';
+import { FORMATS } from '../../lib/formats';
 
 @Component({
   selector: 'app-billings-form',
@@ -16,6 +17,7 @@ export class BillingsFormComponent implements OnInit {
   billingForm: FormGroup;
   template: Template;
   templateId: string;
+  formats = FORMATS;
 
   constructor(
     private route: ActivatedRoute,

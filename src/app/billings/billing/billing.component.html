@@ -19,7 +19,7 @@
   <mat-form-field>
     <mat-label>Format</mat-label>
     <select matNativeControl formControlName="_format">
-      <option *ngFor="let format of ['Short', 'Long']" [value]="format.toLowerCase()">
+      <option *ngFor="let format of formats" [value]="format.toLowerCase()">
         {{format}}
       </option>
     </select>
