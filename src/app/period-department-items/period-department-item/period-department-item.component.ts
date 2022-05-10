@@ -100,11 +100,6 @@ export class PeriodDepartmentItemComponent implements OnInit, OnDestroy {
         { total_copies: total },
         { emitEvent: false },
       );
-
-      // if (!this.department_item.get('total_copies')!.pristine)
-      //   this.department_item.get('total_copies')!.reset();
-      // else
-
       this.calculateAmount();
     });
   }
