@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PeriodsModule } from '../periods/periods.module';
 import { BillingComponent } from './billing/billing.component';
 import { StickyFooterComponent } from './sticky-footer/sticky-footer.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { StickyFooterComponent } from './sticky-footer/sticky-footer.component';
     FormsModule,
     ReactiveFormsModule,
     PeriodsModule,
+    SharedModule,
   ],
 })
 export class BillingsModule {}

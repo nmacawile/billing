@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { map, startWith, tap } from 'rxjs/operators';
+import { map, startWith, switchMap, tap } from 'rxjs/operators';
 import { Template } from '../../models/template';
 import { TemplatesService } from '../../services/templates.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Billing } from '../../models/billing';
 import { BillingsService } from '../../services/billings.service';
 import { SheetsService } from '../../services/sheets.service';
+import { SharedService } from '../../shared/shared.service';
+import { DateHelpers } from '../../lib/date-helpers';
 
 @Component({
   selector: 'app-billings-list',
@@ -26,6 +28,7 @@ export class BillingsListComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private sheetsService: SheetsService,
+    private sharedService: SharedService,
   ) {
     this.templates = this.route.snapshot.data.templates;
   }
@@ -59,9 +62,14 @@ export class BillingsListComponent implements OnInit {
       : { template: val?._id.$oid };
   }
 
-  delete(id: string, index: number): void {
-    this.billingsService
-      .deleteBilling(id)
+  delete(billing: Billing, index: number): void {
+    const id = billing._id.$oid;
+    const coverage = `${DateHelpers.format2(
+      billing.start_date,
+    )} to ${DateHelpers.format2(billing.end_date)}`;
+    this.sharedService
+      .confirmDeleteDialog(`${billing.client_name} ${coverage}`)
+      .pipe(switchMap(() => this.billingsService.deleteBilling(id)))
       .subscribe((res) => this.billings.splice(index, 1));
   }
 
