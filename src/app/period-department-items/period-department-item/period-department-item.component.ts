@@ -126,8 +126,10 @@ export class PeriodDepartmentItemComponent implements OnInit, OnDestroy {
   }
 
   calculateAmount(): void {
+    const totalCopiesValue = this.department_item.get('total_copies')!.value;
     const copies =
-      this.department_item.get('total_copies')!.value || this.calculatedCopies;
+      totalCopiesValue || (totalCopiesValue === 0 ? 0 : this.calculatedCopies);
+
     this.department_item
       .get('amount')!
       .setValue(this.department_item.get('price')!.value * copies);
