@@ -177,3 +177,8 @@ test:
         read:
           mode: :primary
         max_pool_size: 1
+
+production:
+  clients:
+    default:
+      uri: mongodb+srv://<%= ENV['mlab_username'] %>:<%= ENV['mlab_password'] %>@cluster0.uvbup.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
