@@ -5,6 +5,7 @@ import {
 } from '@angular/material/datepicker';
 import { FormArray, FormGroup } from '@angular/forms';
 import { PeriodService } from '../../services/period.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-period',
@@ -17,15 +18,15 @@ export class PeriodComponent implements OnInit {
   @Input('period') period: FormGroup;
 
   CLOSE_ON_SELECTED = false;
-  init = new Date();
+  calendarStart$: Subject<Date>;
   resetModel = new Date(0);
-
   selected: Date | null;
 
   constructor(private periodService: PeriodService) {}
 
   ngOnInit(): void {
     this.periodService.periodForm = this.period;
+    this.calendarStart$ = this.periodService.startDate$;
   }
 
   get start_date(): Date {
