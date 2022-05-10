@@ -19,5 +19,9 @@ class PeriodicBilling
                         :end_date
 
                         
-  enum :format, [:short, :long], default: :short
+  enum :format, [:short,
+                 :long,
+                 :legacy,
+                 :ncmf,
+                 :bir], default: :short
 end
