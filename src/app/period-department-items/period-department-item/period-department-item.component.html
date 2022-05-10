@@ -34,7 +34,7 @@
     <input type="number" class="editable-cell" (blur)="autofillTotalCopiesValue($event)" formControlName="total_copies" min="0" [placeholder]="calculatedCopies">
   </td>
   <td>
-    <input type="text" class="editable-cell amount-cell" formControlName="amount" placeholder="0.00">
+    <input type="text" class="editable-cell amount-cell" placeholder="0.00" [value]="department_item.get('amount')?.value | number : '1.2-2'" disabled>
   </td>
   <td>
     <input type="text" style="visibility: hidden; width: 1px;" [matDatepicker]="picker">
