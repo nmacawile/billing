@@ -9,19 +9,7 @@ import {
 } from '../models/period-department-item';
 
 export class NCMFSheetBuilder extends LongSheetBuilder {
-  protected writeItems(): void {
-    this.billing.periods.forEach((p) => {
-      if (this.writePeriods) this.writePeriodHeader(p);
-
-      p.period_departments?.forEach((d) => {
-        if (this.writeDepartments) this.writeDepartmentHeader(d);
-        d?.period_department_items?.forEach((i) => {
-          this.writeItem(i);
-        });
-      });
-    });
-  }
-
+  
   protected writeDepartmentHeader(
     d: PeriodDepartment | PeriodDepartmentParams,
   ) {

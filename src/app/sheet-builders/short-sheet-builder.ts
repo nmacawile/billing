@@ -1,6 +1,4 @@
-import { Billing, BillingParams } from '../models/billing';
 import { SheetBuilder } from './sheet-builder';
-import { Workbook } from 'exceljs';
 import { DateHelpers } from '../lib/date-helpers';
 import { numberToText } from '../lib/number-to-text';
 import { Period, PeriodParams } from '../models/period';
@@ -43,18 +41,6 @@ export class ShortSheetBuilder extends SheetBuilder {
     this.writeToCell('A50', numberToText(this.total));
   }
 
-  protected writeItems(): void {
-    this.billing.periods.forEach((p) => {
-      if (this.writePeriods) this.writePeriodHeader(p);
-      p.period_departments?.forEach((d) => {
-        if (this.writeDepartments) this.writeDepartmentHeader(d);
-        d?.period_department_items?.forEach((i) => {
-          this.writeItem(i);
-        });
-      });
-    });
-  }
-
   protected writePeriodHeader(p: Period | PeriodParams): void {
     const address = 'A' + this.writeIndex;
     const title =
@@ -89,15 +75,5 @@ export class ShortSheetBuilder extends SheetBuilder {
     this.writeToCell('G' + this.writeIndex, +i.price);
     this.writeToCell('I' + this.writeIndex, +i.amount);
     this.writeIndex++;
-  }
-
-  protected get writePeriods(): boolean {
-    return this.billing.periods?.length > 1;
-  }
-
-  protected get writeDepartments(): boolean {
-    return this.billing.periods.some(
-      (p) => p.period_departments && p.period_departments.length > 1,
-    );
   }
 }
