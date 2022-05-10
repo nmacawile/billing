@@ -28,7 +28,7 @@
     <input type="number" class="editable-cell" formControlName="quantity" min="0" placeholder="1">
   </td>
   <td>
-    <input type="number" class="editable-cell" formControlName="total_deductions" min="0" placeholder="0">
+    <input type="number" class="editable-cell red-text" formControlName="total_deductions" min="0" placeholder="0">
   </td>
   <td>
     <input type="number" class="editable-cell" (blur)="autofillTotalCopiesValue($event)" formControlName="total_copies" min="0" [placeholder]="calculatedCopies">
