@@ -23,5 +23,6 @@ class PeriodicBilling
                  :long,
                  :legacy,
                  :ncmf,
-                 :bir], default: :short
+                 :bir,
+                 :orlaza], default: :short
 end
