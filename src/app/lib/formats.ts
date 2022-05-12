@@ -1,1 +1,1 @@
-export const FORMATS = ['Short', 'Long', 'Legacy', 'NCMF', 'BIR'];
+export const FORMATS = ['Short', 'Long', 'Legacy', 'NCMF', 'BIR', 'Orlaza'];
