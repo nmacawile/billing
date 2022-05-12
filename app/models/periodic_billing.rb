@@ -3,7 +3,7 @@ class PeriodicBilling
   include Mongoid::Timestamps
   include Mongoid::Enum
 
-  belongs_to :template
+  belongs_to :template, optional: true
   
   field :client_name, type: String
   field :client_address, type: String
