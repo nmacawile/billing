@@ -19,6 +19,14 @@ export class PeriodService implements OnDestroy {
     this._endDateSub.unsubscribe();
   }
 
+  clearDaysOff(): void {
+    this.periodForm.patchValue({ days_off: [] });
+  }
+
+  get periodForm(): FormGroup {
+    return this._periodForm;
+  }
+
   set periodForm(periodForm: FormGroup) {
     this._periodForm = periodForm;
     const startDate = periodForm.get('start_date')!.value;

@@ -71,11 +71,15 @@ export class BillingsService {
     return environment.serverUrl + 'periodic_billings/' + p;
   }
 
-  private parsePeriodTimestamps = (p: any) =>
-    Object.assign(p, {
+  private parsePeriodTimestamps = (p: any) => {
+    const _days_off: any[] = p.days_off;
+    const days_off = _days_off.map((d) => new Date(d));
+    return Object.assign(p, {
       start_date: new Date(p.start_date),
       end_date: new Date(p.end_date),
+      days_off,
     });
+  };
 
   private parseBillingFields = (b: any) =>
     Object.assign(b, {

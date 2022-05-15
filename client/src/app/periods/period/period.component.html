@@ -2,15 +2,15 @@
   <mat-form-field>
     <mat-label>Enter a date range</mat-label>
     <mat-date-range-input [rangePicker]="dateRangePicker">
-      <input matStartDate formControlName="start_date" placeholder="Start date" (dateChange)="clearDaysOff($event)">
-      <input matEndDate formControlName="end_date" placeholder="End date" (dateChange)="clearDaysOff($event)">
+      <input matStartDate formControlName="start_date" placeholder="Start date" (dateChange)="clearDaysOff()">
+      <input matEndDate formControlName="end_date" placeholder="End date" (dateChange)="clearDaysOff()">
     </mat-date-range-input>
     <mat-datepicker-toggle matSuffix [for]="dateRangePicker"></mat-datepicker-toggle>
     <mat-date-range-picker #dateRangePicker></mat-date-range-picker>
   </mat-form-field>
 
-  <mat-form-field>
-    <mat-chip-list #chipList aria-label="Choose a date" (click)="picker.open()">
+    <app-multi-date-range-picker></app-multi-date-range-picker>
+    <!-- <mat-chip-list #chipList aria-label="Choose a date" (click)="picker.open()">
       <mat-chip
         *ngFor="let value of days_off"
         [selectable]="false"
@@ -37,8 +37,7 @@
       [startAt]="calendarStart$ | async"
       [dateClass]="dateClass"
       [disabled]="unsetPeriod"
-    ></mat-datepicker>
-  </mat-form-field>
+    ></mat-datepicker> -->
   <app-period-departments [period_departments]="period_departments"></app-period-departments>
 </div>
   
