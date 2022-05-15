@@ -37,9 +37,7 @@
     <input type="text" class="editable-cell amount-cell" placeholder="0.00" [value]="department_item.get('amount')?.value | number : '1.2-2'" disabled>
   </td>
   <td>
-    <input type="text" style="visibility: hidden; width: 1px;" [matDatepicker]="picker">
-    <mat-datepicker #picker></mat-datepicker>
-    <button type="button" mat-icon-button (click)="picker.open()"><mat-icon>event_busy</mat-icon></button>
+    <app-item-multi-date-range-picker [department_item]="department_item"></app-item-multi-date-range-picker>
     <button type="button" mat-icon-button color="warn" (click)="delete()"><mat-icon>delete</mat-icon></button>
   </td>
 </ng-container>
