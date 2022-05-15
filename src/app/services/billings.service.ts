@@ -81,11 +81,22 @@ export class BillingsService {
     });
   };
 
-  private parseBillingFields = (b: any) =>
-    Object.assign(b, {
+  private parseBillingFields = (b: any) => {
+    const _b = Object.assign(b, {
       start_date: new Date(b.start_date),
       end_date: new Date(b.end_date),
       periods: b.periods.map(this.parsePeriodTimestamps),
       total: +b.total,
     });
+
+    _b.periods?.forEach((p: any) =>
+      p.period_departments?.forEach((pd: any) =>
+        pd.period_department_items?.forEach((pdi: any) =>
+          pdi.days_off = pdi.days_off?.map((d: string) => new Date(d)),
+        ),
+      ),
+    );
+
+    return _b;
+  };
 }
