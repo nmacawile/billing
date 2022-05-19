@@ -8,36 +8,7 @@
     <mat-datepicker-toggle matSuffix [for]="dateRangePicker"></mat-datepicker-toggle>
     <mat-date-range-picker #dateRangePicker></mat-date-range-picker>
   </mat-form-field>
-
-    <app-multi-date-range-picker></app-multi-date-range-picker>
-    <!-- <mat-chip-list #chipList aria-label="Choose a date" (click)="picker.open()">
-      <mat-chip
-        *ngFor="let value of days_off"
-        [selectable]="false"
-        [removable]="true"
-        (removed)="remove(value)"
-      >
-        {{value | date}}
-        <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
-      </mat-chip>
-      <input
-        [value]="resetModel"
-        matInput
-        [matDatepicker]="picker"
-        [matDatepickerFilter]="offDaysFilter"
-        placeholder="Days off"
-        (dateChange)="dateChanged($event)"
-        [matChipInputFor]="chipList"
-        hidden
-      />
-    </mat-chip-list>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker
-      #picker
-      [startAt]="calendarStart$ | async"
-      [dateClass]="dateClass"
-      [disabled]="unsetPeriod"
-    ></mat-datepicker> -->
+  <app-multi-date-range-picker></app-multi-date-range-picker>
   <app-period-departments [period_departments]="period_departments"></app-period-departments>
 </div>
   
