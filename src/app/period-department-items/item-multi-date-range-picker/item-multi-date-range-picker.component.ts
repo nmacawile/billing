@@ -1,15 +1,18 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDatepicker, MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  MatDatepicker,
+  MatDatepickerInputEvent,
+} from '@angular/material/datepicker';
 import { FormGroup } from '@angular/forms';
 import { PeriodService } from '../../services/period.service';
-import { Subject } from 'rxjs';
+import { Subject, Subscription, merge } from 'rxjs';
 
 @Component({
   selector: 'app-item-multi-date-range-picker',
   templateUrl: './item-multi-date-range-picker.component.html',
   styleUrls: ['./item-multi-date-range-picker.component.scss'],
 })
-export class ItemMultiDateRangePickerComponent implements OnInit {
+export class ItemMultiDateRangePickerComponent implements OnInit, OnDestroy {
   @ViewChild('picker', { static: true }) _picker: MatDatepicker<Date>;
   @Input('department_item') department_item: FormGroup;
 
@@ -17,20 +20,50 @@ export class ItemMultiDateRangePickerComponent implements OnInit {
   resetModel = new Date(0);
   calendarStart$: Subject<Date>;
 
+  addOffDaySub: Subscription;
+  removeOffDaySub: Subscription;
+  coverageDateSub: Subscription;
+
   constructor(private periodService: PeriodService) {}
 
   ngOnInit(): void {
     this.calendarStart$ = this.periodService.startDate$;
+    this.addOffDaySub = this.periodService.addOffDay$.subscribe((date) =>
+      this.addOffDay(date),
+    );
+    this.removeOffDaySub = this.periodService.removeOffDay$.subscribe((date) =>
+      this.removeOffDay(date),
+    );
+    this.coverageDateSub = merge(
+      this.periodService.startDate$,
+      this.periodService.endDate$,
+    ).subscribe(() => (this.days_off.length = 0));
+  }
+
+  ngOnDestroy(): void {
+    this.addOffDaySub.unsubscribe();
+    this.removeOffDaySub.unsubscribe();
+    this.coverageDateSub.unsubscribe();
   }
 
   dateChanged(event: MatDatepickerInputEvent<Date>): void {
     if (event.value) {
       const date = event.value;
       const index = this._findDate(date);
-      index === -1 ? this.days_off.push(date) : this.days_off.splice(index, 1);
+      index === -1 ? this.addOffDay(date) : this.removeOffDay(date);
       this.resetModel = new Date(0);
       this.preventDatepickerPopupClose();
     }
+  }
+
+  addOffDay(date: Date): void {
+    const index = this._findDate(date);
+    if (index === -1) this.days_off.push(date);
+  }
+
+  removeOffDay(date: Date): void {
+    const index = this._findDate(date);
+    if (index !== -1) this.days_off.splice(index, 1);
   }
 
   get start_date(): Date {

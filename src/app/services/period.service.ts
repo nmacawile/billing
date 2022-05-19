@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { shareReplay, startWith } from 'rxjs/operators';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 
 @Injectable()
 export class PeriodService implements OnDestroy {
@@ -11,6 +11,8 @@ export class PeriodService implements OnDestroy {
 
   startDate$ = new BehaviorSubject<Date>(new Date());
   endDate$ = new BehaviorSubject<Date>(new Date());
+  addOffDay$ = new Subject<Date>();
+  removeOffDay$ = new Subject<Date>();
 
   constructor() {}
 
