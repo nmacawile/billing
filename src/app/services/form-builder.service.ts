@@ -35,7 +35,7 @@ export class FormBuilderService {
       end_date: [{ value: '', disabled: true }],
       total: 0,
       discount: 0,
-      periods: this.fb.array([this.periodForm(departments)]),
+      periods: this.fb.array([this.newPeriodForm(departments)]),
     });
   }
 
@@ -106,14 +106,14 @@ export class FormBuilderService {
     });
   }
 
-  periodForm(
+  newPeriodForm(
     departments: Department[] = [],
     dateRange?: { start_date: Date; end_date: Date },
   ): FormGroup {
     const periodDepartmentForms =
       departments.length > 0
-        ? departments?.map((d) => this.periodDepartmentForm(d))
-        : [this.periodDepartmentForm()];
+        ? departments?.map((d) => this.newPeriodDepartmentForm(d))
+        : [this.newPeriodDepartmentForm()];
 
     const _dateRange = dateRange || DateHelpers.getPrevious(new Date());
 
@@ -125,11 +125,13 @@ export class FormBuilderService {
     });
   }
 
-  periodDepartmentForm(department?: Department): FormGroup {
+  newPeriodDepartmentForm(department?: Department): FormGroup {
     const departmentItems =
       department && department.department_items
-        ? department.department_items.map((di) => this.periodDepartmentItem(di))
-        : [this.periodDepartmentItem()];
+        ? department.department_items.map((di) =>
+            this.newPeriodDepartmentItem(di),
+          )
+        : [this.newPeriodDepartmentItem()];
 
     return this.fb.group({
       name: department?.name,
@@ -137,11 +139,8 @@ export class FormBuilderService {
     });
   }
 
-  periodDepartmentItem(di?: DepartmentItem): FormGroup {
-    let item;
-    if (di) {
-      item = this.items.find((i) => i['_id']['$oid'] == di['item_id']['$oid']);
-    }
+  newPeriodDepartmentItem(di?: DepartmentItem): FormGroup {
+    const item = this.findItem(di);
 
     return this.fb.group({
       name: item?.name,
@@ -153,5 +152,13 @@ export class FormBuilderService {
       total_deductions: '',
       days_off: [[]],
     });
+  }
+
+  private findItem(di?: DepartmentItem): Item | undefined {
+    let item;
+    if (di) {
+      item = this.items.find((i) => i['_id']['$oid'] == di['item_id']['$oid']);
+    }
+    return item;
   }
 }

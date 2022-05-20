@@ -19,7 +19,7 @@ export class PeriodDepartmentsComponent implements OnInit {
   ngOnInit(): void {}
 
   addNewDepartment(): void {
-    this.period_departments.push(this.fbs.periodDepartmentForm());
+    this.period_departments.push(this.fbs.newPeriodDepartmentForm());
   }
 
   onDelete(i: number): void {

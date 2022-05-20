@@ -15,8 +15,8 @@ export class PeriodDepartmentItemsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onAddDepartmentItem(): void {
-    this.period_department_items.push(this.fbs.periodDepartmentItem());
+  onAddDepartmentItem(): void {    
+    this.period_department_items.push(this.fbs.newPeriodDepartmentItem());
   }
 
   toFormGroup(control: AbstractControl): FormGroup {

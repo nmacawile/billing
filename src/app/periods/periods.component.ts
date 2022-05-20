@@ -38,7 +38,7 @@ export class PeriodsComponent implements OnInit {
       );
 
     this.periodsFormArray.push(
-      this.fbs.periodForm(this.departments, dateRange),
+      this.fbs.newPeriodForm(this.departments, dateRange),
     );
     this.selected.setValue(periodsCount);
   }
