@@ -8,6 +8,7 @@ export class PeriodService implements OnDestroy {
   private _periodForm: FormGroup;
   private _startDateSub: Subscription;
   private _endDateSub: Subscription;
+  private _coverageDateChangeSub: Subscription;
 
   startDate$ = new BehaviorSubject<Date>(new Date());
   endDate$ = new BehaviorSubject<Date>(new Date());
@@ -20,6 +21,7 @@ export class PeriodService implements OnDestroy {
   ngOnDestroy() {
     this._startDateSub.unsubscribe();
     this._endDateSub.unsubscribe();
+    this._coverageDateChangeSub.unsubscribe();
   }
 
   clearDaysOff(): void {
@@ -28,6 +30,10 @@ export class PeriodService implements OnDestroy {
 
   get periodForm(): FormGroup {
     return this._periodForm;
+  }
+
+  get daysOff(): Array<Date> {
+    return this.periodForm.get('days_off')!.value;
   }
 
   set periodForm(periodForm: FormGroup) {
@@ -47,6 +53,9 @@ export class PeriodService implements OnDestroy {
         this.endDate$.next(date);
         this.coverageDateChange$.next(date);
       });
+    this._coverageDateChangeSub = this.coverageDateChange$.subscribe(() =>
+      this.clearDaysOff(),
+    );
 
     this.startDate$.next(startDate);
     this.endDate$.next(endDate);

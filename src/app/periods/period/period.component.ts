@@ -20,8 +20,4 @@ export class PeriodComponent implements OnInit {
   get period_departments(): FormArray {
     return this.period.get('period_departments') as FormArray;
   }
-
-  clearDaysOff(): void {
-    this.periodService.clearDaysOff();
-  }
 }
