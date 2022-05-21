@@ -13,6 +13,7 @@ export class PeriodService implements OnDestroy {
   endDate$ = new BehaviorSubject<Date>(new Date());
   addOffDay$ = new Subject<Date>();
   removeOffDay$ = new Subject<Date>();
+  coverageDateChange$ = new Subject<Date>();
 
   constructor() {}
 
@@ -36,10 +37,16 @@ export class PeriodService implements OnDestroy {
 
     this._startDateSub = this._periodForm
       .get('start_date')!
-      .valueChanges.subscribe((date) => this.startDate$.next(date));
+      .valueChanges.subscribe((date) => {
+        this.startDate$.next(date);
+        this.coverageDateChange$.next(date);
+      });
     this._endDateSub = this._periodForm
       .get('end_date')!
-      .valueChanges.subscribe((date) => this.endDate$.next(date));
+      .valueChanges.subscribe((date) => {
+        this.endDate$.next(date);
+        this.coverageDateChange$.next(date);
+      });
 
     this.startDate$.next(startDate);
     this.endDate$.next(endDate);
