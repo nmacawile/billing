@@ -21,7 +21,10 @@ export class FormBuilderService {
     this.itemsService.getItems().subscribe((items) => (this.items = items));
   }
 
-  billingForm(data: { template?: Template; client_name: string }): FormGroup {
+  newBillingForm(data: {
+    template?: Template;
+    client_name: string;
+  }): FormGroup {
     const templateId = data.template?._id.$oid;
     const clientName = data.template?.client_name || data.client_name;
     const departments: Department[] = data.template?.departments || [];
@@ -39,7 +42,7 @@ export class FormBuilderService {
     });
   }
 
-  billingEditForm(billing: Billing): FormGroup {
+  rebuildBillingForm(billing: Billing): FormGroup {
     const {
       created_at,
       updated_at,
@@ -112,7 +115,9 @@ export class FormBuilderService {
   ): FormGroup {
     const periodDepartmentForms =
       departments.length > 0
-        ? departments?.map((d) => this.newPeriodDepartmentForm(d))
+        ? departments?.map((department) =>
+            this.newPeriodDepartmentForm({ department }),
+          )
         : [this.newPeriodDepartmentForm()];
 
     const _dateRange = dateRange || DateHelpers.getPrevious(new Date());
@@ -125,13 +130,18 @@ export class FormBuilderService {
     });
   }
 
-  newPeriodDepartmentForm(department?: Department): FormGroup {
+  newPeriodDepartmentForm(data?: {
+    department?: Department;
+    days_off?: Date[];
+  }): FormGroup {
+    const department = data?.department;
+    const days_off = data?.days_off;
     const departmentItems =
       department && department.department_items
-        ? department.department_items.map((di) =>
-            this.newPeriodDepartmentItem(di),
+        ? department.department_items.map((departmentItem) =>
+            this.newPeriodDepartmentItemForm({ departmentItem, days_off }),
           )
-        : [this.newPeriodDepartmentItem()];
+        : [this.newPeriodDepartmentItemForm({ days_off })];
 
     return this.fb.group({
       name: department?.name,
@@ -139,18 +149,23 @@ export class FormBuilderService {
     });
   }
 
-  newPeriodDepartmentItem(di?: DepartmentItem): FormGroup {
-    const item = this.findItem(di);
+  newPeriodDepartmentItemForm(data?: {
+    departmentItem?: DepartmentItem;
+    days_off?: Date[];
+  }): FormGroup {
+    const departmentItem = data?.departmentItem;
+    const days_off = data?.days_off;
+    const item = this.findItem(departmentItem);
 
     return this.fb.group({
       name: item?.name,
-      price: di?.price || item?.price,
-      days: di?.days || '',
-      quantity: di?.quantity,
+      price: departmentItem?.price || item?.price,
+      days: departmentItem?.days || '',
+      quantity: departmentItem?.quantity,
       total_copies: '',
       amount: [{ value: '', disabled: true }],
       total_deductions: '',
-      days_off: [[]],
+      days_off: [days_off || []],
     });
   }
 

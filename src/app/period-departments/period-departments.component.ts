@@ -1,10 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormGroup,
-} from '@angular/forms';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { FormBuilderService } from '../services/form-builder.service';
+import { PeriodService } from '../services/period.service';
 
 @Component({
   selector: 'app-period-departments',
@@ -14,12 +11,17 @@ import { FormBuilderService } from '../services/form-builder.service';
 export class PeriodDepartmentsComponent implements OnInit {
   @Input('period_departments') period_departments: FormArray;
 
-  constructor(private fbs: FormBuilderService) {}
+  constructor(
+    private fbs: FormBuilderService,
+    private periodService: PeriodService,
+  ) {}
 
   ngOnInit(): void {}
 
   addNewDepartment(): void {
-    this.period_departments.push(this.fbs.newPeriodDepartmentForm());
+    const days_off = [...this.periodService.daysOff];
+    const periodDepartmentForm = this.fbs.newPeriodDepartmentForm({ days_off });
+    this.period_departments.push(periodDepartmentForm);
   }
 
   onDelete(i: number): void {
