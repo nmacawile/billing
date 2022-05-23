@@ -22,6 +22,7 @@ export class ItemMultiDateRangePickerComponent implements OnInit, OnDestroy {
 
   addOffDaySub: Subscription;
   removeOffDaySub: Subscription;
+  coverageDateChangeSub: Subscription;
 
   constructor(private periodService: PeriodService) {}
 
@@ -33,14 +34,16 @@ export class ItemMultiDateRangePickerComponent implements OnInit, OnDestroy {
     this.removeOffDaySub = this.periodService.removeOffDay$.subscribe((date) =>
       this.removeOffDay(date),
     );
-    this.periodService.coverageDateChange$.subscribe(
-      (a) => (this.days_off.length = 0),
-    );
+    this.coverageDateChangeSub =
+      this.periodService.coverageDateChange$.subscribe(
+        (a) => (this.days_off.length = 0),
+      );
   }
 
   ngOnDestroy(): void {
     this.addOffDaySub.unsubscribe();
     this.removeOffDaySub.unsubscribe();
+    this.coverageDateChangeSub.unsubscribe();
   }
 
   dateChanged(event: MatDatepickerInputEvent<Date>): void {
