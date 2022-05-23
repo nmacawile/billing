@@ -10,14 +10,12 @@ import { PeriodService } from '../../services/period.service';
 })
 export class PeriodComponent implements OnInit {
   @Input('period') period: FormGroup;
+  periodDepartments: FormArray;
 
   constructor(private periodService: PeriodService) {}
 
   ngOnInit(): void {
     this.periodService.periodForm = this.period;
-  }
-
-  get period_departments(): FormArray {
-    return this.period.get('period_departments') as FormArray;
+    this.periodDepartments = this.periodService.periodDepartments;
   }
 }

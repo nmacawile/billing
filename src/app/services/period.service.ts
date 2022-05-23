@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { shareReplay, startWith } from 'rxjs/operators';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 
@@ -34,6 +34,10 @@ export class PeriodService implements OnDestroy {
 
   get daysOff(): Array<Date> {
     return this.periodForm.get('days_off')!.value;
+  }
+
+  get periodDepartments(): FormArray {
+    return this.periodForm.get('period_departments') as FormArray;
   }
 
   set periodForm(periodForm: FormGroup) {
