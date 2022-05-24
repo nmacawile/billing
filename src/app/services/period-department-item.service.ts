@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PeriodService } from './period.service';
 import { startWith } from 'rxjs/operators';
+import { ConnectableObservable, Subject } from 'rxjs';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { DateHelpers } from '../lib/date-helpers';
 
@@ -14,6 +15,8 @@ export class PeriodDepartmentItemService implements OnDestroy {
   private _coverageDateChangeSub: Subscription;
   private _addOffDaySub: Subscription;
   private _removeOffDaySub: Subscription;
+  private _daysSub: Subscription;
+  private _quantitySub: Subscription;
   private _amount: number = 0.0;
   _calculatedCopies: number = 0;
 
@@ -43,6 +46,8 @@ export class PeriodDepartmentItemService implements OnDestroy {
     this._coverageDateChangeSub.unsubscribe();
     this._addOffDaySub.unsubscribe();
     this._removeOffDaySub.unsubscribe();
+    this._daysSub.unsubscribe();
+    this._quantitySub.unsubscribe();
   }
 
   get periodDepartmentItemForm(): FormGroup {
@@ -118,8 +123,8 @@ export class PeriodDepartmentItemService implements OnDestroy {
       this._recalculateAmount();
     });
     this._coverageDateChangeSub =
-      this.periodService.coverageDateChange$.subscribe(
-        () => (this.daysOff.value.length = 0),
+      this.periodService.coverageDateChange$.subscribe(() =>
+        this.clearOffDays(),
       );
     this._addOffDaySub = this.periodService.addOffDay$.subscribe((date) =>
       this.addOffDayWithCheck(date),
@@ -127,6 +132,24 @@ export class PeriodDepartmentItemService implements OnDestroy {
     this._removeOffDaySub = this.periodService.removeOffDay$.subscribe((date) =>
       this.removeOffDayWithCheck(date),
     );
+    this._daysSub = this.days.valueChanges.subscribe(() =>
+      this.recalculateDeductions(),
+    );
+    this._quantitySub = this.quantity.valueChanges.subscribe(() =>
+      this.recalculateDeductions(),
+    );
+  }
+
+  recalculateDeductions(): void {
+    const offDaysCount = DateHelpers.countDeductions(
+      this.days.value,
+      this.daysOff.value,
+    );
+    const quantity = this.defaultToOne(this.quantity.value);
+    const deductions = offDaysCount * quantity;
+    deductions
+      ? this.deductions.setValue(offDaysCount * quantity)
+      : this.deductions.reset();
   }
 
   toggleSelectOffDay(date: Date): void {
@@ -136,6 +159,11 @@ export class PeriodDepartmentItemService implements OnDestroy {
 
   findDate(date: Date): number {
     return (this.daysOff.value as Date[]).map((m) => +m).indexOf(+date);
+  }
+
+  private clearOffDays(): void {
+    this.daysOff.value.length = 0;
+    this.deductions.reset();
   }
 
   private addOffDayWithCheck(date: Date): void {
@@ -150,10 +178,12 @@ export class PeriodDepartmentItemService implements OnDestroy {
 
   private addOffDay(date: Date) {
     this.daysOff.value.push(date);
+    this.recalculateDeductions();
   }
 
   private removeOffDayAt(index: number) {
     this.daysOff.value.splice(index, 1);
+    this.recalculateDeductions();
   }
 
   private _recalculateAmount(): void {

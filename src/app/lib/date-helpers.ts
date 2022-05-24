@@ -57,6 +57,16 @@ export class DateHelpers {
     }, 0);
   }
 
+  static countDeductions(days: string, daysOff: Date[]) {
+    const chart = TABLE[days];
+    return daysOff
+      .map((d) => d.getDay())
+      .reduce(
+        (count, weekday) => (chart[weekday] === 1 ? count + 1 : count),
+        0,
+      );
+  }
+
   static format(date: Date): string {
     const months = [
       'January',
