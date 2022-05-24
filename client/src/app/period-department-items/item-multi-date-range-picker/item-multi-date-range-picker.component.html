@@ -1,0 +1,16 @@
+<input type="text"
+       style="visibility: hidden; width: 1px;"
+       [value]="resetModel"
+       [matDatepicker]="picker" 
+       [matDatepickerFilter]="offDaysFilter"
+       (dateChange)="dateChanged($event)">
+<mat-datepicker #picker
+                [dateClass]="dateClass" 
+                [startAt]="calendarStart$ | async">
+</mat-datepicker> 
+<button type="button" mat-icon-button (click)="picker.open()">
+  <mat-icon [matBadge]="daysOffCount ? daysOffCount : ''"
+            matBadgeSize="small">
+    event_busy
+  </mat-icon>
+</button>

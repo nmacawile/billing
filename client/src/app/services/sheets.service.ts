@@ -10,6 +10,7 @@ import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { DateHelpers } from '../lib/date-helpers';
 
 @Injectable({
   providedIn: 'root',
@@ -21,13 +22,22 @@ export class SheetsService {
     const format = billing._format || 'short';
     this.loadSheet(format).subscribe((wb: Workbook) => {
       this.build(wb, billing, format);
-      this.saveFile(wb);
+      const fileName = this.createFileName(billing);
+      this.saveFile(wb, fileName);
     });
   }
 
-  private async saveFile(wb: Workbook): Promise<void> {
+  private createFileName(billing: Billing | BillingParams): string {
+    const clientName = billing.client_name;
+    const startDate = DateHelpers.simpleFormat(billing.start_date);
+    const endDate = DateHelpers.simpleFormat(billing.end_date);
+    let _fileName = clientName + '_' + startDate + '_' + endDate;
+    return _fileName;
+  }
+
+  private async saveFile(wb: Workbook, fileName: string): Promise<void> {
     const buff = await wb.xlsx.writeBuffer();
-    saveAs(new Blob([buff]), 'test.xlsx');
+    saveAs(new Blob([buff]), fileName + '.xlsx');
   }
 
   private build(

@@ -17,6 +17,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   exports: [
@@ -38,6 +39,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatCardModule,
     MatChipsModule,
     MatTabsModule,
+    MatBadgeModule,
   ],
 })
 export class MaterialModule {}

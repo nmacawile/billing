@@ -24,7 +24,7 @@ export class BillingComponent implements OnInit {
     private billingsService: BillingsService,
   ) {
     const billing = this.route.snapshot.data.combined.billing;
-    this.billingForm = this.fbs.billingEditForm(billing);
+    this.billingForm = this.fbs.rebuildBillingForm(billing);
     this.id = billing._id.$oid;
 
     this.bfs.setForm(this.billingForm);

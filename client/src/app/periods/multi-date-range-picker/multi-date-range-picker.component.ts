@@ -60,14 +60,20 @@ export class MultiDateRangePickerComponent implements OnInit {
     if (event.value) {
       const date = event.value;
       const index = this._findDate(date);
-      index === -1 ? this.days_off.push(date) : this.days_off.splice(index, 1);
+      index === -1 ? this.addOffDay(date) : this.removeOffDay(date);
       this.resetModel = new Date(0);
       this.preventDatepickerPopupClose();
     }
   }
 
-  remove(date: Date): void {
+  addOffDay(date: Date): void {
+    this.periodService.addOffDay$.next(date);
+    this.days_off.push(date);
+  }
+
+  removeOffDay(date: Date): void {
     const index = this._findDate(date);
+    this.periodService.removeOffDay$.next(date);
     this.days_off.splice(index, 1);
   }
 

@@ -57,6 +57,16 @@ export class DateHelpers {
     }, 0);
   }
 
+  static countDeductions(days: string, daysOff: Date[]) {
+    const chart = TABLE[days];
+    return daysOff
+      .map((d) => d.getDay())
+      .reduce(
+        (count, weekday) => (chart[weekday] === 1 ? count + 1 : count),
+        0,
+      );
+  }
+
   static format(date: Date): string {
     const months = [
       'January',
@@ -100,6 +110,13 @@ export class DateHelpers {
     const d = date.getDate() + '';
     const text = `${m} ${d}`;
     return uppercase ? text.toUpperCase() : text;
+  }
+
+  static simpleFormat(date: Date): string {
+    const yyyy = date.getFullYear();
+    const mm = (date.getMonth() + 1).toString().padStart(2, '0');
+    const dd = (date.getDate() + '').padStart(2, '0');
+    return yyyy + mm + dd;
   }
 
   private static breakdownDaysOfWeek(startDate: Date, endDate: Date) {

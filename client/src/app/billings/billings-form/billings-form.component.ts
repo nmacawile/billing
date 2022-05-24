@@ -30,7 +30,7 @@ export class BillingsFormComponent implements OnInit {
     this.templateId = this.template?._id.$oid;
     const client_name = this.route.snapshot.queryParams.client_name;
 
-    this.billingForm = this.fbs.billingForm({
+    this.billingForm = this.fbs.newBillingForm({
       template: this.template,
       client_name: client_name,
     });
