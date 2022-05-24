@@ -11,6 +11,9 @@ export class PeriodDepartmentItemService implements OnDestroy {
   private _recalculateCopiesSub: Subscription;
   private _priceSub: Subscription;
   private _totalCopiesSub: Subscription;
+  private _coverageDateChangeSub: Subscription;
+  private _addOffDaySub: Subscription;
+  private _removeOffDaySub: Subscription;
   private _amount: number = 0.0;
   _calculatedCopies: number = 0;
 
@@ -37,6 +40,9 @@ export class PeriodDepartmentItemService implements OnDestroy {
     this._recalculateCopiesSub.unsubscribe();
     this._priceSub.unsubscribe();
     this._totalCopiesSub.unsubscribe();
+    this._coverageDateChangeSub.unsubscribe();
+    this._addOffDaySub.unsubscribe();
+    this._removeOffDaySub.unsubscribe();
   }
 
   get periodDepartmentItemForm(): FormGroup {
@@ -45,6 +51,10 @@ export class PeriodDepartmentItemService implements OnDestroy {
 
   get days(): FormControl {
     return this._periodDepartmentItemForm.get('days') as FormControl;
+  }
+
+  get daysOff(): FormControl {
+    return this._periodDepartmentItemForm.get('days_off') as FormControl;
   }
 
   get days$(): Observable<string> {
@@ -107,6 +117,43 @@ export class PeriodDepartmentItemService implements OnDestroy {
     this._totalCopiesSub = this.totalCopies.valueChanges.subscribe(() => {
       this._recalculateAmount();
     });
+    this._coverageDateChangeSub =
+      this.periodService.coverageDateChange$.subscribe(
+        () => (this.daysOff.value.length = 0),
+      );
+    this._addOffDaySub = this.periodService.addOffDay$.subscribe((date) =>
+      this.addOffDayWithCheck(date),
+    );
+    this._removeOffDaySub = this.periodService.removeOffDay$.subscribe((date) =>
+      this.removeOffDayWithCheck(date),
+    );
+  }
+
+  toggleSelectOffDay(date: Date): void {
+    const index = this.findDate(date);
+    index === -1 ? this.addOffDay(date) : this.removeOffDayAt(index);
+  }
+
+  findDate(date: Date): number {
+    return (this.daysOff.value as Date[]).map((m) => +m).indexOf(+date);
+  }
+
+  private addOffDayWithCheck(date: Date): void {
+    const index = this.findDate(date);
+    if (index === -1) this.addOffDay(date);
+  }
+
+  private removeOffDayWithCheck(date: Date): void {
+    const index = this.findDate(date);
+    if (index !== -1) this.removeOffDayAt(index);
+  }
+
+  private addOffDay(date: Date) {
+    this.daysOff.value.push(date);
+  }
+
+  private removeOffDayAt(index: number) {
+    this.daysOff.value.splice(index, 1);
   }
 
   private _recalculateAmount(): void {

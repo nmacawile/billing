@@ -1,18 +1,19 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   MatDatepicker,
   MatDatepickerInputEvent,
 } from '@angular/material/datepicker';
 import { FormGroup } from '@angular/forms';
 import { PeriodService } from '../../services/period.service';
-import { Subject, Subscription, merge } from 'rxjs';
+import { Subject } from 'rxjs';
+import { PeriodDepartmentItemService } from '../../services/period-department-item.service';
 
 @Component({
   selector: 'app-item-multi-date-range-picker',
   templateUrl: './item-multi-date-range-picker.component.html',
   styleUrls: ['./item-multi-date-range-picker.component.scss'],
 })
-export class ItemMultiDateRangePickerComponent implements OnInit, OnDestroy {
+export class ItemMultiDateRangePickerComponent implements OnInit {
   @ViewChild('picker', { static: true }) _picker: MatDatepicker<Date>;
   @Input('department_item') department_item: FormGroup;
 
@@ -20,50 +21,22 @@ export class ItemMultiDateRangePickerComponent implements OnInit, OnDestroy {
   resetModel = new Date(0);
   calendarStart$: Subject<Date>;
 
-  addOffDaySub: Subscription;
-  removeOffDaySub: Subscription;
-  coverageDateChangeSub: Subscription;
-
-  constructor(private periodService: PeriodService) {}
+  constructor(
+    private periodService: PeriodService,
+    private periodDepartmentItemService: PeriodDepartmentItemService,
+  ) {}
 
   ngOnInit(): void {
     this.calendarStart$ = this.periodService.startDate$;
-    this.addOffDaySub = this.periodService.addOffDay$.subscribe((date) =>
-      this.addOffDay(date),
-    );
-    this.removeOffDaySub = this.periodService.removeOffDay$.subscribe((date) =>
-      this.removeOffDay(date),
-    );
-    this.coverageDateChangeSub =
-      this.periodService.coverageDateChange$.subscribe(
-        (a) => (this.days_off.length = 0),
-      );
-  }
-
-  ngOnDestroy(): void {
-    this.addOffDaySub.unsubscribe();
-    this.removeOffDaySub.unsubscribe();
-    this.coverageDateChangeSub.unsubscribe();
   }
 
   dateChanged(event: MatDatepickerInputEvent<Date>): void {
     if (event.value) {
       const date = event.value;
-      const index = this._findDate(date);
-      index === -1 ? this.addOffDay(date) : this.removeOffDay(date);
+      this.periodDepartmentItemService.toggleSelectOffDay(date);
       this.resetModel = new Date(0);
       this.preventDatepickerPopupClose();
     }
-  }
-
-  addOffDay(date: Date): void {
-    const index = this._findDate(date);
-    if (index === -1) this.days_off.push(date);
-  }
-
-  removeOffDay(date: Date): void {
-    const index = this._findDate(date);
-    if (index !== -1) this.days_off.splice(index, 1);
   }
 
   get start_date(): Date {
@@ -88,20 +61,16 @@ export class ItemMultiDateRangePickerComponent implements OnInit, OnDestroy {
   };
 
   dateClass = (date: Date) => {
-    if (this._findDate(date) !== -1) {
+    if (this.periodDepartmentItemService.findDate(date) !== -1) {
       return ['selected'];
     }
     return [];
   };
 
   private get days_off(): Date[] {
-    let _days_off = this.department_item.get('days_off')?.value;
+    let _days_off = this.periodDepartmentItemService.daysOff.value;
     _days_off = _days_off || [];
     return _days_off;
-  }
-
-  private _findDate(date: Date): number {
-    return this.days_off.map((m) => +m).indexOf(+date);
   }
 
   private preventDatepickerPopupClose(): void {
