@@ -18,7 +18,8 @@ export class PeriodDepartmentItemService implements OnDestroy {
   private _daysSub: Subscription;
   private _quantitySub: Subscription;
   private _amount: number = 0.0;
-  _calculatedCopies: number = 0;
+  private _calculatedCopies: number = 0;
+  private _loadedCustomValue = false;
 
   private _copiesCalculationFunction = ([sd, ed, d, q, de]: [
     Date,
@@ -30,10 +31,13 @@ export class PeriodDepartmentItemService implements OnDestroy {
     const total =
       DateHelpers.daysBetween(sd, ed, d) * this.defaultToOne(q) - de;
     this._calculatedCopies = total;
-    this._periodDepartmentItemForm.patchValue(
-      { total_copies: total },
-      { emitEvent: false },
-    );
+    if (this._loadedCustomValue || this.totalCopiesUnset) {
+      this._periodDepartmentItemForm.patchValue(
+        { total_copies: total },
+        { emitEvent: false },
+      );
+    }
+    this._loadedCustomValue = true;
     this._recalculateAmount();
   };
 
@@ -109,6 +113,10 @@ export class PeriodDepartmentItemService implements OnDestroy {
 
   get calculatedCopies(): number {
     return this._calculatedCopies;
+  }
+
+  get totalCopiesUnset(): boolean {
+    return !this.totalCopies.value && this.totalCopies.value !== 0;
   }
 
   setForm(form: FormGroup): void {
