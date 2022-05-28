@@ -119,6 +119,14 @@ export class PeriodDepartmentItemService implements OnDestroy {
     return !this.totalCopies.value && this.totalCopies.value !== 0;
   }
 
+  autofillTotalCopiesValue(): void {
+    if (this.totalCopiesUnset)
+      this._periodDepartmentItemForm.patchValue(
+        { total_copies: this.calculatedCopies },
+        { emitEvent: false },
+      );
+  }
+
   setForm(form: FormGroup): void {
     this._periodDepartmentItemForm = form;
     this._recalculateCopiesSub = this.recalculateCopies$.subscribe(

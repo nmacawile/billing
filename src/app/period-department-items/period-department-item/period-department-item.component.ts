@@ -44,8 +44,6 @@ export class PeriodDepartmentItemComponent implements OnInit {
   filteredItems: Observable<Item[]>;
   scheduleGroups = SCHEDULE_GROUPS;
 
-  calculatedCopies: number;
-
   constructor(
     private route: ActivatedRoute,
     private periodDepartmentItemService: PeriodDepartmentItemService,
@@ -61,7 +59,6 @@ export class PeriodDepartmentItemComponent implements OnInit {
       startWith(''),
       map((value) => this._filter(value)),
     );
-    this.calculatedCopies = this.periodDepartmentItemService.calculatedCopies;
   }
 
   setPrice(): void {
@@ -74,13 +71,12 @@ export class PeriodDepartmentItemComponent implements OnInit {
     this.department_items.removeAt(this.index);
   }
 
-  autofillTotalCopiesValue(e: FocusEvent): void {
-    const value: any = (e.target as HTMLInputElement).value;
-    if (!value && value !== 0)
-      this.department_item.patchValue(
-        { total_copies: this.calculatedCopies },
-        { emitEvent: false },
-      );
+  autofillTotalCopiesValue(): void {
+    this.periodDepartmentItemService.autofillTotalCopiesValue();
+  }
+
+  get calculatedCopies(): number {
+    return this.periodDepartmentItemService.calculatedCopies;
   }
 
   private _filter(value: string): Item[] {
