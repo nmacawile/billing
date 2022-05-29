@@ -103,7 +103,7 @@ export class FormBuilderService {
         price: pdi.price,
         quantity: pdi.quantity,
         total_copies: pdi.total_copies,
-        amount: [{ value: '', disabled: true }],
+        amount: pdi.amount,
         total_deductions: pdi.total_deductions,
       });
     });
