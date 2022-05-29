@@ -77,6 +77,12 @@ export class BillingsListComponent implements OnInit {
     this.sheetsService.download(billing);
   }
 
+  templateName(templateId: any): any {
+    const id = templateId && templateId['$oid'];
+    const template = this.templates.find((t) => t['_id']['$oid'] === id);
+    return template?.name || 'Blank template';
+  }
+
   private _filter(name: string): Template[] {
     const filterValue = name.toLowerCase();
 

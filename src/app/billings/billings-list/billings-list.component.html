@@ -24,7 +24,7 @@
 
 <mat-nav-list>
   <a mat-list-item *ngFor="let billing of billings; let i = index">
-     <a matLine [routerLink]="billing._id.$oid">{{billing.client_name}},
+     <a matLine [routerLink]="billing._id.$oid">{{templateName(billing.template_id)}},
       {{billing.start_date | date}} to
       {{billing.end_date | date}}
      </a>
