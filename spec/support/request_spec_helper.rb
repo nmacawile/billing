@@ -10,4 +10,8 @@ module RequestSpecHelper
   def json_ids
     json.map { |j| j['_id']['$oid'] }
   end
+
+  def paginated_json_ids
+    json['billings'].map { |j| j['_id']['$oid'] }
+  end
 end

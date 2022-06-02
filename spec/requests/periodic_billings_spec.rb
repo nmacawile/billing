@@ -18,15 +18,56 @@ RSpec.describe 'Periodic Billings API', type: :request do
   end
 
   describe 'GET /periodic_billings' do
-    before { get '/periodic_billings', headers: headers }
+    context 'single page' do
+      before { get '/periodic_billings', headers: headers }
 
-    it 'returns the list of billings' do
-      expect(json.size).to eq(billings.size)
-      expect(billing_ids).to match_array json_ids
+      it 'returns the list of billings' do
+        expect(json['billings'].size).to eq(billings.size)
+        expect(billing_ids).to match_array paginated_json_ids
+      end
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status 200
+      end
     end
 
-    it 'returns status code 200' do
-      expect(response).to have_http_status 200
+    context 'multiple pages' do
+      before { create_list :periodic_billing, 45 }
+
+      context 'first page' do
+        before { get '/periodic_billings', headers: headers }
+
+        it 'returns total number of pages' do
+          expect(json['pages']).to eq 3
+        end
+
+        it 'limits the results to 20 items' do
+          expect(json['billings'].size).to eq 20
+        end
+
+        it 'returns the list of billings' do
+          expect(billing_ids.first 20).to match_array paginated_json_ids
+        end
+      end
+
+      context 'last page' do
+        before do
+          get '/periodic_billings', headers: headers, params: { page: 3 }
+        end
+
+        it 'returns total number of pages' do
+          expect(json['pages']).to eq 3
+        end
+
+        it 'limits the results to 20 items' do
+          expect(json['billings'].size).to eq 15
+        end
+
+        it 'returns the list of billings' do
+          expect(billing_ids[40..]).to match_array paginated_json_ids
+        end
+
+      end
     end
   end
 
