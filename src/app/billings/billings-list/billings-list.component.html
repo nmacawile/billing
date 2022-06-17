@@ -22,21 +22,65 @@
   </button>
 </form>
 
-<mat-nav-list>
-  <a mat-list-item *ngFor="let billing of billings; let i = index">
-     <a matLine [routerLink]="billing._id.$oid">{{templateName(billing.template_id)}},
-      {{billing.start_date | date}} to
-      {{billing.end_date | date}}
-     </a>
-     <button mat-icon-button color="accent" (click)="downloadSheet(billing)">
-        <mat-icon>file_download</mat-icon>
-     </button>
-     <button mat-icon-button color="warn" (click)="delete(billing, i)">
-        <mat-icon>delete</mat-icon>
-     </button>
-  </a>
-</mat-nav-list>
+<div class="paginator">
+  <div class="mat-caption">Page:
+    <input class="paginator-textbox" [formControl]="pageControl"> of {{pages}}</div>
+  <div class="paginator-arrows">
+    <button type="button" class="paginator-button" mat-icon-button (click)="previousPage()" [disabled]="firstPage"><mat-icon>chevron_left</mat-icon></button>
+    <button type="button" class="paginator-button" mat-icon-button (click)="nextPage()" [disabled]="lastPage"><mat-icon>chevron_right</mat-icon></button>
+  </div>
+</div>
 
+<div class="table-container">
+  <table mat-table [dataSource]="billings">
 
+    <ng-container matColumnDef="template-name" sticky>
+      <th mat-header-cell *matHeaderCellDef> Template </th>
+      <td mat-cell *matCellDef="let billing">
+        <a [routerLink]="billing._id.$oid">{{templateName(billing.template_id)}}</a>
+      </td>
+    </ng-container>
 
+    <ng-container matColumnDef="client-name">
+      <th mat-header-cell *matHeaderCellDef> Client Name </th>
+      <td mat-cell *matCellDef="let billing"> {{billing.client_name}} </td>
+    </ng-container>
 
+    <ng-container matColumnDef="start-date">
+      <th mat-header-cell *matHeaderCellDef> Start </th>
+      <td mat-cell *matCellDef="let billing"> {{billing.start_date | date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="end-date">
+      <th mat-header-cell *matHeaderCellDef> End </th>
+      <td mat-cell *matCellDef="let billing"> {{billing.end_date | date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef> Total </th>
+      <td mat-cell *matCellDef="let billing"> {{billing.total | number:'1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let billing; let i = index">
+        <button mat-icon-button color="accent" (click)="downloadSheet(billing)">
+          <mat-icon>file_download</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="delete(billing, i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions-compact" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let billing">
+        <mat-icon>more_vert</mat-icon>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
