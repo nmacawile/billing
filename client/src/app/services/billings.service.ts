@@ -21,10 +21,20 @@ export class BillingsService {
       .pipe(map(this.parseBillingFields));
   }
 
-  getBillings(): Observable<Billing[]> {
+  getBillings(page = 1): Observable<{ billings: Billing[]; pages: number }> {
     return this.http
-      .get<Billing[]>(this.billingsPath())
-      .pipe(map((billings) => billings.map(this.parseBillingFields)));
+      .get<{ billings: any[]; pages: number }>(this.billingsPath(), {
+        params: { page },
+      })
+      .pipe(
+        map((data) => {
+          const billings: Billing[] = data.billings.map(
+            this.parseBillingFields,
+          );
+          const pages = data.pages;
+          return { billings, pages };
+        }),
+      );
   }
 
   createBilling(periodic_billing: BillingParams): Observable<{ id: string }> {
@@ -91,8 +101,9 @@ export class BillingsService {
 
     _b.periods?.forEach((p: any) =>
       p.period_departments?.forEach((pd: any) =>
-        pd.period_department_items?.forEach((pdi: any) =>
-          pdi.days_off = pdi.days_off?.map((d: string) => new Date(d)),
+        pd.period_department_items?.forEach(
+          (pdi: any) =>
+            (pdi.days_off = pdi.days_off?.map((d: string) => new Date(d))),
         ),
       ),
     );

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { map, startWith, switchMap, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { Template } from '../../models/template';
 import { TemplatesService } from '../../services/templates.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,17 +10,30 @@ import { BillingsService } from '../../services/billings.service';
 import { SheetsService } from '../../services/sheets.service';
 import { SharedService } from '../../shared/shared.service';
 import { DateHelpers } from '../../lib/date-helpers';
+import { PaginatorService } from '../../services/paginator.service';
 
 @Component({
   selector: 'app-billings-list',
   templateUrl: './billings-list.component.html',
   styleUrls: ['./billings-list.component.scss'],
+  providers: [PaginatorService],
 })
-export class BillingsListComponent implements OnInit {
+export class BillingsListComponent implements OnInit, OnDestroy {
   myControl = new FormControl();
   templates: Template[];
   billings: Billing[];
+  pageSub: Subscription;
   filteredTemplates: Observable<Template[]>;
+
+  displayedColumns: string[] = [
+    'template-name',
+    'client-name',
+    'start-date',
+    'end-date',
+    'total',
+    'actions',
+    'actions-compact',
+  ];
 
   constructor(
     private templatesService: TemplatesService,
@@ -29,19 +42,31 @@ export class BillingsListComponent implements OnInit {
     private router: Router,
     private sheetsService: SheetsService,
     private sharedService: SharedService,
+    private paginatorService: PaginatorService,
   ) {
     this.templates = this.route.snapshot.data.templates;
   }
 
   ngOnInit(): void {
-    this.billingsService
-      .getBillings()
-      .subscribe((billings) => (this.billings = billings));
+    this.billingsService.getBillings().subscribe((data) => {
+      this.billings = data.billings;
+      this.paginatorService.pages = data.pages;
+    });
     this.filteredTemplates = this.myControl.valueChanges.pipe(
       startWith(''),
       map((value) => (typeof value === 'string' ? value : value.name)),
       map((name) => (name ? this._filter(name) : this.templates.slice())),
     );
+    this.pageSub = this.paginatorService.page$
+      .pipe(switchMap((page) => this.billingsService.getBillings(page)))
+      .subscribe((data) => {
+        this.billings = data.billings;
+        this.paginatorService.pages = data.pages;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.pageSub.unsubscribe();
   }
 
   onSubmit(): void {
@@ -70,7 +95,10 @@ export class BillingsListComponent implements OnInit {
     this.sharedService
       .confirmDeleteDialog(`${billing.client_name} ${coverage}`)
       .pipe(switchMap(() => this.billingsService.deleteBilling(id)))
-      .subscribe((res) => this.billings.splice(index, 1));
+      .subscribe((res) => {
+        this.billings.splice(index, 1);
+        this.billings = [...this.billings];
+      });
   }
 
   downloadSheet(billing: Billing): void {

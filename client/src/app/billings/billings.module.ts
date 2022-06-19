@@ -10,6 +10,7 @@ import { PeriodsModule } from '../periods/periods.module';
 import { BillingComponent } from './billing/billing.component';
 import { StickyFooterComponent } from './sticky-footer/sticky-footer.component';
 import { SharedModule } from '../shared/shared.module';
+import { PaginatorComponent } from './paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { SharedModule } from '../shared/shared.module';
     BillingsFormComponent,
     BillingComponent,
     StickyFooterComponent,
+    PaginatorComponent,
   ],
   imports: [
     CommonModule,
