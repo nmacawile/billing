@@ -1,14 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  startWith,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { Template } from '../../models/template';
 import { TemplatesService } from '../../services/templates.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,18 +10,18 @@ import { BillingsService } from '../../services/billings.service';
 import { SheetsService } from '../../services/sheets.service';
 import { SharedService } from '../../shared/shared.service';
 import { DateHelpers } from '../../lib/date-helpers';
+import { PaginatorService } from '../../services/paginator.service';
 
 @Component({
   selector: 'app-billings-list',
   templateUrl: './billings-list.component.html',
   styleUrls: ['./billings-list.component.scss'],
+  providers: [PaginatorService],
 })
 export class BillingsListComponent implements OnInit, OnDestroy {
   myControl = new FormControl();
   templates: Template[];
   billings: Billing[];
-  pageControl: FormControl = new FormControl(1, { updateOn: 'blur' });
-  pages: number;
   pageSub: Subscription;
   filteredTemplates: Observable<Template[]>;
 
@@ -49,6 +42,7 @@ export class BillingsListComponent implements OnInit, OnDestroy {
     private router: Router,
     private sheetsService: SheetsService,
     private sharedService: SharedService,
+    private paginatorService: PaginatorService,
   ) {
     this.templates = this.route.snapshot.data.templates;
   }
@@ -56,21 +50,18 @@ export class BillingsListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.billingsService.getBillings().subscribe((data) => {
       this.billings = data.billings;
-      this.pages = data.pages;
+      this.paginatorService.pages = data.pages;
     });
     this.filteredTemplates = this.myControl.valueChanges.pipe(
       startWith(''),
       map((value) => (typeof value === 'string' ? value : value.name)),
       map((name) => (name ? this._filter(name) : this.templates.slice())),
     );
-    this.pageSub = this.page$
-      .pipe(
-        distinctUntilChanged(),
-        switchMap((page) => this.billingsService.getBillings(page)),
-      )
+    this.pageSub = this.paginatorService.page$
+      .pipe(switchMap((page) => this.billingsService.getBillings(page)))
       .subscribe((data) => {
         this.billings = data.billings;
-        this.pages = data.pages;
+        this.paginatorService.pages = data.pages;
       });
   }
 
@@ -118,43 +109,6 @@ export class BillingsListComponent implements OnInit, OnDestroy {
     const id = templateId && templateId['$oid'];
     const template = this.templates.find((t) => t['_id']['$oid'] === id);
     return template?.name || 'Blank template';
-  }
-
-  get firstPage(): boolean {
-    return this.currentPage <= 1;
-  }
-
-  get lastPage(): boolean {
-    return this.currentPage >= this.pages;
-  }
-
-  get currentPage(): number {
-    return +this.pageControl.value;
-  }
-
-  previousPage(): void {
-    this.pageControl.setValue(this.currentPage - 1);
-  }
-
-  nextPage(): void {
-    this.pageControl.setValue(this.currentPage + 1);
-  }
-
-  private get page$(): Observable<number> {
-    return this.pageControl.valueChanges.pipe(
-      debounceTime(200),
-      map((v) => {
-        let _v = v;
-        if (isNaN(v) || v < 1) {
-          this.pageControl.setValue(1, { emitEvent: false });
-          _v = 1;
-        } else if (v > this.pages) {
-          this.pageControl.setValue(this.pages, { emitEvent: false });
-          _v = this.pages;
-        }
-        return +_v;
-      }),
-    );
   }
 
   private _filter(name: string): Template[] {

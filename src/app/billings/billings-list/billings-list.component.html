@@ -22,14 +22,7 @@
   </button>
 </form>
 
-<div class="paginator">
-  <div class="mat-caption">Page:
-    <input class="paginator-textbox" [formControl]="pageControl"> of {{pages}}</div>
-  <div class="paginator-arrows">
-    <button type="button" class="paginator-button" mat-icon-button (click)="previousPage()" [disabled]="firstPage"><mat-icon>chevron_left</mat-icon></button>
-    <button type="button" class="paginator-button" mat-icon-button (click)="nextPage()" [disabled]="lastPage"><mat-icon>chevron_right</mat-icon></button>
-  </div>
-</div>
+<app-paginator></app-paginator>
 
 <div class="table-container">
   <table mat-table [dataSource]="billings">
@@ -84,3 +77,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </div>
+
+<app-paginator></app-paginator>
