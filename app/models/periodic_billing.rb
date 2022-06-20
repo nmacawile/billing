@@ -25,4 +25,8 @@ class PeriodicBilling
                  :ncmf,
                  :bir,
                  :orlaza], default: :short
+
+  default_scope { order_by(created_at: :desc) }
+
+  index(created_at: -1)
 end
