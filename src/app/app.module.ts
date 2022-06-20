@@ -11,6 +11,7 @@ import { MaterialModule } from './material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { FlexLayoutModule } from '@angular/flex-layout'
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -21,6 +22,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     CoreModule,
     MaterialModule,
     BrowserAnimationsModule,
+    FlexLayoutModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
