@@ -12,6 +12,15 @@ import { SharedService } from '../../shared/shared.service';
 import { DateHelpers } from '../../lib/date-helpers';
 import { PaginatorService } from '../../services/paginator.service';
 
+const COLUMNS = [
+  'template-name',
+  'client-name',
+  'start-date',
+  'end-date',
+  'total',
+  'actions',
+];
+
 @Component({
   selector: 'app-billings-list',
   templateUrl: './billings-list.component.html',
@@ -25,15 +34,7 @@ export class BillingsListComponent implements OnInit, OnDestroy {
   pageSub: Subscription;
   filteredTemplates: Observable<Template[]>;
 
-  displayedColumns: string[] = [
-    'template-name',
-    'client-name',
-    'start-date',
-    'end-date',
-    'total',
-    'actions',
-    'actions-compact',
-  ];
+  displayedColumns: string[] = COLUMNS;
 
   constructor(
     private templatesService: TemplatesService,
