@@ -20,4 +20,6 @@ class Template
   validates_uniqueness_of :name
 
   index({ name: 1 }, { unique: true })
+
+  default_scope { order_by(name: :asc) }
 end

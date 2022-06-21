@@ -9,6 +9,7 @@ RSpec.describe 'Templates API', type: :request do
   let(:first_template) { templates.first }
   let(:first_template_id) { first_template.id.to_s }
   let(:item) { create :item }
+  let(:newest_template) { Template.order_by(created_at: :asc).last }
 
   describe 'GET /templates' do
     before { get '/templates', headers: headers }
@@ -90,6 +91,7 @@ RSpec.describe 'Templates API', type: :request do
 
     context 'with department and department items' do
       before do
+        Template.destroy_all
         post '/templates',
               params: { 
                 template: {
@@ -126,16 +128,16 @@ RSpec.describe 'Templates API', type: :request do
       end
 
       it 'matches the template name value set' do
-        expect(Template.last.name).to eq('Example2')
+        expect(newest_template.name).to eq('Example2')
       end
 
       it 'matches the department name value set' do
-        expect(Template.last.departments.first.name).to eq('dep1')
+        expect(newest_template.departments.first.name).to eq('dep1')
       end
 
       it 'matches the days value set' do
         expect(
-          Template.last
+          newest_template
             .departments.first
               .department_items.first
                 .days
@@ -144,7 +146,7 @@ RSpec.describe 'Templates API', type: :request do
 
       it 'matches the deduction value set' do
         expect(
-          Template.last
+          newest_template
             .departments.first
               .department_items.first
                 .deduction)
