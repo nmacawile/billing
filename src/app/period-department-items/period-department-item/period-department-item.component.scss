@@ -56,3 +56,7 @@ td {
 button.hidden {
   display: none;
 }
+
+:host ::ng-deep .cdk-overlay-pane {
+  min-width: 224px;
+}
