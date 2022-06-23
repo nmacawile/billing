@@ -18,20 +18,20 @@ import { DateHelpers } from '../lib/date-helpers';
 export class SheetsService {
   constructor(private httpClient: HttpClient) {}
 
-  download(billing: Billing | BillingParams): void {
+  download(billing: Billing | BillingParams, templateName?: string): void {
     const format = billing._format || 'short';
     this.loadSheet(format).subscribe((wb: Workbook) => {
       this.build(wb, billing, format);
-      const fileName = this.createFileName(billing);
+      const name = templateName || billing.client_name;
+      const fileName = this.createFileName(billing, name);
       this.saveFile(wb, fileName);
     });
   }
 
-  private createFileName(billing: Billing | BillingParams): string {
-    const clientName = billing.client_name;
+  private createFileName(billing: Billing | BillingParams, name: string): string {
     const startDate = DateHelpers.simpleFormat(billing.start_date);
     const endDate = DateHelpers.simpleFormat(billing.end_date);
-    let _fileName = clientName + '_' + startDate + '_' + endDate;
+    let _fileName = name + '_' + startDate + '_' + endDate;
     return _fileName;
   }
 

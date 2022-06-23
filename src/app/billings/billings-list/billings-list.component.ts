@@ -3,7 +3,6 @@ import { FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { Template } from '../../models/template';
-import { TemplatesService } from '../../services/templates.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Billing } from '../../models/billing';
 import { BillingsService } from '../../services/billings.service';
@@ -37,7 +36,6 @@ export class BillingsListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = COLUMNS;
 
   constructor(
-    private templatesService: TemplatesService,
     private billingsService: BillingsService,
     private route: ActivatedRoute,
     private router: Router,
@@ -103,13 +101,14 @@ export class BillingsListComponent implements OnInit, OnDestroy {
   }
 
   downloadSheet(billing: Billing): void {
-    this.sheetsService.download(billing);
+    const templateName = this.templateName(billing.template_id);
+    this.sheetsService.download(billing, templateName);
   }
 
   templateName(templateId: any): any {
-    const id = templateId && templateId['$oid'];
+    const id = templateId?.['$oid'];
     const template = this.templates.find((t) => t['_id']['$oid'] === id);
-    return template?.name || 'Blank template';
+    return template?.name;
   }
 
   private _filter(name: string): Template[] {
