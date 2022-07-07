@@ -1,9 +1,10 @@
 class PeriodicBillingsController < ApplicationController
   before_action :load_billing, only: [:show, :destroy, :update]
+  before_action :load_billings, only: :index
   before_action :load_page_data, only: :index
 
   def index
-    @billings = PeriodicBilling.skip(@total_skips).limit(20)
+    @billings = @billings.skip(@total_skips).limit(20)
     json_response({ pages: @pages, billings: @billings })
   end
 
@@ -26,12 +27,24 @@ class PeriodicBillingsController < ApplicationController
 
   private
 
+  def load_billings
+    template = params[:template]
+    client_name = params[:client_name]
+    if (template&.present?)
+      @billings = PeriodicBilling.where(template: template)
+    elsif (client_name&.present?)
+      @billings = PeriodicBilling.where(client_name: /#{client_name}/i)
+    else
+      @billings = PeriodicBilling.all
+    end
+  end
+
   def load_page_data
     per_page = 20
     page = params[:page].to_i
     page = page < 1 ? 1 : page
     @total_skips = (page - 1) * per_page
-    @pages = ((PeriodicBilling.count * 1.0) / per_page).ceil
+    @pages = ((@billings.count * 1.0) / per_page).ceil
   end
 
   def billing_params

@@ -28,5 +28,5 @@ class PeriodicBilling
 
   default_scope { order_by(created_at: :desc) }
 
-  index(created_at: -1)
+  index(created_at: -1, client_name: 1)
 end

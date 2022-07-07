@@ -16,6 +16,8 @@ RSpec.describe 'Periodic Billings API', type: :request do
       end_date: Date.new(2021, 9, 30),
       template: template.id.to_s }
   end
+  let(:template2) { create :template }
+  let(:template2_id) { template2.id.to_s }
 
   describe 'GET /periodic_billings' do
     context 'single page' do
@@ -67,6 +69,85 @@ RSpec.describe 'Periodic Billings API', type: :request do
           expect(billing_ids[40..]).to match_array paginated_json_ids
         end
 
+      end
+    end
+
+    context 'with filter parameter' do
+      context 'template id' do
+        before do
+          create_list :periodic_billing, 20, template: template2 
+          get("/periodic_billings", 
+              headers: headers,
+              params: { template: template2_id })
+        end
+
+        it 'returns status code 200' do
+          expect(response).to have_http_status 200
+        end
+
+        it 'returns exactly 20 items' do
+          expect(json['billings'].length).to eq 20
+        end
+
+        it 'has only one page' do
+          expect(json['pages']).to eq 1
+        end
+      end
+
+      context 'client name' do
+        before do
+          create_list :periodic_billing, 10, template: nil, client_name: 'AAfooobarBB' 
+          create_list :periodic_billing, 10, template: nil, client_name: 'BBfooobar'
+          get("/periodic_billings", 
+              headers: headers,
+              params: { client_name: 'fooobar' })
+        end
+
+        it 'returns status code 200' do
+          expect(response).to have_http_status 200
+        end
+
+        it 'returns exactly 20 items' do
+          expect(json['billings'].length).to eq 20
+        end
+
+        it 'has only one page' do
+          expect(json['pages']).to eq 1
+        end
+      end
+
+      context 'blank client name' do
+        before do
+          get('/periodic_billings',
+              headers: headers,
+              params: { client_name: ' ' })
+        end
+
+        it 'returns the list of billings' do
+          expect(json['billings'].size).to eq(billings.size)
+          expect(billing_ids).to match_array paginated_json_ids
+        end
+
+        it 'returns status code 200' do
+          expect(response).to have_http_status 200
+        end
+      end
+
+      context 'blank template id' do
+        before do
+          get('/periodic_billings',
+              headers: headers,
+              params: { template: ' ' })
+        end
+        
+        it 'returns the list of billings' do
+          expect(json['billings'].size).to eq(billings.size)
+          expect(billing_ids).to match_array paginated_json_ids
+        end
+
+        it 'returns status code 200' do
+          expect(response).to have_http_status 200
+        end
       end
     end
   end
