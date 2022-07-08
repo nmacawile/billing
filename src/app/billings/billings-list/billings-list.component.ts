@@ -75,8 +75,8 @@ export class BillingsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  displayFn(user: Template): string {
-    return user && user.name ? user.name : '';
+  displayFn(template: Template): string {
+    return template && template.name ? template.name : '';
   }
 
   queryParams(): any {
