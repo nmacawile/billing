@@ -1,8 +1,8 @@
-<form class="example-form" (ngSubmit)="onSubmit()">
-  <mat-form-field>
+<form class="filter-form" (ngSubmit)="newBilling()">
+  <mat-form-field class="filter-field" appearance="fill">
     <mat-label>Template</mat-label>
-    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-    <button type="button" mat-icon-button (click)="myControl.setValue('')" matSuffix>
+    <input type="text" matInput [formControl]="templateControl" [matAutocomplete]="auto">
+    <button type="button" mat-icon-button (click)="templateControl.setValue('')" matSuffix>
       <mat-icon>close</mat-icon>
     </button>
     <mat-autocomplete
@@ -14,11 +14,9 @@
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
-  <button mat-flat-button 
-
+  <button mat-flat-button
    color="accent">
-    <mat-icon>add</mat-icon>
-    NEW BILLING
+    New Billing
   </button>
 </form>
 

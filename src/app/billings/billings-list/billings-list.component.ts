@@ -1,7 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import { Observable, Subscription, combineLatest } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { Template } from '../../models/template';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Billing } from '../../models/billing';
@@ -27,10 +34,10 @@ const COLUMNS = [
   providers: [PaginatorService],
 })
 export class BillingsListComponent implements OnInit, OnDestroy {
-  myControl = new FormControl();
+  templateControl = new FormControl();
   templates: Template[];
   billings: Billing[];
-  pageSub: Subscription;
+  filterQuerySub: Subscription;
   filteredTemplates: Observable<Template[]>;
 
   displayedColumns: string[] = COLUMNS;
@@ -47,28 +54,40 @@ export class BillingsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.billingsService.getBillings().subscribe((data) => {
-      this.billings = data.billings;
-      this.paginatorService.pages = data.pages;
-    });
-    this.filteredTemplates = this.myControl.valueChanges.pipe(
+    this.filteredTemplates = this.templateControl.valueChanges.pipe(
       startWith(''),
       map((value) => (typeof value === 'string' ? value : value.name)),
       map((name) => (name ? this._filter(name) : this.templates.slice())),
     );
-    this.pageSub = this.paginatorService.page$
-      .pipe(switchMap((page) => this.billingsService.getBillings(page)))
-      .subscribe((data) => {
-        this.billings = data.billings;
-        this.paginatorService.pages = data.pages;
+
+    this.filterQuerySub = combineLatest(
+      this.templateControl.valueChanges.pipe(
+        startWith(''),
+        distinctUntilChanged(),
+        tap(() => this.paginatorService.resetToFirstPage()),
+      ),
+      this.paginatorService.page$.pipe(startWith(1)),
+    )
+      .pipe(
+        debounceTime(200),
+        switchMap(([_, page]) => {
+          return this.billingsService.getBillings({
+            ...this.queryParams(),
+            page,
+          });
+        }),
+      )
+      .subscribe((d) => {
+        this.billings = d.billings;
+        this.paginatorService.pages = d.pages;
       });
   }
 
   ngOnDestroy(): void {
-    this.pageSub.unsubscribe();
+    this.filterQuerySub.unsubscribe();
   }
 
-  onSubmit(): void {
+  newBilling(): void {
     this.router.navigate(['new'], {
       relativeTo: this.route,
       queryParams: this.queryParams(),
@@ -80,7 +99,7 @@ export class BillingsListComponent implements OnInit, OnDestroy {
   }
 
   queryParams(): any {
-    const val: Template | string = this.myControl.value;
+    const val: Template | string = this.templateControl.value;
     return typeof val === 'string'
       ? { client_name: val }
       : { template: val?._id.$oid };
