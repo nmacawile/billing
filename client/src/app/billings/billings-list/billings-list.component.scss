@@ -1,3 +1,9 @@
+.filter-form {
+  .filter-field {
+    width: 100%;
+  }
+}
+
 .table-container {
   width: 100%;
   overflow-x: auto;
@@ -15,6 +21,7 @@
       }
     }
 
+    th.mat-column-total,
     td.mat-column-total {
       text-align: right;
     }
@@ -29,14 +36,6 @@
     td.mat-cell:last-of-type,
     td.mat-footer-cell:last-of-type {
       padding-right: 0px;
-    }
-
-    .mat-table-sticky-border-elem-right {
-      border-left: 1px solid #e0e0e0;
-    }
-
-    .mat-table-sticky-border-elem-left {
-      border-right: 1px solid #e0e0e0;
     }
   }
 }

@@ -6,6 +6,17 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { map, tap } from 'rxjs/operators';
 
+interface BillingsRequestParams {
+  page?: number;
+  client_name?: string;
+  template?: string;
+}
+
+interface BillingsRequest {
+  billings: Billing[];
+  pages: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -21,10 +32,15 @@ export class BillingsService {
       .pipe(map(this.parseBillingFields));
   }
 
-  getBillings(page = 1): Observable<{ billings: Billing[]; pages: number }> {
+  getBillings(
+    billingsRequestParams?: BillingsRequestParams,
+  ): Observable<BillingsRequest> {
+    const page = billingsRequestParams?.page || 1;
+    const template = billingsRequestParams?.template || '';
+    const client_name = billingsRequestParams?.client_name || '';
     return this.http
-      .get<{ billings: any[]; pages: number }>(this.billingsPath(), {
-        params: { page },
+      .get<BillingsRequest>(this.billingsPath(), {
+        params: { page, template, client_name },
       })
       .pipe(
         map((data) => {

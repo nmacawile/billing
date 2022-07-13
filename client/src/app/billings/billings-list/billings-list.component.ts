@@ -1,9 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import { Observable, Subscription, combineLatest } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { Template } from '../../models/template';
-import { TemplatesService } from '../../services/templates.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Billing } from '../../models/billing';
 import { BillingsService } from '../../services/billings.service';
@@ -12,6 +18,15 @@ import { SharedService } from '../../shared/shared.service';
 import { DateHelpers } from '../../lib/date-helpers';
 import { PaginatorService } from '../../services/paginator.service';
 
+const COLUMNS = [
+  'template-name',
+  'client-name',
+  'start-date',
+  'end-date',
+  'total',
+  'actions',
+];
+
 @Component({
   selector: 'app-billings-list',
   templateUrl: './billings-list.component.html',
@@ -19,24 +34,15 @@ import { PaginatorService } from '../../services/paginator.service';
   providers: [PaginatorService],
 })
 export class BillingsListComponent implements OnInit, OnDestroy {
-  myControl = new FormControl();
+  templateControl = new FormControl();
   templates: Template[];
   billings: Billing[];
-  pageSub: Subscription;
+  filterQuerySub: Subscription;
   filteredTemplates: Observable<Template[]>;
 
-  displayedColumns: string[] = [
-    'template-name',
-    'client-name',
-    'start-date',
-    'end-date',
-    'total',
-    'actions',
-    'actions-compact',
-  ];
+  displayedColumns: string[] = COLUMNS;
 
   constructor(
-    private templatesService: TemplatesService,
     private billingsService: BillingsService,
     private route: ActivatedRoute,
     private router: Router,
@@ -48,40 +54,52 @@ export class BillingsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.billingsService.getBillings().subscribe((data) => {
-      this.billings = data.billings;
-      this.paginatorService.pages = data.pages;
-    });
-    this.filteredTemplates = this.myControl.valueChanges.pipe(
+    this.filteredTemplates = this.templateControl.valueChanges.pipe(
       startWith(''),
       map((value) => (typeof value === 'string' ? value : value.name)),
       map((name) => (name ? this._filter(name) : this.templates.slice())),
     );
-    this.pageSub = this.paginatorService.page$
-      .pipe(switchMap((page) => this.billingsService.getBillings(page)))
-      .subscribe((data) => {
-        this.billings = data.billings;
-        this.paginatorService.pages = data.pages;
+
+    this.filterQuerySub = combineLatest(
+      this.templateControl.valueChanges.pipe(
+        startWith(''),
+        distinctUntilChanged(),
+        tap(() => this.paginatorService.resetToFirstPage()),
+      ),
+      this.paginatorService.page$.pipe(startWith(1)),
+    )
+      .pipe(
+        debounceTime(200),
+        switchMap(([_, page]) => {
+          return this.billingsService.getBillings({
+            ...this.queryParams(),
+            page,
+          });
+        }),
+      )
+      .subscribe((d) => {
+        this.billings = d.billings;
+        this.paginatorService.pages = d.pages;
       });
   }
 
   ngOnDestroy(): void {
-    this.pageSub.unsubscribe();
+    this.filterQuerySub.unsubscribe();
   }
 
-  onSubmit(): void {
+  newBilling(): void {
     this.router.navigate(['new'], {
       relativeTo: this.route,
       queryParams: this.queryParams(),
     });
   }
 
-  displayFn(user: Template): string {
-    return user && user.name ? user.name : '';
+  displayFn(template: Template): string {
+    return template && template.name ? template.name : '';
   }
 
   queryParams(): any {
-    const val: Template | string = this.myControl.value;
+    const val: Template | string = this.templateControl.value;
     return typeof val === 'string'
       ? { client_name: val }
       : { template: val?._id.$oid };
@@ -102,13 +120,14 @@ export class BillingsListComponent implements OnInit, OnDestroy {
   }
 
   downloadSheet(billing: Billing): void {
-    this.sheetsService.download(billing);
+    const templateName = this.templateName(billing.template_id);
+    this.sheetsService.download(billing, templateName);
   }
 
   templateName(templateId: any): any {
-    const id = templateId && templateId['$oid'];
+    const id = templateId?.['$oid'];
     const template = this.templates.find((t) => t['_id']['$oid'] === id);
-    return template?.name || 'Blank template';
+    return template?.name;
   }
 
   private _filter(name: string): Template[] {

@@ -1,7 +1,7 @@
-import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from './core/auth.service';
 import { Router } from '@angular/router';
+import { MediaObserver } from '@angular/flex-layout';
 
 interface NavLink {
   path: string;
@@ -15,8 +15,7 @@ interface NavLink {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnDestroy {
-  mobileQuery: MediaQueryList;
+export class AppComponent {
   private navLinksAuth: NavLink[] = [
     { path: '/', label: 'HOME', icon: 'home', exact: true },
     { path: '/billings', label: 'BILLINGS', icon: 'receipt' },
@@ -28,21 +27,14 @@ export class AppComponent implements OnDestroy {
     { path: '/register', label: 'REGISTER', icon: 'how_to_reg' },
   ];
 
-  private _mobileQueryListener: () => void;
-
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    private media: MediaMatcher,
     private authService: AuthService,
     private router: Router,
-  ) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
-  }
+    private MediaObserver: MediaObserver,
+  ) {}
 
-  ngOnDestroy() {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
+  get mobile(): boolean {
+    return this.MediaObserver.isActive('xs');
   }
 
   isLoggedIn() {
