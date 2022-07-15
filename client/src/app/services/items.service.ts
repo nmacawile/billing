@@ -11,20 +11,25 @@ import { shareReplay, tap } from 'rxjs/operators';
 })
 export class ItemsService {
   private items$: Observable<Item[]>;
+  private items: Item[];
 
   constructor(
     private http: HttpClient,
     private notificationService: NotificationService,
   ) {
-    this.items$ = this.http.get<Item[]>(this.itemsPath()).pipe(shareReplay(1));
+    this.items$ = this.http.get<Item[]>(this.itemsPath()).pipe(
+      tap((items) => (this.items = items)),
+      shareReplay(1),
+    );
   }
 
   getItems(): Observable<Item[]> {
     return this.items$;
   }
 
-  createItem(item: ItemParams): Observable<void> {
-    return this.http.post<void>(this.itemsPath(), { item }).pipe(
+  createItem(item: ItemParams): Observable<Item> {
+    return this.http.post<Item>(this.itemsPath(), { item }).pipe(
+      tap((i) => this.items.push(i)),
       tap(
         () => this.notificationService.notify('Item has been created.'),
         (err) =>
@@ -37,6 +42,10 @@ export class ItemsService {
 
   editItem(id: string, item: ItemParams): Observable<void> {
     return this.http.patch<void>(this.itemsPath(id), { item }).pipe(
+      tap(() => {
+        let i = this.items.find((i) => i['_id']['$oid'] === id);
+        Object.assign(i, item);
+      }),
       tap(
         () => this.notificationService.notify('Item has been saved.'),
         (err) =>
