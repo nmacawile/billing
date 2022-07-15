@@ -4,7 +4,7 @@ RSpec.describe 'Items API', type: :request do
   let(:user) { create :user }
   let(:headers) { authorized_request_headers(user.id)}
   let!(:items) { create_list :item, 10 }
-  let!(:item_ids) { items.map { |t| t.id.to_s } }
+  let(:item_ids) { Item.pluck(:id).map(&:to_s) }
   let(:random_item_name) { "Item #{rand(100)}" }
   let(:first_item) { items.first }
   let(:first_item_id) { first_item.id.to_s }
@@ -67,7 +67,11 @@ RSpec.describe 'Items API', type: :request do
 
       it 'returns status code 201' do
         expect(response).to have_http_status 201
-      end      
+      end
+
+      it 'returns the created item' do
+        expect(item_ids).to include(json_id)
+      end 
     end
 
     context 'when invalid params' do
