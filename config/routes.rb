@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  post 'users', to: 'users#create'
+  # post 'users', to: 'users#create'
   post 'auth/login', to: 'authentication#authenticate'
   resources :templates, except: [:new, :edit] do
     resources :departments, except: [:new, :edit] do
