@@ -24,6 +24,11 @@ export class PaginatorComponent implements OnInit {
     this.paginatorService.nextPage();
   }
 
+  blur(e: Event): void {
+    const t = e.target as HTMLElement;
+    t.blur();
+  }
+
   get firstPage(): boolean {
     return this.paginatorService.firstPage;
   }
