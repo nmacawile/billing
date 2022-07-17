@@ -1,8 +1,8 @@
-<a mat-button routerLink="/templates">GO BACK</a>
+<a mat-button routerLink="/templates"><mat-icon>chevron_left</mat-icon> Back</a>
 <app-template-form
   title="New Template"
   [newRecord]="true"
-  submitLabel="CREATE"
+  submitLabel="Create"
   [template]="template"
   (formSubmit)="createTemplate($event)">
 </app-template-form>
