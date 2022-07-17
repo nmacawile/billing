@@ -1,1 +1,8 @@
-<p>main works!</p>
+<h2 class="mat-h2">Home</h2>
+<nav class="home-nav" fxLayoutGap="16px">
+  <a class="link"
+     *ngFor="let link of ['Billings', 'Templates', 'Items']"
+     [routerLink]="link.toLowerCase()">
+    <mat-card class="mat-elevation-z3" matRipple>{{link}}</mat-card>
+  </a>
+</nav>
