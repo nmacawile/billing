@@ -1,9 +1,9 @@
-<a mat-button routerLink="/items">GO BACK</a>
+<a mat-button routerLink="/items"><mat-icon>chevron_left</mat-icon> Back</a>
 
 <div *ngIf="item">
   <app-item-form
     [title]="title"
-    submitLabel="SAVE"
+    submitLabel="Save"
     [item]="item"
     (formSubmit)="saveItem($event)">
   </app-item-form>
