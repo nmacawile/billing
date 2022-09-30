@@ -1,6 +1,6 @@
 FROM node:14-alpine
-COPY client client
-WORKDIR /client
+WORKDIR /app
+COPY . .
 RUN npm install
 RUN npm install @angular/cli@14 -g
 
