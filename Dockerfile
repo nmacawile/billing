@@ -2,7 +2,7 @@ FROM node:14-alpine AS client-builder
 COPY client client
 WORKDIR /client
 RUN npm install
-RUN npm install @angular/cli -g
+RUN npm install @angular/cli@14 -g
 RUN ng build
 
 FROM ruby:2.7.4-alpine AS builder
