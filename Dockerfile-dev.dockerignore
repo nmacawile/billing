@@ -1,7 +1,3 @@
-.git
-tmp
-!tmp/pids
-log
 public/assets
 public/packs
 .bundle
@@ -14,7 +10,6 @@ config/master.key
 config/credentials/*.key
 
 node_modules
-client/.git
 client/dist
 client/node_modules
 config/application.yml
