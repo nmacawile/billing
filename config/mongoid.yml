@@ -181,4 +181,4 @@ test:
 production:
   clients:
     default:
-      uri: mongodb+srv://<%= ENV['mlab_username'] %>:<%= ENV['mlab_password'] %>@cluster0.uvbup.mongodb.net/myFirstDatabase?authSource=admin&authMechanism=SCRAM-SHA-1&retryWrites=true&w=majority
+      uri: mongodb+srv://<%= ENV['mlab_username'] %>:<%= ENV['mlab_password'] %>@<%= ENV['mlab_database_host'] %>?authSource=admin&authMechanism=SCRAM-SHA-1&retryWrites=true&w=majority
