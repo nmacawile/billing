@@ -18,5 +18,4 @@ client/.git
 client/dist
 client/node_modules
 config/application.yml
-docker-compose.yaml
-docker-compose.yml
+docker-compose*

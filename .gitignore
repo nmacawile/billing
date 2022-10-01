@@ -34,5 +34,4 @@ yarn-debug.log*
 
 # Ignore application configuration
 /config/application.yml
-docker-compose.yaml
-docker-compose.yml
+docker-compose*
