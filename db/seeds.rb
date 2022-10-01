@@ -9,4 +9,7 @@ def seed_items
   end
 end
 
-seed_items
+if (Rails.env.development?)
+  User.create!(email: 'user@email.com', password: '111111')
+  seed_items
+end
