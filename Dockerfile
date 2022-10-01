@@ -1,4 +1,6 @@
 FROM node:14-alpine
+RUN apk add git
+RUN git config --global core.autocrlf true
 WORKDIR /app
 COPY . .
 RUN npm install
